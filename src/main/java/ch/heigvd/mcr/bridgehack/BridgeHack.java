@@ -14,7 +14,7 @@ public class BridgeHack extends BasicGame {
     @Override
     public void init(GameContainer container) throws SlickException {
         map = new Map();
-        player = new Player(50, 50);
+        player = new Player(16, 16);
     }
 
     @Override

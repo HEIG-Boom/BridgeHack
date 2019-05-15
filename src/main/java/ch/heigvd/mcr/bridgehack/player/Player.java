@@ -31,18 +31,19 @@ public class Player {
         moving = false;
     }
 
-    public void update(int delta) throws SlickException {
-        if (this.moving) {
-            switch (this.direction) {
-                case 0: y -= .1f * delta; break;
-                case 1: x -= .1f * delta; break;
-                case 2: y += .1f * delta; break;
-                case 3: x += .1f * delta; break;
+    public void update(int delta) {
+        if (moving || (int) x % 16 != 0 || (int) y % 16 != 0) {
+            System.out.println("x is " + x + ", y is " + y);
+            switch (direction) {
+                case 0: y -= .05f * delta; break;
+                case 1: x -= .05f * delta; break;
+                case 2: y += .05f * delta; break;
+                case 3: x += .05f * delta; break;
             }
         }
     }
 
-    public void render(Graphics g) throws SlickException {
+    public void render(Graphics g) {
         g.setColor(new Color(0, 0, 0, .5f));
         g.fillOval(x, y + 8, 16, 8);
 
