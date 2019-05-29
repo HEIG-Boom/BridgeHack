@@ -6,6 +6,9 @@ import org.newdawn.slick.tiled.TiledMap;
 public class Map {
     private TiledMap map;
 
+    /**
+     * General constructor for a basic map
+     */
     public Map() {
         try {
             this.map = new TiledMap("/src/main/resources/maps/map.tmx");
@@ -14,6 +17,9 @@ public class Map {
         }
     }
 
+    /**
+     * Renders the map
+     */
     public void render() {
         map.render(0, 0);
     }
