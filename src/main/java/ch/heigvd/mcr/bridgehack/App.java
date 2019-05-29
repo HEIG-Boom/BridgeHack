@@ -11,7 +11,7 @@ public class App {
 
         System.out.println("Hello Mordor");
         try {
-            new AppGameContainer(new BridgeHack(), 480, 320, false).start();
+            new AppGameContainer(new BridgeHack(), 960, 640, false).start();
         } catch (SlickException e) {
             e.printStackTrace();
         }

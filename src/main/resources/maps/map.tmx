@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="16" tileheight="16" nextobjectid="1">
+ <tileset firstgid="1" source="BridgeHack.tsx"/>
+ <tileset firstgid="1025" source="colision.tsx"/>
+ <layer name="logic" width="30" height="20" opacity="0.5">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NiYWBgBGImMmhKAA9QPzcLeTQlgBh308q/hMCof0f9SypA9wcucVrnX1zio/6lzN6R6l98gJb+xQdG/Tv0/Uvv9gYAx5lMwmAJAAA=
+  </data>
+ </layer>
+ <layer name="Calque de Tile 1" width="30" height="20">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgIB00UQETYw617US2t3kA7cVlN7XtJCWcqWnnqL0jw15kQEh81N6hae9ApavBYm8LFNPD3kVAvBjNbmLDhBJ7DwHxYRLChB7xSyt7iQHUtBcAPHohyWAJAAA=
+  </data>
+ </layer>
+ <layer name="Tile Layer 2" width="30" height="20">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+2UXQqEMAyEE1Hvsf6dxO1BBQ9WvYgNjTjIgi/Og6wDQyAP+UhpJorImlwkf1Wk9Ipe5H5pmttIdnty57VQDvdKL/f53EmzTbNms7nB7yXAfOwxuB897qaH+YP3R7szAhel5Lf9d26UnNEVsGr/U4GUzybb07K4g96e2dZj7X6VHS/3+VzMxXNlcTErf5mRkxs8PONxYAkAAA==
+  </data>
+ </layer>
+</map>
