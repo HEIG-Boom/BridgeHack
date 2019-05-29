@@ -35,21 +35,16 @@ public class Player {
         if (moving) {
             System.out.println(x + ", " + y);
             float futureX = x, futureY = y;
-            boolean collision = false;
             switch (direction) {
-                case 0: collision = map.isCollision(x, y- 9);
-                        futureY -= .06f * delta; break;
-                case 1: collision = map.isCollision(x - 9, y);
-                        futureX -= .06f * delta; break;
-                case 2: collision = map.isCollision(x, y + 9);
-                        futureY += .06f * delta; break;
-                case 3: collision = map.isCollision(x + 9, y);
-                        futureX += .06f * delta; break;
+                case 0: futureY -= .06f * delta; break;
+                case 1: futureX -= .06f * delta; break;
+                case 2: futureY += .06f * delta; break;
+                case 3: futureX += .06f * delta; break;
             }
-            if(moving = !collision) {
-                x = futureX;
-                y = futureY;
-            }
+
+            x = futureX;
+            y = futureY;
+            
             if(((int) x % 16) == 8 && ((int) y % 16) == 8) {
                 moving = false;
             }

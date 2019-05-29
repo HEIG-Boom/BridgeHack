@@ -31,7 +31,6 @@ public class BridgeHack extends BasicGame {
 
     @Override
     public void keyPressed(int key, char c) {
-        System.out.println(key + " " + c);
         switch (key) {
             case Input.KEY_UP:    player.move(0); break;
             case Input.KEY_LEFT:  player.move(1); break;
