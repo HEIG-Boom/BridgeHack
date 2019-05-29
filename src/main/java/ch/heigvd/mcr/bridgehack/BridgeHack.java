@@ -1,7 +1,7 @@
 package ch.heigvd.mcr.bridgehack;
+
 import ch.heigvd.mcr.bridgehack.player.Player;
 import org.newdawn.slick.*;
-import org.newdawn.slick.tiled.TiledMap;
 
 public class BridgeHack extends BasicGame {
     private Map map;
@@ -14,11 +14,12 @@ public class BridgeHack extends BasicGame {
     @Override
     public void init(GameContainer container) throws SlickException {
         map = new Map();
-        player = new Player(16, 16);
+        player = new Player(map,40, 56);
     }
 
     @Override
     public void render(GameContainer container, Graphics g) throws SlickException {
+        g.scale(2, 2);
         map.render();
         player.render(g);
     }
@@ -30,6 +31,7 @@ public class BridgeHack extends BasicGame {
 
     @Override
     public void keyPressed(int key, char c) {
+        System.out.println(key + " " + c);
         switch (key) {
             case Input.KEY_UP:    player.move(0); break;
             case Input.KEY_LEFT:  player.move(1); break;
@@ -40,6 +42,6 @@ public class BridgeHack extends BasicGame {
 
     @Override
     public void keyReleased(int key, char c) {
-        player.stop();
+        //player.stop();
     }
 }
