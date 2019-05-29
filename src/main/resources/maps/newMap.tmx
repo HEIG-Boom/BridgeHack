@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.2" tiledversion="1.2.3" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="13" nextobjectid="1">
- <tileset firstgid="1" source="BridgeHack.tsx"/>
+ <tileset firstgid="1" source="../../../../../BridgeHack/src/main/resources/maps/BridgeHack.tsx"/>
  <layer id="10" name="Calque de Tile 1" width="30" height="20">
   <data encoding="base64" compression="gzip">
    H4sIAAAAAAAACsVVywrCQAzc/9Ni///oSbxUPWhtpdjABsIwyW6XigNDoclm8ti0Kf0Hn5VXQsGzgbOJPa18ESqYTXhoYE0MBbN1TpzWfGp1sSe2L168Hny8nBUdiYGYCv3EPMWHzR91j5W6rA8MW/rcV+gqvB2wMb2evLNPNIMl82be635c4Kk7pL6DOb+QWhBWl+WjtZ/hOWebzjHabU8X98n2H++Ycg5savcwJn8ue+t690NmwnYg0k1B3hY6D5yD3h22AyVdVgvWxWJgvzDnGl2v5iiG1fW+EfL+kX3uxK/03fB09ezg6Nqz7J626Np7VPrf7qnbwtMGuyDa119R8AULCCQcYAkAAA==
