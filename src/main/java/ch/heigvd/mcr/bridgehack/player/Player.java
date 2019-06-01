@@ -4,7 +4,8 @@ import ch.heigvd.mcr.bridgehack.Map;
 import org.newdawn.slick.*;
 
 public class Player {
-    private float x, y;
+    private int x;
+    private int y;
     private boolean moving = false;
     private int direction = 0;
     private Map map;
@@ -19,7 +20,7 @@ public class Player {
      * @param y the y starting coordinate
      * @throws SlickException if a problem occurred building the animations
      */
-    public Player(Map map, float x, float y) throws SlickException {
+    public Player(Map map, int x, int y) throws SlickException {
         this.map = map;
         this.x = x;
         this.y = y;
@@ -56,23 +57,23 @@ public class Player {
     public void update(int delta) {
         if (moving) {
             System.out.println(x + ", " + y);
-            float futureX = x, futureY = y;
+            int futureX = x, futureY = y;
             switch (direction) {
-                case 0: futureY -= .06f * delta; break;
-                case 1: futureX -= .06f * delta; break;
-                case 2: futureY += .06f * delta; break;
-                case 3: futureX += .06f * delta; break;
+                case 0: futureY -= .1f * delta; break;
+                case 1: futureX -= .1f * delta; break;
+                case 2: futureY += .1f * delta; break;
+                case 3: futureX += .1f * delta; break;
             }
 
             x = futureX;
             y = futureY;
 
-            if(((int) x % 16) == 8 && ((int) y % 16) == 8) {
+            if((x % 16) == 8 && (y % 16) == 8) {
                 moving = false;
             }
         } else {
-            x = (float) Math.floor(x);
-            y = (float) Math.floor(y);
+            x = (int) Math.floor(x);
+            y = (int) Math.floor(y);
         }
 
     }
