@@ -11,7 +11,7 @@ public class Map {
      */
     public Map() {
         try {
-            this.map = new TiledMap("/src/main/resources/maps/map.tmx");
+            this.map = new TiledMap("/src/main/resources/maps/map1.tmx");
         } catch (SlickException e) {
             e.printStackTrace();
         }
