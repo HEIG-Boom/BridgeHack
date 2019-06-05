@@ -1,7 +1,6 @@
 package ch.heigvd.mcr.bridgehack.player;
 
 import ch.heigvd.mcr.bridgehack.Map;
-import org.lwjgl.Sys;
 import org.newdawn.slick.*;
 
 public class Player {
