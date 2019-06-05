@@ -7,7 +7,7 @@ public class App {
     public static void main(String[] args) {
         System.out.println("Hello Mordor");
         try {
-            new AppGameContainer(new BridgeHack(), 960, 640, false).start();
+            new AppGameContainer(new BridgeHack(), 960, 700, false).start();
         } catch (SlickException e) {
             e.printStackTrace();
         }
