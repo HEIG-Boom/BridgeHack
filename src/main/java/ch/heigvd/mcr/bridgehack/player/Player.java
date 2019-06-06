@@ -11,6 +11,8 @@ public abstract class Player {
     // Base path to image resources
     static final private String IMG_BASE_PATH = "/src/main/resources/img/";
 
+    private String name;
+    private PlayerState playerState;
     private int x;
     private int y;
     private boolean moving = false;
@@ -37,6 +39,8 @@ public abstract class Player {
         this.y = y;
 
         String imageBasePath = IMG_BASE_PATH + getBaseImageName();
+        playerState = new PlayerState();
+
         for (int i = 0; i < 4; ++i ) {
             idleAnimation.addFrame(new Image(imageBasePath + "_idle_anim_f" + i + ".png"), 100);
             runAnimation.addFrame(new Image(imageBasePath + "_run_anim_f" + i + ".png"), 100);
@@ -69,13 +73,19 @@ public abstract class Player {
      */
     public void update(int delta) {
         if (moving) {
-            System.out.println(x + ", " + y);
             int futureX = x, futureY = y;
+            boolean collision = false;
+
             switch (direction) {
-                case 0: futureY -= .1f * delta; break;
-                case 1: futureX -= .1f * delta; break;
-                case 2: futureY += .1f * delta; break;
-                case 3: futureX += .1f * delta; break;
+                case 0: futureY -= 1; collision = map.isCollision(x, y - 9); break;
+                case 1: futureX -= 1; collision = map.isCollision(x - 9, y); break;
+                case 2: futureY += 1; collision = map.isCollision(x, y + 8); break;
+                case 3: futureX += 1; collision = map.isCollision(x + 8, y); break;
+            }
+
+            if (collision) {
+                moving =false;
+                return;
             }
 
             x = futureX;
@@ -84,9 +94,6 @@ public abstract class Player {
             if((x % 16) == 8 && (y % 16) == 8) {
                 moving = false;
             }
-        } else {
-            x = (int) Math.floor(x);
-            y = (int) Math.floor(y);
         }
     }
 
@@ -113,5 +120,40 @@ public abstract class Player {
      */
     public String getBaseImageName() {
         return role.getBaseImageNameImpl();
+    }
+
+    public void attack(int i) {
+        System.out.println("I'm attacking on direction " + i);
+    }
+
+    public String getStatus() {
+        return name + " " + playerState.toString();
+    }
+
+    private class PlayerState {
+        private int strength;
+        private int dexterity;
+        private int intelligence;
+        private int constitution;
+        private int health;
+        private int maxHealth;
+        private int mana;
+        private int maxMana;
+
+        public PlayerState() {
+            strength = 10;
+            dexterity = 10;
+            intelligence = 10;
+            constitution = 10;
+            health = constitution + 1;
+            maxHealth = health;
+            mana =  intelligence / 2;
+            maxMana = mana;
+        }
+
+        public String toString() {
+            return  "St:" + strength + " Dx: " + dexterity + " In:" + intelligence + " Co:" + constitution + "\n" +
+                    "HP:" + health + "(" + maxHealth + ")" + " Pw:" + mana + "(" + maxMana + ")";
+        }
     }
 }
