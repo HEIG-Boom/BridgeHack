@@ -8,12 +8,13 @@ import ch.heigvd.mcr.bridgehack.player.roles.Knight;
 import ch.heigvd.mcr.bridgehack.player.roles.Wizard;
 import org.newdawn.slick.*;
 import java.awt.Font;
+import java.util.LinkedList;
 
 public class BridgeHack extends BasicGame {
     private Map map;
     private Player player;
     // Temporary
-    private Player enemy;
+    private LinkedList<Player> enemies = new LinkedList<>();
 
     private String notification = "";
     private boolean attacking;
@@ -31,7 +32,9 @@ public class BridgeHack extends BasicGame {
         map = new Map();
         player = new Human(new Knight(), map, 40, 56);
         // Temporary
-        enemy = new Dwarf(new Wizard(), map, 56, 56);
+        enemies.add(new Dwarf(new Wizard(), map, 56, 56));
+        enemies.add(new Human(new Hunter(), map, 72, 56));
+
         Font font = new Font("Ubuntu Mono ", Font.PLAIN, 16);
         ttf = new TrueTypeFont(font, true);
     }
@@ -52,7 +55,8 @@ public class BridgeHack extends BasicGame {
 
         player.render(g);
         // Temporary
-        enemy.render(g);
+        for (Player enemy : enemies)
+            enemy.render(g);
 
         map.render(3);
     }
@@ -62,7 +66,8 @@ public class BridgeHack extends BasicGame {
         if (!turnIsOver) {
             player.update(delta);
             // Temporary
-            enemy.update(delta);
+            for (Player enemy : enemies)
+                enemy.update(delta);
 
             if (counter++ >= 16) {
                 turnIsOver = true;
@@ -70,7 +75,8 @@ public class BridgeHack extends BasicGame {
                 turn++;
                 player.stop();
                 // Temporary
-                enemy.stop();
+                for (Player enemy : enemies)
+                    enemy.stop();
             }
         }
     }
