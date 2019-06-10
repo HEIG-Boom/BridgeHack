@@ -32,7 +32,8 @@ public class BridgeHack extends BasicGame {
     public void init(GameContainer container) throws SlickException {
         maps = new LinkedList<>();
         maps.add(new Map(1, false));
-        maps.add(new Map(2, true));
+        maps.add(new Map(2, false));
+        maps.add(new Map(3, true));
         map = maps.get(0);
         player = new Human(new Knight(), map);
         // Temporary
