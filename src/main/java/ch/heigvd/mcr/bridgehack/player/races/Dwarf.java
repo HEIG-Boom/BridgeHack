@@ -14,11 +14,9 @@ public class Dwarf extends Player {
      *
      * @param role the initial role of the character
      * @param map  a reference to the map for collision detection
-     * @param x    the x starting coordinate
-     * @param y    the y starting coordinate
      * @throws SlickException if a problem occurred building the animations
      */
-    public Dwarf(Role role, Map map, int x, int y) throws SlickException {
-        super(role, map, x, y);
+    public Dwarf(Role role, Map map) throws SlickException {
+        super(role, map);
     }
 }

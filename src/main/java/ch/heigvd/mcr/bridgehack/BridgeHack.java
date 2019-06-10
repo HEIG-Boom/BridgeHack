@@ -11,6 +11,7 @@ import java.awt.Font;
 import java.util.LinkedList;
 
 public class BridgeHack extends BasicGame {
+    private LinkedList<Map> maps;
     private Map map;
     private Player player;
     // Temporary
@@ -29,11 +30,14 @@ public class BridgeHack extends BasicGame {
 
     @Override
     public void init(GameContainer container) throws SlickException {
-        map = new Map();
-        player = new Human(new Knight(), map, 40, 56);
+        maps = new LinkedList<>();
+        maps.add(new Map(1, false));
+        maps.add(new Map(2, true));
+        map = maps.get(0);
+        player = new Human(new Knight(), map);
         // Temporary
-        enemies.add(new Dwarf(new Wizard(), map, 56, 56));
-        enemies.add(new Human(new Hunter(), map, 72, 56));
+        enemies.add(new Dwarf(new Wizard(), map));
+        enemies.add(new Human(new Hunter(), map));
 
         Font font = new Font("Ubuntu Mono ", Font.PLAIN, 16);
         ttf = new TrueTypeFont(font, true);
@@ -53,6 +57,7 @@ public class BridgeHack extends BasicGame {
         map.render(1);
         map.render(2);
 
+        map.renderObjects(g);
         player.render(g);
         // Temporary
         for (Player enemy : enemies)
@@ -69,7 +74,7 @@ public class BridgeHack extends BasicGame {
             for (Player enemy : enemies)
                 enemy.update(delta);
 
-            if (counter++ >= 16) {
+            if (counter++ > 14) {
                 turnIsOver = true;
                 counter = 0;
                 turn++;
@@ -133,6 +138,15 @@ public class BridgeHack extends BasicGame {
                     attacking = true;
                     notification = "Which direction ?";
                     return;
+                }
+                case Input.KEY_D: {
+                    if(map.isExit(player.getX(), player.getY())) {
+                        map = maps.get(map.getIndex());
+                        player.setMap(map);
+                    } else {
+                        notification = "No stairs here";
+                    }
+                    break;
                 }
             }
             turnIsOver = false;
