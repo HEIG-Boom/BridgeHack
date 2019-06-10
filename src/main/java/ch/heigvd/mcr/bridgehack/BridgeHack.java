@@ -1,12 +1,21 @@
 package ch.heigvd.mcr.bridgehack;
 
 import ch.heigvd.mcr.bridgehack.player.Player;
+import ch.heigvd.mcr.bridgehack.player.races.Dwarf;
+import ch.heigvd.mcr.bridgehack.player.races.Human;
+import ch.heigvd.mcr.bridgehack.player.roles.Hunter;
+import ch.heigvd.mcr.bridgehack.player.roles.Knight;
+import ch.heigvd.mcr.bridgehack.player.roles.Wizard;
 import org.newdawn.slick.*;
 import java.awt.Font;
+import java.util.LinkedList;
 
 public class BridgeHack extends BasicGame {
     private Map map;
     private Player player;
+    // Temporary
+    private LinkedList<Player> enemies = new LinkedList<>();
+
     private String notification = "";
     private boolean attacking;
     private TrueTypeFont ttf;
@@ -21,7 +30,11 @@ public class BridgeHack extends BasicGame {
     @Override
     public void init(GameContainer container) throws SlickException {
         map = new Map();
-        player = new Player(map,40, 56);
+        player = new Human(new Knight(), map, 40, 56);
+        // Temporary
+        enemies.add(new Dwarf(new Wizard(), map, 56, 56));
+        enemies.add(new Human(new Hunter(), map, 72, 56));
+
         Font font = new Font("Ubuntu Mono ", Font.PLAIN, 16);
         ttf = new TrueTypeFont(font, true);
     }
@@ -39,7 +52,12 @@ public class BridgeHack extends BasicGame {
         g.scale(2, 2);
         map.render(1);
         map.render(2);
+
         player.render(g);
+        // Temporary
+        for (Player enemy : enemies)
+            enemy.render(g);
+
         map.render(3);
     }
 
@@ -47,15 +65,20 @@ public class BridgeHack extends BasicGame {
     public void update(GameContainer container, int delta) throws SlickException {
         if (!turnIsOver) {
             player.update(delta);
+            // Temporary
+            for (Player enemy : enemies)
+                enemy.update(delta);
 
             if (counter++ >= 16) {
                 turnIsOver = true;
                 counter = 0;
                 turn++;
                 player.stop();
+                // Temporary
+                for (Player enemy : enemies)
+                    enemy.stop();
             }
         }
-
     }
 
     @Override
