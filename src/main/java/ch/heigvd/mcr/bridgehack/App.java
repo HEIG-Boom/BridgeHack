@@ -7,7 +7,7 @@ public class App {
     public static void main(String[] args) {
         System.out.println("Hello Mordor");
         try {
-            AppGameContainer app = new AppGameContainer(new BridgeHack(), 960, 700, false);
+            AppGameContainer app = new AppGameContainer(new BridgeHack(), 1200, 700, false);
             app.setTargetFrameRate(60);
             app.start();
         } catch (SlickException e) {
