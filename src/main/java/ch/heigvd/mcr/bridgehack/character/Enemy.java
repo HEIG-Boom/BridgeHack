@@ -105,7 +105,7 @@ public class Enemy extends Character {
 
             if (collision) {
                 moving = false;
-                attack(direction);
+                //attack(direction);
                 System.out.println("Enemy attacking");
                 return;
             }
@@ -120,6 +120,7 @@ public class Enemy extends Character {
     }
 
     public void receiveDamage(int damage) {
-        // TODO
+        playerState.setHealth(playerState.getHealth() - damage);
+        System.out.println("Aïe ! I am an enemy and I have " + playerState.getHealth() + "hp.");
     }
 }

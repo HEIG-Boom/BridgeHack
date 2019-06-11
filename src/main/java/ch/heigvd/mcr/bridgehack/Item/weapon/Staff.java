@@ -5,7 +5,7 @@ import ch.heigvd.mcr.bridgehack.character.State;
 public class Staff extends Weapon {
     private int quality;
     public Staff(int quality) {
-        super(quality + 1, quality + 4, 1);
+        super(quality + 1, quality + 4, 3);
         this.quality = quality;
     }
 

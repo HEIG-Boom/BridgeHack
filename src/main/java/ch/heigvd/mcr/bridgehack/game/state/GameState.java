@@ -84,8 +84,9 @@ public class GameState extends BasicGameState {
         if (!turnIsOver) {
             player.update(delta);
             // Temporary
-            for (Enemy enemy : map.getEnemies())
+            for (Enemy enemy : map.getEnemies()) {
                 enemy.update(delta);
+            }
 
             if (counter++ > 14) {
                 turnIsOver = true;
@@ -173,10 +174,14 @@ public class GameState extends BasicGameState {
                     return;
                 }
                 case Input.KEY_D: {
+                    notification = "";
                     if(map.isExit(player.getX(), player.getY())) {
                         map = maps.get(map.getIndex());
                         player.setMap(map);
                         map.setPlayer(player);
+                    } else if (map.isPortal(player.getX(), player.getY()) ||
+                        map.isPortal(player.getX(), player.getY()-16)) {
+                        game.enterState(WinState.ID);
                     } else {
                         notification = "No stairs here";
                     }
