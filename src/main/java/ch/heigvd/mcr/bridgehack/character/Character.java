@@ -36,8 +36,6 @@ public abstract class Character {
     private LinkedList<Item> inventory;
     @Setter
     private Weapon weapon;
-
-    @Setter
     private Race race;
 
     /**
@@ -52,9 +50,14 @@ public abstract class Character {
         setRandomPos();
 
         playerState = new State();
+        if (race != null) {
+            playerState.addModifier(race.getStatModifier());
+        }
+
         inventory = new LinkedList<>();
         inventory.add(new TransformPotion());
-        inventory.add(new ManaPotion());
+        inventory.add(new TransformPotion());
+        inventory.add(new TransformPotion());
         weapon = new BareHanded();
     }
 
@@ -148,6 +151,7 @@ public abstract class Character {
 
     /**
      * Check if there is an enemy in a given position
+     *
      * @param pos the position to test
      * @return
      */
@@ -180,16 +184,32 @@ public abstract class Character {
     }
 
     /**
-     * Restores the player's mana back to full
+     * Setter for the race, takes statModifiers into account
+     * @param race the new race
      */
-    public void restoreMana() {
-        playerState.restoreMana();
+    public void setRace(Race race) {
+        if (this.race != null) {
+            playerState.removeModifier(this.race.getStatModifier());
+        }
+        this.race = race;
+        playerState.addModifier(this.race.getStatModifier());
     }
 
+    /**
+     * Changes the role of the character with statModifiers into account
+     * @param role the new role
+     */
     public void changeRole(Role role) {
+        playerState.removeModifier(this.race.getStatModifier());
         race.setRole(role);
+        playerState.addModifier(race.getStatModifier());
     }
 
+    /**
+     * Renders various text informations about the character, such as
+     * inventory and stats
+     * @param ttf the context to draw in
+     */
     public void renderText(TrueTypeFont ttf) {
         // Display the inventory
         for (int i = 0; i < inventory.size(); ++i) {
@@ -199,11 +219,17 @@ public abstract class Character {
         ttf.drawString(0, 660, getStatus());
     }
 
+    /**
+     * Tries to drink a potion at a given inventory slot. Return 0 if successful
+     * and -1 otherwise
+     * @param index the slot in the inventory to drink to potion
+     * @return whether the character could successfully drink the potion
+     * @throws SlickException
+     */
     public int drink(int index) throws SlickException {
-        //TO DO Check if the item at index i is indeed a potion
-        if(index < inventory.size()) {
+        if (index < inventory.size()) {
             if (inventory.get(index) instanceof Weapon) {
-                playerState.setHealth(playerState.getHealth()/2);
+                playerState.setHealth(playerState.getHealth() / 2);
                 inventory.remove(index);
                 return -1;
             }
@@ -215,10 +241,11 @@ public abstract class Character {
 
     /**
      * Equip a weapon
+     *
      * @param index the index in the inventory
      */
     public void equip(int index) {
-        if(index < inventory.size()) {
+        if (index < inventory.size()) {
             if (inventory.get(index) instanceof Weapon) {
                 Weapon tempWeapon = weapon;
                 weapon = (Weapon) inventory.get(index);
@@ -236,10 +263,11 @@ public abstract class Character {
      * @param index The index in the inventory
      */
     public void deleteItem(int index) {
-        if(index < inventory.size()) {
+        if (index < inventory.size()) {
             inventory.remove(index);
         }
     }
+
     /**
      * Restores the player's health back to full
      */
@@ -264,4 +292,16 @@ public abstract class Character {
      * @param delta the time elapsed since the last tick
      */
     public abstract void update(int delta);
+
+    /**
+     * Lowers the health of a character
+     *
+     * @param damage the damage to inflict
+     */
+    public void receiveDamage(int damage) {
+        playerState.setHealth(playerState.getHealth() - damage);
+        if (playerState.getHealth() <= 0) {
+            map.killCharacter(this);
+        }
+    }
 }

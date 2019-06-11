@@ -1,6 +1,7 @@
 package ch.heigvd.mcr.bridgehack.character.races;
 
 import ch.heigvd.mcr.bridgehack.character.roles.Role;
+import ch.heigvd.mcr.bridgehack.character.StatModifier;
 import lombok.Getter;
 import lombok.Setter;
 import org.newdawn.slick.Graphics;
@@ -14,14 +15,16 @@ public abstract class Race {
     @Getter
     @Setter
     private Role role;
+    private StatModifier statModifier;
 
     /**
      * Simple constructor for the character's race
      *
      * @param role The role of the character
      */
-    public Race(Role role) {
+    public Race(Role role, StatModifier statModifier) {
         this.role = role;
+        this.statModifier = statModifier;
     }
 
     /**
@@ -34,5 +37,9 @@ public abstract class Race {
      */
     public void render(Graphics g, boolean moving, int x, int y) {
         role.render(g, moving, x, y);
+    }
+
+    public StatModifier getStatModifier() {
+        return statModifier.addModifier(role.getStatModifier());
     }
 }
