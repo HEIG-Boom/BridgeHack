@@ -155,7 +155,7 @@ public abstract class Character {
      * @param pos the position to test
      * @return
      */
-    private Enemy checkForEnemy(IntVector pos) {
+    Enemy checkForEnemy(IntVector pos) {
         for (Enemy enemy : map.getEnemies()) {
             if (enemy.getX() == pos.getX() && enemy.getY() == pos.getY()) {
                 return enemy;
@@ -291,5 +291,31 @@ public abstract class Character {
      *
      * @param delta the time elapsed since the last tick
      */
-    public abstract void update(int delta);
+    public void update(int delta) {
+        if (moving) {
+            int futureX = x, futureY = y;
+
+            switch (direction) {
+                case 0:
+                    futureY -= 1;
+                    break;
+                case 1:
+                    futureX -= 1;
+                    break;
+                case 2:
+                    futureY += 1;
+                    break;
+                case 3:
+                    futureX += 1;
+                    break;
+            }
+
+            x = futureX;
+            y = futureY;
+
+            if ((x % 16) == 8 && (y % 16) == 8) {
+                moving = false;
+            }
+        }
+    }
 }
