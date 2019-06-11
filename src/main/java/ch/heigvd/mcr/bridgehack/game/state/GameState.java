@@ -133,6 +133,7 @@ public class GameState extends BasicGameState {
                         map.deleteShadows(player.getX(), player.getY());
                     }
 
+                    enemyTurn();
                     break;
                 }
                 case Input.KEY_LEFT: {
@@ -145,6 +146,7 @@ public class GameState extends BasicGameState {
                         map.deleteShadows(player.getX(), player.getY());
                     }
 
+                    enemyTurn();
                     break;
                 }
                 case Input.KEY_DOWN: {
@@ -157,6 +159,7 @@ public class GameState extends BasicGameState {
                         map.deleteShadows(player.getX(), player.getY());
                     }
 
+                    enemyTurn();
                     break;
                 }
                 case Input.KEY_RIGHT: {
@@ -169,6 +172,7 @@ public class GameState extends BasicGameState {
                         map.deleteShadows(player.getX(), player.getY());
                     }
 
+                    enemyTurn();
                     break;
                 }
                 case Input.KEY_A: {
@@ -177,6 +181,7 @@ public class GameState extends BasicGameState {
                     equipping = false;
                     deleting = false;
                     notification = "Which direction ?";
+                    enemyTurn();
                     return;
                 }
                 case Input.KEY_D: {
@@ -191,6 +196,7 @@ public class GameState extends BasicGameState {
                     } else {
                         notification = "No stairs here";
                     }
+                    enemyTurn();
                     break;
                 }
                 case Input.KEY_Q: {
@@ -199,6 +205,7 @@ public class GameState extends BasicGameState {
                     equipping = false;
                     deleting = false;
                     notification = "Drink what ?";
+                    enemyTurn();
                     break;
                 }
                 case Input.KEY_T: {
@@ -214,6 +221,7 @@ public class GameState extends BasicGameState {
                         player.giveItem(map.getGoldenSword());
                         map.deleteGoldenSword();
                     }
+                    enemyTurn();
                     break;
                 }
                 case Input.KEY_E: {
@@ -222,6 +230,7 @@ public class GameState extends BasicGameState {
                     attacking = false;
                     drinking = false;
                     deleting = false;
+                    enemyTurn();
                     break;
                 }
                 case Input.KEY_X: {
@@ -230,16 +239,22 @@ public class GameState extends BasicGameState {
                     attacking = false;
                     drinking = false;
                     deleting = true;
+                    enemyTurn();
                     break;
                 }
             }
 
-            // Move all enemies
-            for (Enemy enemy : map.getEnemies()) {
-                enemy.move();
-            }
-
             turnIsOver = false;
+        }
+    }
+
+    /**
+     * Move all enemies on the map
+     */
+    private void enemyTurn() {
+        // Move all enemies
+        for (Enemy enemy : map.getEnemies()) {
+            enemy.move();
         }
     }
 

@@ -33,6 +33,7 @@ public class Map {
     private TiledMap map;
     private Exit exit;
     private Random rand;
+    @Getter
     private int index;
     @Getter
     private GoldenSword goldenSword;
@@ -90,35 +91,6 @@ public class Map {
     public boolean isCollision(int x, int y) {
         Image tile = map.getTileImage(x / map.getTileWidth(), y / map.getTileHeight(), 0);
         return tile != null;
-    }
-
-    /**
-     * Returns whether the tile of given position has collision with enemies.
-     * (tldr. if the collision layer has a tile at those coordinates)
-     *
-     * @param x the x coordinate to verify
-     * @param y the y coordinate to verify
-     * @return whether the tile of given position has collision.
-     */
-    public boolean isCollisionWithEnemies(int x, int y) {
-        for (Enemy enemy : enemies) {
-            if (x == enemy.getX() && y == enemy.getY()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Returns whether the tile of given position has collision with player.
-     * (tldr. if the collision layer has a tile at those coordinates)
-     *
-     * @param x the x coordinate to verify
-     * @param y the y coordinate to verify
-     * @return whether the tile of given position has collision.
-     */
-    public boolean isCollisionWithPlayer(int x, int y) {
-        return x == player.getX() && y == player.getY();
     }
 
     /**
@@ -180,15 +152,6 @@ public class Map {
      */
     public void render(int layer) {
         map.render(0, 0, layer);
-    }
-
-    /**
-     * Returns the index of the map corresponding to the floor
-     *
-     * @return the index of the map corresponding to the floor
-     */
-    public int getIndex() {
-        return index;
     }
 
     /**
