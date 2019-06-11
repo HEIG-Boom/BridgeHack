@@ -41,10 +41,10 @@ public class GameState extends BasicGameState {
         maps.add(new Map(1, false));
         maps.add(new Map(2, true));
         map = maps.get(0);
-        player = new Human(new Knight(), map);
+        player = new Player(new Human(new Knight()), map);
         // Temporary
-        enemies.add(new Dwarf(new Wizard(), map));
-        enemies.add(new Human(new Hunter(), map));
+//        enemies.add(new Dwarf(new Wizard(), map));
+//        enemies.add(new Human(new Hunter(), map));
 
         Font font = new Font("Ubuntu Mono ", Font.PLAIN, 16);
         ttf = new TrueTypeFont(font, true);
