@@ -7,8 +7,11 @@ import lombok.Getter;
  */
 @Getter
 public class State {
+    @Getter
     private int strength;
+    @Getter
     private int dexterity;
+    @Getter
     private int intelligence;
     private int constitution;
     private int health;

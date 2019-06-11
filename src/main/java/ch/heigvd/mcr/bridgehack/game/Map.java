@@ -1,5 +1,6 @@
 package ch.heigvd.mcr.bridgehack.game;
 
+import ch.heigvd.mcr.bridgehack.player.Enemy;
 import ch.heigvd.mcr.bridgehack.Item.Item;
 import ch.heigvd.mcr.bridgehack.Item.potion.HealthPotion;
 import ch.heigvd.mcr.bridgehack.Item.potion.ManaPotion;
@@ -25,7 +26,9 @@ public class Map {
     private Exit exit;
     private Random rand;
     private int index;
+    private LinkedList<Enemy> enemies = new LinkedList<>();
     private LinkedList<Chest> chests = new LinkedList<>();
+
 
     /**
      * General constructor for a basic map
@@ -176,6 +179,11 @@ public class Map {
         public void render(Graphics g) {
             g.drawImage(image, x, y);
         }
+    }
+
+
+    public LinkedList<Enemy> getEnemies() {
+        return enemies;
     }
 
     /**

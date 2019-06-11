@@ -2,6 +2,8 @@ package ch.heigvd.mcr.bridgehack.player;
 
 import ch.heigvd.mcr.bridgehack.Item.*;
 import ch.heigvd.mcr.bridgehack.Item.potion.*;
+import ch.heigvd.mcr.bridgehack.Item.weapon.BareHanded;
+import ch.heigvd.mcr.bridgehack.Item.weapon.Weapon;
 import ch.heigvd.mcr.bridgehack.game.Map;
 import ch.heigvd.mcr.bridgehack.player.races.Race;
 import ch.heigvd.mcr.bridgehack.player.roles.Role;
@@ -27,13 +29,14 @@ public class Player {
     private int direction = 0;
     private Map map;
     private LinkedList<Item> inventory;
+    @Setter
+    private Weapon weapon;
 
     private Race race;
 
     /**
      * Constructor for the players character.
      *
-     * @param role the initial role of the character
      * @param map a reference to the map for collision detection
      * @throws SlickException if a problem occurred building the animations
      */
@@ -46,6 +49,7 @@ public class Player {
         inventory = new LinkedList<>();
         inventory.add(new TransformPotion());
         inventory.add(new ManaPotion());
+        weapon = new BareHanded();
     }
 
     /**
@@ -137,8 +141,54 @@ public class Player {
      * @param direction the direction in which the player attacks
      */
     public void attack(int direction) {
-        //TO DO
-        System.out.println("I'm attacking on direction " + direction);
+        Enemy enemyToAttack = null;
+
+        for (int i = 1; i <= weapon.getRange(); ++i) {
+            switch (direction) {
+                case 0: // up
+                    if (map.isCollision(x, y + i)) {
+                        return;
+                    }
+                    enemyToAttack = checkForEnemy(new IntVector(x, y + i));
+                    break;
+                case 1: // left
+                    if (map.isCollision(x - i, y)) {
+                        return;
+                    }
+                    enemyToAttack = checkForEnemy(new IntVector(x - i, y));
+                    break;
+                case 2: // down
+                    if (map.isCollision(x, y - i)) {
+                        return;
+                    }
+                    enemyToAttack = checkForEnemy(new IntVector(x, y - i));
+                    break;
+                case 3: // right
+                    if (map.isCollision(x + i, y)) {
+                        return;
+                    }
+                    enemyToAttack = checkForEnemy(new IntVector(x + i, y));
+                    break;
+            }
+            if (enemyToAttack != null) {
+                enemyToAttack.receiveDamage(weapon.attack(playerState));
+                break;
+            }
+        }
+    }
+
+    /**
+     * Check if there is an enemy in a given position
+     * @param pos the position to test
+     * @return
+     */
+    private Enemy checkForEnemy(IntVector pos) {
+        for (Enemy enemy : map.getEnemies()) {
+            if (enemy.getPos().getX() == pos.getX() && enemy.getPos().getY() == pos.getY()) {
+                return enemy;
+            }
+        }
+        return null;
     }
 
     /**
