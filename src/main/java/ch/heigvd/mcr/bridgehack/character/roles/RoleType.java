@@ -2,6 +2,11 @@ package ch.heigvd.mcr.bridgehack.character.roles;
 
 import lombok.Getter;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+
 public enum  RoleType {
     HUNTER("Hunter", "Always at ease in the wilderness, they are not used to the confined spaces of\n         " +
                                      "a cave. However, their agility allows them to still be powerful foes.",
@@ -19,6 +24,15 @@ public enum  RoleType {
     private final String description;
     @Getter
     private final Role role;
+
+    private static final List<RoleType> VALUES =
+            Collections.unmodifiableList(Arrays.asList(values()));
+    private static final int SIZE = VALUES.size();
+    private static final Random RANDOM = new Random();
+
+    public static RoleType randomRole()  {
+        return VALUES.get(RANDOM.nextInt(SIZE));
+    }
 
     /**
      * Constructor defining name of different roles.

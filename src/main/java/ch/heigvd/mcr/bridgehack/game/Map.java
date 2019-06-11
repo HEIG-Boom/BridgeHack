@@ -12,7 +12,6 @@ import lombok.Getter;
 import lombok.Setter;
 import ch.heigvd.mcr.bridgehack.Item.Item;
 import ch.heigvd.mcr.bridgehack.Item.potion.HealthPotion;
-import ch.heigvd.mcr.bridgehack.Item.potion.ManaPotion;
 import ch.heigvd.mcr.bridgehack.Item.potion.TransformPotion;
 import ch.heigvd.mcr.bridgehack.Item.weapon.Bow;
 import ch.heigvd.mcr.bridgehack.Item.weapon.Staff;
@@ -232,6 +231,7 @@ public class Map {
 
     /**
      * Delete a chest on the map
+     *
      * @param c the chest to delete
      */
     public void deleteChest(Chest c) {
@@ -282,10 +282,9 @@ public class Map {
     /**
      * Generates enemies on the map
      */
-    void generateEnemies() {
+    private void generateEnemies() {
         try {
-            for (int i = 4; i < NUMBER_OF_ENEMIES; ++i) {
-                // TODO Replace human by undead
+            for (int i = 0; i < NUMBER_OF_ENEMIES; ++i) {
                 enemies.add(new Enemy(new Undead(new BadGuy()), this));
             }
         } catch (SlickException e) {
@@ -327,7 +326,6 @@ public class Map {
             allItems.add(new Staff(index));
             allItems.add(new Bow(index));
             allItems.add(new HealthPotion());
-            allItems.add(new ManaPotion());
             allItems.add(new TransformPotion());
 
             item = allItems.get(rand.nextInt(allItems.size()));
@@ -352,7 +350,7 @@ public class Map {
          * Constructor for the Golden Sword, places it on an unoccupied floor tile
          */
         public GoldenSword() {
-            super(11,16,1);
+            super(11, 16, 1);
 
             do {
                 x = rand.nextInt(map.getWidth());

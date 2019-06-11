@@ -1,5 +1,7 @@
 package ch.heigvd.mcr.bridgehack.character.roles;
 
+import ch.heigvd.mcr.bridgehack.character.StatModifier;
+import lombok.Getter;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -14,14 +16,18 @@ public abstract class Role {
 
     private Animation idleAnimation;
     private Animation runAnimation;
+    @Getter
+    private StatModifier statModifier;
 
     /**
      * Role constructor
      *
      * @param baseImgName The base image name for this role
      */
-    public Role(String baseImgName) {
+    public Role(String baseImgName, StatModifier statModifier){
         String imageBasePath = IMG_BASE_PATH + baseImgName;
+
+        this.statModifier = statModifier;
 
         idleAnimation = new Animation();
         runAnimation = new Animation();
