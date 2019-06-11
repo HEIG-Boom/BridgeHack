@@ -264,4 +264,16 @@ public abstract class Character {
      * @param delta the time elapsed since the last tick
      */
     public abstract void update(int delta);
+
+    /**
+     * Lowers the health of a character
+     *
+     * @param damage the damage to inflict
+     */
+    public void receiveDamage(int damage) {
+        playerState.setHealth(playerState.getHealth() - damage);
+        if (playerState.getHealth() <= 0) {
+            map.killCharacter(this);
+        }
+    }
 }
