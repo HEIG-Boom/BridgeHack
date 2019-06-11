@@ -17,9 +17,9 @@ public class CheckBox {
      * Constructor of checkbox
      *
      * @param dimension dimension of the square
-     * @param posX x position of the box
-     * @param posY y position of the square
-     * @param type type of enum the box represents
+     * @param posX      x position of the box
+     * @param posY      y position of the square
+     * @param type      type of enum the box represents
      */
     public CheckBox(int dimension, int posX, int posY, Enum type) {
         box = new Rectangle(posX, posY, dimension, dimension);

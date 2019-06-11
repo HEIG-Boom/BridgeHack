@@ -36,7 +36,5 @@ public class IntVector {
         int distanceX = Math.abs(destPoint.getX() - x);
         int distanceY = Math.abs(destPoint.getY() - y);
         return new IntVector(distanceX, distanceY);
-
     }
-
 }
