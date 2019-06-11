@@ -172,6 +172,13 @@ public class GameState extends BasicGameState {
                     notification = "Drink what ?";
                     break;
                 }
+                case Input.KEY_T: {
+                    Map.Chest chest = map.isChest(player.getX(), player.getY());
+                    if(chest != null) {
+                        player.giveItem(chest.getItem());
+                        map.deleteChest(chest);
+                    }
+                }
             }
             turnIsOver = false;
         }
