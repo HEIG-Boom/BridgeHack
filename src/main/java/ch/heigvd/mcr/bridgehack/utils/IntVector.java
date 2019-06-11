@@ -11,6 +11,12 @@ public class IntVector {
     @Getter
     private int y;
 
+    /**
+     * Vector constructor
+     *
+     * @param x The x component of the vector
+     * @param y The y component of the vector
+     */
     public IntVector(int x, int y) {
         this.x = x;
         this.y = y;
