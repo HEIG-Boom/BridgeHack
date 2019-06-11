@@ -1,6 +1,6 @@
-package ch.heigvd.mcr.bridgehack.player.races;
+package ch.heigvd.mcr.bridgehack.character.races;
 
-import ch.heigvd.mcr.bridgehack.player.roles.Role;
+import ch.heigvd.mcr.bridgehack.character.roles.Role;
 import lombok.Getter;
 import lombok.Setter;
 import org.newdawn.slick.Graphics;

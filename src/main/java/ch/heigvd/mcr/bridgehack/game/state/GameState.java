@@ -1,12 +1,10 @@
 package ch.heigvd.mcr.bridgehack.game.state;
 
 import ch.heigvd.mcr.bridgehack.game.Map;
-import ch.heigvd.mcr.bridgehack.player.Player;
-import ch.heigvd.mcr.bridgehack.player.races.Dwarf;
-import ch.heigvd.mcr.bridgehack.player.races.Human;
-import ch.heigvd.mcr.bridgehack.player.roles.Hunter;
-import ch.heigvd.mcr.bridgehack.player.roles.Knight;
-import ch.heigvd.mcr.bridgehack.player.roles.Wizard;
+import ch.heigvd.mcr.bridgehack.character.Enemy;
+import ch.heigvd.mcr.bridgehack.character.Player;
+import ch.heigvd.mcr.bridgehack.character.races.Human;
+import ch.heigvd.mcr.bridgehack.character.roles.Knight;
 import org.newdawn.slick.*;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.BasicGameState;
@@ -25,8 +23,6 @@ public class GameState extends BasicGameState {
     private LinkedList<Map> maps;
     private Map map;
     private Player player;
-    // Temporary
-    private LinkedList<Player> enemies = new LinkedList<>();
 
     private String notification = "";
     private boolean attacking;
@@ -35,6 +31,8 @@ public class GameState extends BasicGameState {
     private int turn = 0;
     private int counter = 0;
     private boolean drinking;
+    private boolean equiping;
+    private boolean deleting;
 
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
@@ -43,10 +41,11 @@ public class GameState extends BasicGameState {
         maps.add(new Map(2, false));
         maps.add(new Map(3, true));
         map = maps.get(0);
+
         player = new Player(new Human(new Knight()), map);
-        // Temporary
-//        enemies.add(new Dwarf(new Wizard(), map));
-//        enemies.add(new Human(new Hunter(), map));
+
+        // Set the player to the map
+        map.setPlayer(player);
 
         Font font = new Font("Ubuntu Mono ", Font.PLAIN, 16);
         ttf = new TrueTypeFont(font, true);
@@ -69,8 +68,8 @@ public class GameState extends BasicGameState {
 
         map.renderObjects(graphics);
         player.render(graphics);
-        // Temporary
-        for (Player enemy : enemies)
+
+        for (Enemy enemy : map.getEnemies())
             enemy.render(graphics);
 
         map.render(3);
@@ -81,7 +80,7 @@ public class GameState extends BasicGameState {
         if (!turnIsOver) {
             player.update(delta);
             // Temporary
-            for (Player enemy : enemies)
+            for (Enemy enemy : map.getEnemies())
                 enemy.update(delta);
 
             if (counter++ > 14) {
@@ -89,8 +88,7 @@ public class GameState extends BasicGameState {
                 counter = 0;
                 turn++;
                 player.stop();
-                // Temporary
-                for (Player enemy : enemies)
+                for (Enemy enemy : map.getEnemies())
                     enemy.stop();
             }
         }
@@ -101,10 +99,21 @@ public class GameState extends BasicGameState {
         if (turnIsOver) {
             if (Character.isDigit(c) && drinking) {
                 try {
-                    player.drink(Character.getNumericValue(c));
+                    if (player.drink(Character.getNumericValue(c)) == -1) {
+                        notification = "You drink your weapon, bad idea...";
+                    }
+                    drinking = false;
                 } catch (SlickException e) {
                     e.printStackTrace();
                 }
+            } else if (Character.isDigit(c) && equiping) {
+                player.equip(Character.getNumericValue(c));
+                equiping = false;
+                notification = "";
+            } else if (Character.isDigit(c) && deleting) {
+                player.deleteItem(Character.getNumericValue(c));
+                deleting = false;
+                notification = "";
             }
             switch (key) {
                 case Input.KEY_UP: {
@@ -154,6 +163,8 @@ public class GameState extends BasicGameState {
                 case Input.KEY_A: {
                     attacking = true;
                     drinking = false;
+                    equiping = false;
+                    deleting = false;
                     notification = "Which direction ?";
                     return;
                 }
@@ -161,6 +172,7 @@ public class GameState extends BasicGameState {
                     if(map.isExit(player.getX(), player.getY())) {
                         map = maps.get(map.getIndex());
                         player.setMap(map);
+                        map.setPlayer(player);
                     } else {
                         notification = "No stairs here";
                     }
@@ -169,10 +181,49 @@ public class GameState extends BasicGameState {
                 case Input.KEY_Q: {
                     drinking = true;
                     attacking = false;
+                    equiping = false;
+                    deleting = false;
                     notification = "Drink what ?";
                     break;
                 }
+                case Input.KEY_T: {
+                    attacking = false;
+                    equiping = false;
+                    drinking = false;
+                    deleting = false;
+                    Map.Chest chest = map.isChest(player.getX(), player.getY());
+                    if(chest != null && player.getInventory().size() < 10) {
+                        player.giveItem(chest.getItem());
+                        map.deleteChest(chest);
+                    } else if(map.isGoldenSword(player.getX(), player.getY())) {
+                        player.giveItem(map.getGoldenSword());
+                        map.deleteGoldenSword();
+                    }
+                    break;
+                }
+                case Input.KEY_E: {
+                    notification = "Which weapon? ";
+                    equiping = true;
+                    attacking = false;
+                    drinking = false;
+                    deleting = false;
+                    break;
+                }
+                case Input.KEY_X: {
+                    notification = "Which item? ";
+                    equiping = false;
+                    attacking = false;
+                    drinking = false;
+                    deleting = true;
+                    break;
+                }
             }
+
+            // Move all enemies
+            for (Enemy enemy : map.getEnemies()) {
+                enemy.move();
+            }
+
             turnIsOver = false;
         }
     }
