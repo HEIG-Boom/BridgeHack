@@ -35,6 +35,7 @@ public class GameState extends BasicGameState {
     private int turn = 0;
     private int counter = 0;
     private boolean drinking;
+    private boolean equiping;
 
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
@@ -105,6 +106,9 @@ public class GameState extends BasicGameState {
                 } catch (SlickException e) {
                     e.printStackTrace();
                 }
+            } else if (Character.isDigit(c) && equiping) {
+                player.equip(Character.getNumericValue(c));
+                notification = "";
             }
             switch (key) {
                 case Input.KEY_UP: {
@@ -154,6 +158,7 @@ public class GameState extends BasicGameState {
                 case Input.KEY_A: {
                     attacking = true;
                     drinking = false;
+                    equiping = false;
                     notification = "Which direction ?";
                     return;
                 }
@@ -169,15 +174,27 @@ public class GameState extends BasicGameState {
                 case Input.KEY_Q: {
                     drinking = true;
                     attacking = false;
+                    equiping = false;
                     notification = "Drink what ?";
                     break;
                 }
                 case Input.KEY_T: {
+                    attacking = false;
+                    equiping = false;
+                    drinking = false;
                     Map.Chest chest = map.isChest(player.getX(), player.getY());
                     if(chest != null) {
                         player.giveItem(chest.getItem());
                         map.deleteChest(chest);
                     }
+                    break;
+                }
+                case Input.KEY_E: {
+                    notification = "Which weapon? ";
+                    equiping = true;
+                    attacking = false;
+                    drinking = false;
+                    break;
                 }
             }
             turnIsOver = false;

@@ -237,6 +237,21 @@ public class Player {
     }
 
     /**
+     * Equip a weapon
+     * @param index the index in the inventory
+     */
+    public void equip(int index) {
+        if (inventory.get(index) instanceof Weapon) {
+            Weapon tempWeapon = weapon;
+            weapon = (Weapon) inventory.get(index);
+            inventory.remove(weapon);
+            if (!(tempWeapon instanceof BareHanded)) {
+                inventory.add(tempWeapon);
+            }
+        }
+    }
+
+    /**
      * Restores the player's health back to full
      */
     public void restoreHealth() {
