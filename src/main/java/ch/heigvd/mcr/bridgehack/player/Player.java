@@ -13,22 +13,17 @@ import org.newdawn.slick.*;
  * Class representing a player
  */
 public class Player {
-    // Base path to image resources
-    static final private String IMG_BASE_PATH = "/src/main/resources/img/";
-
     @Setter
     private String name;
-    private State playerState;
     @Getter
     private int x;
     @Getter
     private int y;
+    private State playerState;
     private boolean moving = false;
     private int direction = 0;
     private Map map;
     //    private LinkedList<Item> inventory;
-    private Animation idleAnimation = new Animation();
-    private Animation runAnimation = new Animation();
 
     private Race race;
 
@@ -39,20 +34,13 @@ public class Player {
      * @param map  a reference to the map for collision detection
      * @throws SlickException if a problem occurred building the animations
      */
-    public Player(Race race, Map map) throws SlickException {
+    public Player(Race race, Map map) {
         this.race = race;
         this.map = map;
         setRandomPos();
 
-        String imageBasePath = IMG_BASE_PATH + race.getBaseImageName();
         playerState = new State();
 //        inventory = new LinkedList<>();
-        playerState = new State();
-
-        for (int i = 0; i < 4; ++i) {
-            idleAnimation.addFrame(new Image(imageBasePath + "_idle_anim_f" + i + ".png"), 100);
-            runAnimation.addFrame(new Image(imageBasePath + "_run_anim_f" + i + ".png"), 100);
-        }
     }
 
     /**
@@ -135,11 +123,7 @@ public class Player {
         g.setColor(new Color(0, 0, 0, .5f));
         g.fillOval(x, y + 8, 16, 8);
 
-        if (moving) {
-            g.drawAnimation(runAnimation, x, y - 16);
-        } else {
-            g.drawAnimation(idleAnimation, x, y - 16);
-        }
+        race.render(g, moving, x, y);
     }
 
     /**
