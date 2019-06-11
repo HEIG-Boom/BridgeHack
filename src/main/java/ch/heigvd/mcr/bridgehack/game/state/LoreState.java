@@ -31,7 +31,8 @@ public class LoreState extends BasicGameState {
     @Override
     public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) {
         graphics.drawString(title, 0, 50);
-        graphics.drawString(game.getUsername() + "!", 200, 50);
+        String playerName = ((GameState) game.getState(GameState.ID)).getPlayer().getName();
+        graphics.drawString( playerName + "!", 200, 50);
         graphics.drawString(lore, 0, 80);
         graphics.drawString(choose, 0, 250);
     }
