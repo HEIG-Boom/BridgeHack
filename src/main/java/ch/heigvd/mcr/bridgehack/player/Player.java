@@ -2,8 +2,8 @@ package ch.heigvd.mcr.bridgehack.player;
 
 //import ch.heigvd.mcr.bridgehack.Item.Item;
 
+import ch.heigvd.mcr.bridgehack.Item.weapon.Weapon;
 import ch.heigvd.mcr.bridgehack.game.Map;
-import ch.heigvd.mcr.bridgehack.player.items.Weapon;
 import ch.heigvd.mcr.bridgehack.player.races.Race;
 import ch.heigvd.mcr.bridgehack.utils.IntVector;
 import lombok.Getter;
@@ -155,7 +155,6 @@ public class Player {
     public void attack(int direction) {
         Enemy enemyToAttack = null;
 
-        weapon = new Weapon();
         for (int i = 1; i <= weapon.getRange(); ++i) {
             switch (direction) {
                 case 0: // up
@@ -178,6 +177,11 @@ public class Player {
         }
     }
 
+    /**
+     * Check if there is an enemy in a given position
+     * @param pos the position to test
+     * @return
+     */
     private Enemy checkForEnemy(IntVector pos) {
         for (Enemy enemy : map.getEnemies()) {
             if (enemy.getPos().getX() == pos.getX() && enemy.getPos().getY() == pos.getY()) {

@@ -1,11 +1,13 @@
 package ch.heigvd.mcr.bridgehack.game;
 
+import ch.heigvd.mcr.bridgehack.player.Enemy;
 import ch.heigvd.mcr.bridgehack.utils.IntVector;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.tiled.TiledMap;
 
+import java.util.LinkedList;
 import java.util.Random;
 
 /**
@@ -16,6 +18,7 @@ public class Map {
     private Exit exit;
     private Random rand;
     private int index;
+    private LinkedList<Enemy> enemies = new LinkedList<>();
 
     /**
      * General constructor for a basic map
@@ -140,5 +143,9 @@ public class Map {
         public void render(Graphics g) {
             g.drawImage(image, x, y);
         }
+    }
+
+    public LinkedList<Enemy> getEnemies() {
+        return enemies;
     }
 }
