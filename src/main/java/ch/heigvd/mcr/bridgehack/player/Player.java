@@ -28,6 +28,7 @@ public class Player {
     private boolean moving = false;
     private int direction = 0;
     private Map map;
+    @Getter
     private LinkedList<Item> inventory;
     @Setter
     private Weapon weapon;
@@ -251,6 +252,14 @@ public class Player {
         }
     }
 
+    /**
+     * Remove an item from the inventory
+     *
+     * @param index The index in the inventory
+     */
+    public void deleteItem(int index) {
+        inventory.remove(index);
+    }
     /**
      * Restores the player's health back to full
      */
