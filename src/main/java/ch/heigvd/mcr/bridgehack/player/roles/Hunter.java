@@ -7,4 +7,9 @@ public class Hunter extends Role {
     public Hunter() {
         super("elf_m");
     }
+
+    @Override
+    public String toString() {
+        return "Hunter";
+    }
 }
