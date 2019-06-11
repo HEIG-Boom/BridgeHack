@@ -44,6 +44,8 @@ public class Map {
     private LinkedList<Enemy> enemies = new LinkedList<>(); // list of enemies on the map
     private LinkedList<Chest> chests = new LinkedList<>();
 
+    private LinkedList<Shadow> shadows = new LinkedList<>();
+
     /**
      * General constructor for a basic map
      *
@@ -69,6 +71,11 @@ public class Map {
         }
         for (int i = 0; i < 5; ++i) {
             chests.add(new Chest());
+        }
+        for (int i = 0; i < map.getWidth(); ++i) {
+            for (int j = 0; j < map.getHeight(); ++j) {
+                shadows.add(new Shadow(i,j));
+            }
         }
     }
 
@@ -132,8 +139,38 @@ public class Map {
         }
     }
 
+    public void renderShadow(Graphics g) {
+        for (Shadow shadow : shadows) {
+            shadow.render(g);
+        }
+    }
+
     public void createPortal(int x, int y) {
         portal = new Portal(x,y);
+    }
+
+    public void deleteShadows(int x, int y) {
+        for (int i = 0; i < shadows.size(); ++i) {
+            if (shadows.get(i).getX() == x-16 && shadows.get(i).getY() == y-16) {
+                shadows.remove(i);
+            } else if (shadows.get(i).getX() == x-16 && shadows.get(i).getY() == y) {
+                shadows.remove(i);
+            } else if (shadows.get(i).getX() == x-16 && shadows.get(i).getY() == y+16) {
+                shadows.remove(i);
+            } else if (shadows.get(i).getX() == x && shadows.get(i).getY() == y+16) {
+                shadows.remove(i);
+            } else if (shadows.get(i).getX() == x+16 && shadows.get(i).getY() == y+16) {
+                shadows.remove(i);
+            } else if (shadows.get(i).getX() == x+16 && shadows.get(i).getY() == y) {
+                shadows.remove(i);
+            } else if (shadows.get(i).getX() == x+16 && shadows.get(i).getY() == y-16) {
+                shadows.remove(i);
+            } else if (shadows.get(i).getX() == x && shadows.get(i).getY() == y-16) {
+                shadows.remove(i);
+            } else if (shadows.get(i).getX() == x && shadows.get(i).getY() == y) {
+                shadows.remove(i);
+            }
+        }
     }
 
     /**
@@ -409,4 +446,33 @@ public class Map {
             g.drawImage(image, x, y);
         }
     }
+
+    class Shadow {
+        @Getter
+        private int x, y;
+        private Image image;
+
+        /**
+         * Constructor for a Light zone
+         */
+        public Shadow(int x, int y) {
+            this.x = x*16;
+            this.y = y*16;
+            try {
+                image = new Image("/src/main/resources/img/shadowSquare.png");
+            } catch (SlickException e) {
+                e.printStackTrace();
+            }
+        }
+
+        /**
+         *
+         * @param g
+         */
+        public void render(Graphics g) {
+            g.drawImage(image, x, y);
+        }
+    }
+
+
 }

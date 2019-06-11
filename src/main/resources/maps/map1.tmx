@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="16" tileheight="16" nextobjectid="1">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="1">
  <tileset firstgid="1" source="BridgeHack.tsx"/>
  <tileset firstgid="1025" source="colision.tsx"/>
- <layer name="collisions" width="30" height="20">
+ <layer id="1" name="collisions" width="30" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA82W0QrAIAhFa+xt/f/3rpdghF6v5tYOhDBYeDKlepZy9FU/jldfbUNEeUWY95EYvggp31Ua8IqeA/IcIF/L06ofwuurfZditi97X4eX5z5n+Xr7l/HV6rbqq2H1Jfo/Oq9YXw12XqH6Wj6r83mGrS8zn7W8kUeGr5b308/bpwjGN9qniL/5vs3O98YN0dSKUWAJAAA=
+   H4sIAAAAAAAACs2W0QrAIAhFa+xt/f/3rpdghF6v5tYOhDBYeDKlepZy9FU/jldfbUNEeUWY95EYvggp31Ua8IqeA/IcIF/L06ofwuurfZditi97X4eX5z5n+Xr7l/HV6rbqq2H1Jfo/Oq9YXw12XqH6Wj6r83mGrS8zn7W8kUeGr5b308/bpwjGN9qniL/5vs3O98YN0dSKUWAJAAA=
   </data>
  </layer>
- <layer name="Floor" width="30" height="20">
+ <layer id="2" name="Floor" width="30" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+2UUQqAIBBEPV33Ku0i6UmK7lVCgizqrKthHw0MKqzzlo1U6lfQwvBJzrmMNVET30U5tJ8N9GUepzLD2QEeZw6oRoMaxEPKzcMKuVxJZ9LCnSt7RPlf4Pr9RNYe3JQdqEH3paLZehC3V26O1fIPlITmxelHwrUFLlJNX+h9DorfUinXkLX0rYLit1TK9d5vHwzu2x6pCwEEpI9gCQAA
+   H4sIAAAAAAAACu2UUQqAIBBEPV33Ku0i6UmK7lVCgizqrKthHw0MKqzzlo1U6lfQwvBJzrmMNVET30U5tJ8N9GUepzLD2QEeZw6oRoMaxEPKzcMKuVxJZ9LCnSt7RPlf4Pr9RNYe3JQdqEH3paLZehC3V26O1fIPlITmxelHwrUFLlJNX+h9DorfUinXkLX0rYLit1TK9d5vHwzu2x6pCwEEpI9gCQAA
   </data>
  </layer>
- <layer name="Back" width="30" height="20">
+ <layer id="3" name="Back" width="30" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA71VAQ7CIAxsUeM/HH5EFz+y+TQf5l4iOBtKB1hw85KGjZW7FmgHkMbTmXF2wzqbBIf8vofZJ/XNm3XWQbDRmWXv9PyA2K9z63Yw83OOO/Mxbh4xrB0FTwtkXCmQbglG5N0aj1bXiHlEna42lxpdLbbQlfP/1KUaO4hxSvhqQWuoHjyfHy3jorM+Qxh7DDFZxpGr7Zxun7nH3/aIYgII9URcpfx/PZvSeu2+81ztyrqpPkn9U/ZKja4WnsPC8hz4OWlzIl2eyzGTV4pDcmt7CPlRzFeeEyz/CyVdzR2s7W053Q7jGvT1m/tXch9Z67W6p4+9OYVdYHnX/DhAvJctuluj5t6vjRcp9PQjYAkAAA==
+   H4sIAAAAAAAACr1VAQ7CIAxsUeM/HH5EFz+y+TQf5l4iOBtKB1hw85KGjZW7FmgHkMbTmXF2wzqbBIf8vofZJ/XNm3XWQbDRmWXv9PyA2K9z63Yw83OOO/Mxbh4xrB0FTwtkXCmQbglG5N0aj1bXiHlEna42lxpdLbbQlfP/1KUaO4hxSvhqQWuoHjyfHy3jorM+Qxh7DDFZxpGr7Zxun7nH3/aIYgII9URcpfx/PZvSeu2+81ztyrqpPkn9U/ZKja4WnsPC8hz4OWlzIl2eyzGTV4pDcmt7CPlRzFeeEyz/CyVdzR2s7W053Q7jGvT1m/tXch9Z67W6p4+9OYVdYHnX/DhAvJctuluj5t6vjRcp9PQjYAkAAA==
   </data>
  </layer>
- <layer name="Front" width="30" height="20">
+ <layer id="4" name="Front" width="30" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+1VUQ6DIAwtQnYPN4+ycf8rLPMg+gI1BctmFOY+9pKGGsBXH31IdC4uJ/PneM3xMEQ2juMX+Dz4THh+Rt7BbNu3F+C7z3EtvMNHDTDKHPvcAd4SFh7URGncqFznUXzSQQKadxTOx4mcwd/gK/fNO016E3LEQOuzqeGvX/NoDql7C/01sO7QnD27xbcSi6co9VlL9Eov7fVYR2sPtAY8aIX2XDP8OIo1rjKvVe4I7gH2HNbImv7QIfs9+bcU5rTI57X10k+lvm8V7KcJRW5JiWAJAAA=
+   H4sIAAAAAAAACu1VUQ6DIAwtQnYPN4+ycf8rLPMg+gI1BctmFOY+9pKGGsBXH31IdC4uJ/PneM3xMEQ2juMX+Dz4THh+Rt7BbNu3F+C7z3EtvMNHDTDKHPvcAd4SFh7URGncqFznUXzSQQKadxTOx4mcwd/gK/fNO016E3LEQOuzqeGvX/NoDql7C/01sO7QnD27xbcSi6co9VlL9Eov7fVYR2sPtAY8aIX2XDP8OIo1rjKvVe4I7gH2HNbImv7QIfs9+bcU5rTI57X10k+lvm8V7KcJRW5JiWAJAAA=
   </data>
  </layer>
 </map>
