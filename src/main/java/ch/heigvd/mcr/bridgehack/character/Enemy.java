@@ -79,8 +79,5 @@ public class Enemy extends Character {
         // TODO if collision with player, we should attack him ?
     }
 
-    public void receiveDamage(int damage) {
-        playerState.setHealth(playerState.getHealth() - damage);
-        System.out.println("Aïe ! I am an enemy and I have " + playerState.getHealth() + "hp.");
-    }
+
 }

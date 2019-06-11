@@ -351,4 +351,16 @@ public abstract class Character {
         }
         return new IntVector(futureX, futureY);
     }
+
+    /**
+     * Lowers the health of a character
+     *
+     * @param damage the damage to inflict
+     */
+    public void receiveDamage(int damage) {
+        playerState.setHealth(playerState.getHealth() - damage);
+        if (playerState.getHealth() <= 0) {
+            map.killCharacter(this);
+        }
+    }
 }
