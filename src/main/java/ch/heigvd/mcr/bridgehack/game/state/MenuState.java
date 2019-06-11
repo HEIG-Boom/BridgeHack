@@ -1,9 +1,14 @@
-package ch.heigvd.mcr.bridgehack;
+package ch.heigvd.mcr.bridgehack.game.state;
 
+import ch.heigvd.mcr.bridgehack.game.BridgeHack;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+/**
+ * This class represents the first state of the game.
+ * In this state, the user must enter his name and can go further pressing ENTER.
+ */
 public class MenuState extends BasicGameState {
     public static final int ID = 1;
     private Image background;
@@ -41,17 +46,20 @@ public class MenuState extends BasicGameState {
     public void keyReleased(int key, char c) {
         switch (key) {
             case Input.KEY_ENTER:
+                // go to the next state
                 if (!username.equals("")) {
                     game.setUsername(username);
                     game.enterState(LoreState.ID);
                 }
                 break;
             case Input.KEY_BACK:
+                // used to delete last character of username
                 if (!username.equals("")) {
                     username = username.substring(0, username.length() - 1);
                 }
                 break;
             default:
+                // allow only a-z and 0-9
                 int ch = Character.getNumericValue(c);
                 if (ch < 37 && ch > -1) {
                     username += c;

@@ -1,10 +1,15 @@
-package ch.heigvd.mcr.bridgehack;
+package ch.heigvd.mcr.bridgehack.game.state;
 
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
+import ch.heigvd.mcr.bridgehack.game.BridgeHack;
+import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+/**
+ * This class represents the second state of the game.
+ * In this state, the history and the aim of the game are explain.
+ * Finally, the player have to choose a race and a role.
+ */
 public class LoreState extends BasicGameState {
     public static final int ID = 2;
     private BridgeHack game;
@@ -19,8 +24,8 @@ public class LoreState extends BasicGameState {
 
 
     @Override
-    public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) {
-        this.game = (BridgeHack) stateBasedGame;
+    public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
+        game = (BridgeHack) stateBasedGame;
     }
 
     @Override
@@ -43,6 +48,6 @@ public class LoreState extends BasicGameState {
 
     @Override
     public void keyReleased(int key, char c) {
-        game.enterState(MapState.ID);
+        game.enterState(GameState.ID);
     }
 }

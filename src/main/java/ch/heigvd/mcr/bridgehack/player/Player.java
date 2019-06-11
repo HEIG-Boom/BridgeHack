@@ -1,13 +1,11 @@
 package ch.heigvd.mcr.bridgehack.player;
 
 //import ch.heigvd.mcr.bridgehack.Item.Item;
-import ch.heigvd.mcr.bridgehack.Map;
+import ch.heigvd.mcr.bridgehack.game.Map;
 import ch.heigvd.mcr.bridgehack.player.roles.Role;
 import lombok.Setter;
 import org.newdawn.slick.*;
 import javafx.util.Pair;
-
-import java.util.LinkedList;
 
 /**
  * Class representing a player

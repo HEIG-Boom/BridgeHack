@@ -1,5 +1,6 @@
 package ch.heigvd.mcr.bridgehack;
 
+import ch.heigvd.mcr.bridgehack.game.BridgeHack;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.SlickException;
 

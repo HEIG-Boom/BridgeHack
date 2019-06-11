@@ -1,5 +1,6 @@
-package ch.heigvd.mcr.bridgehack;
+package ch.heigvd.mcr.bridgehack.game.state;
 
+import ch.heigvd.mcr.bridgehack.game.Map;
 import ch.heigvd.mcr.bridgehack.player.Player;
 import ch.heigvd.mcr.bridgehack.player.races.Dwarf;
 import ch.heigvd.mcr.bridgehack.player.races.Human;
@@ -14,7 +15,11 @@ import org.newdawn.slick.state.StateBasedGame;
 import java.awt.Font;
 import java.util.LinkedList;
 
-public class MapState extends BasicGameState {
+/**
+ * This class represents is a state of the game.
+ * In this state, the player can explore the game.
+ */
+public class GameState extends BasicGameState {
     public static final int ID = 3;
 
     private LinkedList<Map> maps;
