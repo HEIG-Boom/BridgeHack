@@ -1,13 +1,15 @@
 package ch.heigvd.mcr.bridgehack.player;
 
-//import ch.heigvd.mcr.bridgehack.Item.Item;
-
+import ch.heigvd.mcr.bridgehack.Item.*;
+import ch.heigvd.mcr.bridgehack.Item.potion.*;
 import ch.heigvd.mcr.bridgehack.game.Map;
-import ch.heigvd.mcr.bridgehack.player.races.Race;
+import ch.heigvd.mcr.bridgehack.player.roles.Role;
 import ch.heigvd.mcr.bridgehack.utils.IntVector;
+
+import org.newdawn.slick.*;
+import java.util.LinkedList;
 import lombok.Getter;
 import lombok.Setter;
-import org.newdawn.slick.*;
 
 /**
  * Class representing a player
@@ -27,27 +29,29 @@ public class Player {
     private boolean moving = false;
     private int direction = 0;
     private Map map;
-    //    private LinkedList<Item> inventory;
+    private LinkedList<Item> inventory;
     private Animation idleAnimation = new Animation();
     private Animation runAnimation = new Animation();
 
-    private Race race;
+    private Role role;
 
     /**
      * Constructor for the players character.
      *
-     * @param race the initial race of the character
-     * @param map  a reference to the map for collision detection
+     * @param role the initial role of the character
+     * @param map a reference to the map for collision detection
      * @throws SlickException if a problem occurred building the animations
      */
-    public Player(Race race, Map map) throws SlickException {
-        this.race = race;
+    public Player(Role role, Map map) throws SlickException {
+        this.role = role;
         this.map = map;
         setRandomPos();
 
-        String imageBasePath = IMG_BASE_PATH + race.getBaseImageName();
+        String imageBasePath = IMG_BASE_PATH + role.getBaseImageNameImpl();
         playerState = new State();
-//        inventory = new LinkedList<>();
+        inventory = new LinkedList<>();
+        inventory.add(new TransformPotion());
+        inventory.add(new ManaPotion());
         playerState = new State();
 
         for (int i = 0; i < 4; ++i) {
@@ -159,7 +163,7 @@ public class Player {
      * @return a resume of the player status
      */
     public String getStatus() {
-        return name + " " + playerState.toString();
+        return name + " the " + role + " " + playerState.toString();
     }
 
     /**
@@ -173,11 +177,35 @@ public class Player {
     }
 
     /**
-     * Resotres a certain amount of mana to the player
-     *
-     * @param mana amount of mana to restore
+     * Restores the player's mana back to full
      */
-    public void restoreMana(int mana) {
-        playerState.restoreMana(mana);
+    public void restoreMana() {
+        playerState.restoreMana();
+    }
+
+    public void changeRole(Role role) {
+        this.role = role;
+    }
+
+    public void renderText(TrueTypeFont ttf) {
+        // Display the inventory
+        for(int i = 0; i < inventory.size(); ++i) {
+            ttf.drawString(1000, 50 + 20 * i, i + " - " + inventory.get(i));
+        }
+
+        ttf.drawString(0, 660, getStatus());
+    }
+
+    public void drink(int index) {
+        //TO DO Check if the item at index i is indeed a potion
+        ((Potion) inventory.get(index)).drink(this);
+        inventory.remove(index);
+    }
+
+    /**
+     * Restores the player's health back to full
+     */
+    public void restoreHealth() {
+        playerState.restoreHealth();
     }
 }
