@@ -1,7 +1,7 @@
 package ch.heigvd.mcr.bridgehack.Item.weapon;
 
 import ch.heigvd.mcr.bridgehack.Item.Item;
-import ch.heigvd.mcr.bridgehack.player.State;
+import ch.heigvd.mcr.bridgehack.character.State;
 
 import java.util.Random;
 

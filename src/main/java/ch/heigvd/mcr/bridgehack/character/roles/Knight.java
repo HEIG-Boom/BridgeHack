@@ -1,13 +1,11 @@
-package ch.heigvd.mcr.bridgehack.player.roles;
-
-import org.newdawn.slick.SlickException;
+package ch.heigvd.mcr.bridgehack.character.roles;
 
 public class Knight extends Role {
 
     /**
      * Role constructor for the Knight role
      */
-    public Knight() throws SlickException {
+    public Knight() {
         super("knight_m");
     }
 

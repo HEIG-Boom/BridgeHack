@@ -1,12 +1,12 @@
-package ch.heigvd.mcr.bridgehack.player;
+package ch.heigvd.mcr.bridgehack.character;
 
 import ch.heigvd.mcr.bridgehack.Item.*;
 import ch.heigvd.mcr.bridgehack.Item.potion.*;
 import ch.heigvd.mcr.bridgehack.Item.weapon.BareHanded;
 import ch.heigvd.mcr.bridgehack.Item.weapon.Weapon;
+import ch.heigvd.mcr.bridgehack.character.roles.Role;
 import ch.heigvd.mcr.bridgehack.game.Map;
-import ch.heigvd.mcr.bridgehack.player.races.Race;
-import ch.heigvd.mcr.bridgehack.player.roles.Role;
+import ch.heigvd.mcr.bridgehack.character.races.Race;
 import ch.heigvd.mcr.bridgehack.utils.IntVector;
 
 import org.newdawn.slick.*;
@@ -17,33 +17,36 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Class representing a player
+ * Class representing a character
  */
-public class Player {
+public abstract class Character {
+    @Getter
     @Setter
     private String name;
     @Getter
-    private int x;
+    protected int x;
     @Getter
-    private int y;
+    protected int y;
     private State playerState;
-    private boolean moving = false;
-    private int direction = 0;
-    private Map map;
+    protected boolean moving = false;
+    @Getter
+    protected int direction = 0;
+    protected Map map;
     @Getter
     private LinkedList<Item> inventory;
     @Setter
     private Weapon weapon;
 
+    @Setter
     private Race race;
 
     /**
-     * Constructor for the players character.
+     * Constructor for the character.
      *
      * @param race the initial race of the character
      * @param map a reference to the map for collision detection
      */
-    public Player(Race race, Map map) {
+    public Character(Race race, Map map) {
         this.race = race;
         this.map = map;
         setRandomPos();
@@ -65,65 +68,10 @@ public class Player {
     }
 
     /**
-     * Sets the player in motion to a certain direction
-     *
-     * @param direction the direction in which the player has to go
-     */
-    public void move(int direction) {
-        this.direction = direction;
-        moving = true;
-    }
-
-    /**
      * Stops the movements from the player
      */
     public void stop() {
         moving = false;
-    }
-
-    /**
-     * Refreshes the position of the player if it's moving.
-     * Should also check for collisions, combat and interact
-     * with items and environment
-     *
-     * @param delta the time elapsed since the last tick
-     */
-    public void update(int delta) {
-        if (moving) {
-            int futureX = x, futureY = y;
-            boolean collision = false;
-
-            switch (direction) {
-                case 0:
-                    futureY -= 1;
-                    collision = map.isCollision(x, y - 1);
-                    break;
-                case 1:
-                    futureX -= 1;
-                    collision = map.isCollision(x - 1, y);
-                    break;
-                case 2:
-                    futureY += 1;
-                    collision = map.isCollision(x, y + 16);
-                    break;
-                case 3:
-                    futureX += 1;
-                    collision = map.isCollision(x + 16, y);
-                    break;
-            }
-
-            if (collision) {
-                moving = false;
-                return;
-            }
-
-            x = futureX;
-            y = futureY;
-
-            if ((x % 16) == 8 && (y % 16) == 8) {
-                moving = false;
-            }
-        }
     }
 
     /**
@@ -174,7 +122,8 @@ public class Player {
                     break;
             }
             if (enemyToAttack != null) {
-                enemyToAttack.receiveDamage(weapon.attack(playerState));
+                // TODO
+                //enemyToAttack.receiveDamage(weapon.attack(playerState));
                 break;
             }
         }
@@ -187,7 +136,7 @@ public class Player {
      */
     private Enemy checkForEnemy(IntVector pos) {
         for (Enemy enemy : map.getEnemies()) {
-            if (enemy.getPos().getX() == pos.getX() && enemy.getPos().getY() == pos.getY()) {
+            if (enemy.getX() == pos.getX() && enemy.getY() == pos.getY()) {
                 return enemy;
             }
         }
@@ -200,7 +149,7 @@ public class Player {
      * @return a resume of the player status
      */
     public String getStatus() {
-        return name + " the " + race.getRole() + " " + playerState.toString();
+        return name + " the " + race + " " + race.getRole() + " " + playerState.toString();
     }
 
     /**
@@ -233,10 +182,18 @@ public class Player {
         ttf.drawString(0, 660, getStatus());
     }
 
-    public void drink(int index) throws SlickException {
+    public int drink(int index) throws SlickException {
         //TO DO Check if the item at index i is indeed a potion
-        ((Potion) inventory.get(index)).drink(this);
-        inventory.remove(index);
+        if(index < inventory.size()) {
+            if (inventory.get(index) instanceof Weapon) {
+                playerState.setHealth(playerState.getHealth()/2);
+                inventory.remove(index);
+                return -1;
+            }
+            ((Potion) inventory.get(index)).drink(this);
+            inventory.remove(index);
+        }
+        return 0;
     }
 
     /**
@@ -244,12 +201,14 @@ public class Player {
      * @param index the index in the inventory
      */
     public void equip(int index) {
-        if (inventory.get(index) instanceof Weapon) {
-            Weapon tempWeapon = weapon;
-            weapon = (Weapon) inventory.get(index);
-            inventory.remove(weapon);
-            if (!(tempWeapon instanceof BareHanded)) {
-                inventory.add(tempWeapon);
+        if(index < inventory.size()) {
+            if (inventory.get(index) instanceof Weapon) {
+                Weapon tempWeapon = weapon;
+                weapon = (Weapon) inventory.get(index);
+                inventory.remove(weapon);
+                if (!(tempWeapon instanceof BareHanded)) {
+                    inventory.add(tempWeapon);
+                }
             }
         }
     }
@@ -260,7 +219,9 @@ public class Player {
      * @param index The index in the inventory
      */
     public void deleteItem(int index) {
-        inventory.remove(index);
+        if(index < inventory.size()) {
+            inventory.remove(index);
+        }
     }
     /**
      * Restores the player's health back to full
@@ -277,4 +238,13 @@ public class Player {
     public void giveItem(Item item) {
         inventory.add(item);
     }
+
+    /**
+     * Refreshes the position of the character if it's moving.
+     * Should also check for collisions, combat and interact
+     * with items and environment
+     *
+     * @param delta the time elapsed since the last tick
+     */
+    public abstract void update(int delta);
 }

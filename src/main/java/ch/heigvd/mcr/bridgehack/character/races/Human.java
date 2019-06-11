@@ -1,6 +1,6 @@
-package ch.heigvd.mcr.bridgehack.player.races;
+package ch.heigvd.mcr.bridgehack.character.races;
 
-import ch.heigvd.mcr.bridgehack.player.roles.Role;
+import ch.heigvd.mcr.bridgehack.character.roles.Role;
 
 /**
  * Race specialization: Human
@@ -14,4 +14,10 @@ public class Human extends Race {
     public Human(Role role) {
         super(role);
     }
+
+    @Override
+    public String toString() {
+        return "Human";
+    }
+
 }
