@@ -14,4 +14,10 @@ public class Elf extends Race {
     public Elf(Role role) {
         super(role);
     }
+
+    @Override
+    public String toString() {
+        return "Elf";
+    }
+
 }

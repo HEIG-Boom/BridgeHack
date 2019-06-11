@@ -14,4 +14,10 @@ public class Human extends Race {
     public Human(Role role) {
         super(role);
     }
+
+    @Override
+    public String toString() {
+        return "Human";
+    }
+
 }

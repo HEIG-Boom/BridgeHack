@@ -1,6 +1,5 @@
 package ch.heigvd.mcr.bridgehack.character;
 
-import ch.heigvd.mcr.bridgehack.character.races.Race;
 import ch.heigvd.mcr.bridgehack.game.Map;
 import org.newdawn.slick.SlickException;
 
@@ -8,16 +7,14 @@ import org.newdawn.slick.SlickException;
  * Class representing a player
  */
 public class Player extends Character {
-
     /**
      * Constructor for the player.
      *
-     * @param race the initial race of the player
      * @param map  a reference to the map for collision detection
      * @throws SlickException if a problem occurred building the animations
      */
-    public Player(Race race, Map map) throws SlickException {
-        super(race, map);
+    public Player(Map map) throws SlickException {
+        super(null, map);
     }
 
     /**

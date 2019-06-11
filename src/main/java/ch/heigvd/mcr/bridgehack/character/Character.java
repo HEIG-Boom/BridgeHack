@@ -18,6 +18,7 @@ import lombok.Setter;
  * Class representing a character
  */
 public abstract class Character {
+    @Getter
     @Setter
     private String name;
     @Getter
@@ -33,6 +34,8 @@ public abstract class Character {
     private LinkedList<Item> inventory;
     @Setter
     private Weapon weapon;
+
+    @Setter
     private Race race;
 
     /**
@@ -143,7 +146,7 @@ public abstract class Character {
      * @return a resume of the player status
      */
     public String getStatus() {
-        return name + " the " + race.getRole() + " " + playerState.toString();
+        return name + " the " + race + " " + race.getRole() + " " + playerState.toString();
     }
 
     /**

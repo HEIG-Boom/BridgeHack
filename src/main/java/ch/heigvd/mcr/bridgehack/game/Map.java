@@ -1,6 +1,5 @@
 package ch.heigvd.mcr.bridgehack.game;
 
-
 import ch.heigvd.mcr.bridgehack.Item.weapon.Weapon;
 import ch.heigvd.mcr.bridgehack.character.Enemy;
 import ch.heigvd.mcr.bridgehack.character.Player;

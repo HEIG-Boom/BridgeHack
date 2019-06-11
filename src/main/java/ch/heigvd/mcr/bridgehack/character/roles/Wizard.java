@@ -1,12 +1,10 @@
 package ch.heigvd.mcr.bridgehack.character.roles;
 
-import org.newdawn.slick.SlickException;
-
 public class Wizard extends Role {
     /**
      * Role constructor for the Wizard role
      */
-    public Wizard() throws SlickException {
+    public Wizard() {
         super("wizzard_m");
     }
 
