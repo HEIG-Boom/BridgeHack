@@ -1,5 +1,7 @@
 package ch.heigvd.mcr.bridgehack.game;
 
+
+import ch.heigvd.mcr.bridgehack.Item.weapon.Weapon;
 import ch.heigvd.mcr.bridgehack.character.Enemy;
 import ch.heigvd.mcr.bridgehack.character.Player;
 import ch.heigvd.mcr.bridgehack.character.races.Human;
@@ -32,7 +34,9 @@ public class Map {
     private Random rand;
     private int index;
     @Getter
+    private GoldenSword goldenSword;
     @Setter
+    @Getter
     private Player player;
     @Getter
     private LinkedList<Enemy> enemies = new LinkedList<>(); // list of enemies on the map
@@ -58,6 +62,8 @@ public class Map {
 
         if (!isLast) {
             exit = new Exit();
+        } else {
+            goldenSword = new GoldenSword();
         }
         for (int i = 0; i < 5; ++i) {
             chests.add(new Chest());
@@ -112,6 +118,9 @@ public class Map {
     public void renderObjects(Graphics g) {
         if (exit != null) {
             exit.render(g);
+        }
+        if (goldenSword != null) {
+            goldenSword.render(g);
         }
         for (Chest chest : chests) {
             chest.render(g);
@@ -169,6 +178,20 @@ public class Map {
     }
 
     /**
+     * Return whether the coordinates given holds the golden sword.
+     *
+     * @param x possibly the x coordinate of the golden sword
+     * @param y possibly the y coordinate of the golden sword
+     * @return whether the coordinates given holds an golden sword.
+     */
+    public boolean isGoldenSword(int x, int y) {
+        if (goldenSword == null) {
+            return false;
+        }
+        return x == goldenSword.x && y == goldenSword.y;
+    }
+
+    /**
      * Return whether the coordinates given holds a chest.
      *
      * @param x possibly the x coordinate of the exit
@@ -184,8 +207,19 @@ public class Map {
         return null;
     }
 
+    /**
+     * Delete a chest on the map
+     * @param c the chest to delete
+     */
     public void deleteChest(Chest c) {
         chests.remove(c);
+    }
+
+    /**
+     * Delete the Golden Sword on the map
+     */
+    public void deleteGoldenSword() {
+        goldenSword = null;
     }
 
     /**
@@ -283,6 +317,45 @@ public class Map {
          */
         public void render(Graphics g) {
             g.drawImage(image, x, y);
+        }
+    }
+
+
+    class GoldenSword extends Weapon {
+        private int x, y;
+        private Image image;
+
+        /**
+         * Constructor for the Golden Sword, places it on an unoccupied floor tile
+         */
+        public GoldenSword() {
+            super(11,16,1);
+
+            do {
+                x = rand.nextInt(map.getWidth());
+                y = rand.nextInt(map.getHeight());
+            } while (map.getTileImage(x, y, 1) == null);
+            x *= map.getTileWidth();
+            y *= map.getTileHeight();
+            try {
+                image = new Image("/src/main/resources/img/weapon_golden_sword.png");
+            } catch (SlickException e) {
+                e.printStackTrace();
+            }
+        }
+
+        /**
+         * Draws the ladder on a given graphic context
+         *
+         * @param g the graphics in which the ladder has to be drawn
+         */
+        public void render(Graphics g) {
+            g.drawImage(image, x, y);
+        }
+
+        @Override
+        public String toString() {
+            return "sword T10";
         }
     }
 }

@@ -99,15 +99,20 @@ public class GameState extends BasicGameState {
         if (turnIsOver) {
             if (Character.isDigit(c) && drinking) {
                 try {
-                    player.drink(Character.getNumericValue(c));
+                    if (player.drink(Character.getNumericValue(c)) == -1) {
+                        notification = "You drink your weapon, bad idea...";
+                    }
+                    drinking = false;
                 } catch (SlickException e) {
                     e.printStackTrace();
                 }
             } else if (Character.isDigit(c) && equiping) {
                 player.equip(Character.getNumericValue(c));
+                equiping = false;
                 notification = "";
             } else if (Character.isDigit(c) && deleting) {
                 player.deleteItem(Character.getNumericValue(c));
+                deleting = false;
                 notification = "";
             }
             switch (key) {
@@ -190,6 +195,9 @@ public class GameState extends BasicGameState {
                     if(chest != null && player.getInventory().size() < 10) {
                         player.giveItem(chest.getItem());
                         map.deleteChest(chest);
+                    } else if(map.isGoldenSword(player.getX(), player.getY())) {
+                        player.giveItem(map.getGoldenSword());
+                        map.deleteGoldenSword();
                     }
                     break;
                 }

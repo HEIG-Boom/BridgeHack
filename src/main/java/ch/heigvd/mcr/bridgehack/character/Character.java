@@ -176,10 +176,18 @@ public abstract class Character {
         ttf.drawString(0, 660, getStatus());
     }
 
-    public void drink(int index) throws SlickException {
+    public int drink(int index) throws SlickException {
         //TO DO Check if the item at index i is indeed a potion
-        ((Potion) inventory.get(index)).drink(this);
-        inventory.remove(index);
+        if(index < inventory.size()) {
+            if (inventory.get(index) instanceof Weapon) {
+                playerState.setHealth(playerState.getHealth()/2);
+                inventory.remove(index);
+                return -1;
+            }
+            ((Potion) inventory.get(index)).drink(this);
+            inventory.remove(index);
+        }
+        return 0;
     }
 
     /**
@@ -187,12 +195,14 @@ public abstract class Character {
      * @param index the index in the inventory
      */
     public void equip(int index) {
-        if (inventory.get(index) instanceof Weapon) {
-            Weapon tempWeapon = weapon;
-            weapon = (Weapon) inventory.get(index);
-            inventory.remove(weapon);
-            if (!(tempWeapon instanceof BareHanded)) {
-                inventory.add(tempWeapon);
+        if(index < inventory.size()) {
+            if (inventory.get(index) instanceof Weapon) {
+                Weapon tempWeapon = weapon;
+                weapon = (Weapon) inventory.get(index);
+                inventory.remove(weapon);
+                if (!(tempWeapon instanceof BareHanded)) {
+                    inventory.add(tempWeapon);
+                }
             }
         }
     }
@@ -203,7 +213,9 @@ public abstract class Character {
      * @param index The index in the inventory
      */
     public void deleteItem(int index) {
-        inventory.remove(index);
+        if(index < inventory.size()) {
+            inventory.remove(index);
+        }
     }
     /**
      * Restores the player's health back to full
