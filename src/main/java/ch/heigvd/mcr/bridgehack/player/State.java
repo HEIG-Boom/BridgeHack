@@ -1,11 +1,16 @@
 package ch.heigvd.mcr.bridgehack.player;
 
+import lombok.Getter;
+
 /**
  * A State serves to represent a player's state at a given time of the game
  */
 public class State {
+    @Getter
     private int strength;
+    @Getter
     private int dexterity;
+    @Getter
     private int intelligence;
     private int constitution;
     private int health;

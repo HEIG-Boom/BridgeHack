@@ -3,11 +3,15 @@ package ch.heigvd.mcr.bridgehack.player;
 //import ch.heigvd.mcr.bridgehack.Item.Item;
 
 import ch.heigvd.mcr.bridgehack.game.Map;
+import ch.heigvd.mcr.bridgehack.player.items.Weapon;
 import ch.heigvd.mcr.bridgehack.player.races.Race;
 import ch.heigvd.mcr.bridgehack.utils.IntVector;
 import lombok.Getter;
 import lombok.Setter;
 import org.newdawn.slick.*;
+import sun.awt.image.ImageWatched;
+
+import java.util.LinkedList;
 
 /**
  * Class representing a player
@@ -29,6 +33,7 @@ public class Player {
     //    private LinkedList<Item> inventory;
     private Animation idleAnimation = new Animation();
     private Animation runAnimation = new Animation();
+    private Weapon weapon;
 
     private Race race;
 
@@ -148,8 +153,38 @@ public class Player {
      * @param direction the direction in which the player attacks
      */
     public void attack(int direction) {
-        //TO DO
-        System.out.println("I'm attacking on direction " + direction);
+        Enemy enemyToAttack = null;
+
+        weapon = new Weapon();
+        for (int i = 1; i <= weapon.getRange(); ++i) {
+            switch (direction) {
+                case 0: // up
+                    enemyToAttack = checkForEnemy(new IntVector(x, y + i));
+                    break;
+                case 1: // left
+                    enemyToAttack = checkForEnemy(new IntVector(x - i, y));
+                    break;
+                case 2: // down
+                    enemyToAttack = checkForEnemy(new IntVector(x, y - i));
+                    break;
+                case 3: // right
+                    enemyToAttack = checkForEnemy(new IntVector(x + i, y));
+                    break;
+            }
+            if (enemyToAttack != null) {
+                enemyToAttack.receiveDamage(weapon.attack(playerState));
+                break;
+            }
+        }
+    }
+
+    private Enemy checkForEnemy(IntVector pos) {
+        for (Enemy enemy : map.getEnemies()) {
+            if (enemy.getPos().getX() == pos.getX() && enemy.getPos().getY() == pos.getY()) {
+                return enemy;
+            }
+        }
+        return null;
     }
 
     /**
