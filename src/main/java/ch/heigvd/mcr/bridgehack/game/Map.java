@@ -247,7 +247,7 @@ public class Map {
      */
     private void generateEnemies() {
         try {
-            for (int i = 0; i < NUMBER_OF_ENEMIES; ++i) {
+            for (int i = 4; i < NUMBER_OF_ENEMIES; ++i) {
                 enemies.add(new Enemy(new Undead(new BadGuy()), this));
             }
         } catch (SlickException e) {

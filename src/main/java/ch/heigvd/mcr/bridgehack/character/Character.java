@@ -42,7 +42,7 @@ public abstract class Character {
      * Constructor for the character.
      *
      * @param race the initial race of the character
-     * @param map a reference to the map for collision detection
+     * @param map  a reference to the map for collision detection
      */
     public Character(Race race, Map map) {
         this.race = race;
@@ -185,6 +185,7 @@ public abstract class Character {
 
     /**
      * Setter for the race, takes statModifiers into account
+     *
      * @param race the new race
      */
     public void setRace(Race race) {
@@ -197,6 +198,7 @@ public abstract class Character {
 
     /**
      * Changes the role of the character with statModifiers into account
+     *
      * @param role the new role
      */
     public void changeRole(Role role) {
@@ -208,6 +210,7 @@ public abstract class Character {
     /**
      * Renders various text informations about the character, such as
      * inventory and stats
+     *
      * @param ttf the context to draw in
      */
     public void renderText(TrueTypeFont ttf) {
@@ -222,6 +225,7 @@ public abstract class Character {
     /**
      * Tries to drink a potion at a given inventory slot. Return 0 if successful
      * and -1 otherwise
+     *
      * @param index the slot in the inventory to drink to potion
      * @return whether the character could successfully drink the potion
      * @throws SlickException
@@ -317,5 +321,34 @@ public abstract class Character {
                 moving = false;
             }
         }
+    }
+
+    /**
+     * Get future position of the character depending on the direction
+     *
+     * @return future position
+     */
+    IntVector getFuturePosition() {
+        int futureX = x;
+        int futureY = y;
+        switch (direction) {
+            case 0:
+                futureY -= 16;
+                moving = !(map.isCollision(x, y - 16));
+                break;
+            case 1:
+                futureX -= 16;
+                moving = !(map.isCollision(x - 16, y));
+                break;
+            case 2:
+                futureY += 16;
+                moving = !(map.isCollision(x, y + 16));
+                break;
+            case 3:
+                futureX += 16;
+                moving = !(map.isCollision(x + 16, y));
+                break;
+        }
+        return new IntVector(futureX, futureY);
     }
 }

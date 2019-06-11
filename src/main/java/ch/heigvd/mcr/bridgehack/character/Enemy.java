@@ -70,54 +70,13 @@ public class Enemy extends Character {
             direction = rand.nextInt(4);
         }
 
-        int futureX = x;
-        int futureY = y;
-        switch (direction) {
-            case 0:
-                futureY -= 16;
-                moving = !(map.isCollision(x, y - 16));
-                if (map.isCollision(x, y - 16)) {
-                    System.out.println("ENEMY - Collision with wall - " + moving);
-                }
-                break;
-            case 1:
-                futureX -= 16;
-                moving = !(map.isCollision(x - 16, y));
-                if (map.isCollision(x - 16, y)) {
-                    System.out.println("ENEMY - Collision with wall - " + moving);
-                }
-                break;
-            case 2:
-                futureY += 16;
-                moving = !(map.isCollision(x, y + 16));
-                if (map.isCollision(x, y + 16)) {
-                    System.out.println("ENEMY - Collision with wall - " + moving);
-                }
-                break;
-            case 3:
-                futureX += 16;
-                moving = !(map.isCollision(x + 16, y));
-                if (map.isCollision(x + 16, y)) {
-                    System.out.println("ENEMY - Collision with wall - " + moving);
-                }
-                break;
-        }
+        IntVector futurePosition = getFuturePosition();
 
         // Check collision with player
-        //moving = !((futureX == playerPos.getX()) && (futureY == playerPos.getY()));
-        if ((futureX == playerPos.getX()) && (futureY == playerPos.getY())) {
+        if ((futurePosition.getX() == playerPos.getX()) && (futurePosition.getY() == playerPos.getY())) {
             moving = false;
-            System.out.println("COLLISION WITH PLAYER - " + moving);
         }
-
-        System.out.println("TURN");
-        System.out.println("Player pos begin : (" + map.getPlayer().getX() + ":" + map.getPlayer().getY() + ")");
-        System.out.println("Player pos end   : (" + playerPos.getX() + ":" + playerPos.getY() + ")");
-        System.out.println("Enemy pos begin  : (" + x + ":" + y + ")");
-        System.out.println("Enemy pos end    : (" + futureX + ":" + futureY + ")");
-        System.out.println("Enemy direction  : " + direction);
-        System.out.println("Enemy moving     : " + moving);
-        System.out.println("----------------------");
+        // TODO if collision with player, we should attack him ?
     }
 
     public void receiveDamage(int damage) {

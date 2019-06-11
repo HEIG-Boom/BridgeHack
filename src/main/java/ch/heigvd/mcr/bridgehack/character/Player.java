@@ -8,7 +8,7 @@ import org.newdawn.slick.SlickException;
  * Class representing a player
  */
 public class Player extends Character {
-    
+
     /**
      * Constructor for the player.
      *
@@ -27,42 +27,11 @@ public class Player extends Character {
     public void move(int direction) {
         this.direction = direction;
         moving = true;
-        int futureX = x;
-        int futureY = y;
 
-        switch (direction) {
-            case 0:
-                futureY -= 16;
-                moving = !(map.isCollision(x, y - 16));
-                if (map.isCollision(x, y - 16)) {
-                    System.out.println("PLAYER - Collision with wall - " + moving);
-                }
-                break;
-            case 1:
-                futureX -= 16;
-                moving = !(map.isCollision(x - 16, y));
-                if (map.isCollision(x - 16, y)) {
-                    System.out.println("PLAYER - Collision with wall - " + moving);
-                }
-                break;
-            case 2:
-                futureY += 16;
-                moving = !(map.isCollision(x, y + 16));
-                if (map.isCollision(x, y + 16)) {
-                    System.out.println("PLAYER - Collision with wall - " + moving);
-                }
-                break;
-            case 3:
-                futureX += 16;
-                moving = !(map.isCollision(x + 16, y));
-                if (map.isCollision(x + 16, y)) {
-                    System.out.println("PLAYER - Collision with wall - " + moving);
-                }
-                break;
-        }
+        IntVector futurePosition = getFuturePosition();
 
         // Check for collision with enemies
-        if (checkForEnemy(new IntVector(futureX, futureY)) != null) {
+        if (checkForEnemy(futurePosition) != null) {
             moving = false;
         }
     }
