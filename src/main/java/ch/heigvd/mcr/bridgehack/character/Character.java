@@ -1,18 +1,18 @@
-package ch.heigvd.mcr.bridgehack.player;
+package ch.heigvd.mcr.bridgehack.character;
 
 //import ch.heigvd.mcr.bridgehack.Item.Item;
 
 import ch.heigvd.mcr.bridgehack.game.Map;
-import ch.heigvd.mcr.bridgehack.player.races.Race;
+import ch.heigvd.mcr.bridgehack.character.races.Race;
 import ch.heigvd.mcr.bridgehack.utils.IntVector;
 import lombok.Getter;
 import lombok.Setter;
 import org.newdawn.slick.*;
 
 /**
- * Class representing a player
+ * Class representing a character
  */
-public class Player {
+public abstract class Character {
     // Base path to image resources
     static final private String IMG_BASE_PATH = "/src/main/resources/img/";
 
@@ -20,12 +20,13 @@ public class Player {
     private String name;
     private State playerState;
     @Getter
-    private int x;
+    protected int x;
     @Getter
-    private int y;
-    private boolean moving = false;
-    private int direction = 0;
-    private Map map;
+    protected int y;
+    protected boolean moving = false;
+    @Getter
+    protected int direction = 0;
+    protected Map map;
     //    private LinkedList<Item> inventory;
     private Animation idleAnimation = new Animation();
     private Animation runAnimation = new Animation();
@@ -33,13 +34,13 @@ public class Player {
     private Race race;
 
     /**
-     * Constructor for the players character.
+     * Constructor for the character.
      *
      * @param race the initial race of the character
      * @param map  a reference to the map for collision detection
      * @throws SlickException if a problem occurred building the animations
      */
-    public Player(Race race, Map map) throws SlickException {
+    public Character(Race race, Map map) throws SlickException {
         this.race = race;
         this.map = map;
         setRandomPos();
@@ -65,65 +66,10 @@ public class Player {
     }
 
     /**
-     * Sets the player in motion to a certain direction
-     *
-     * @param direction the direction in which the player has to go
-     */
-    public void move(int direction) {
-        this.direction = direction;
-        moving = true;
-    }
-
-    /**
      * Stops the movements from the player
      */
     public void stop() {
         moving = false;
-    }
-
-    /**
-     * Refreshes the position of the player if it's moving.
-     * Should also check for collisions, combat and interact
-     * with items and environment
-     *
-     * @param delta the time elapsed since the last tick
-     */
-    public void update(int delta) {
-        if (moving) {
-            int futureX = x, futureY = y;
-            boolean collision = false;
-
-            switch (direction) {
-                case 0:
-                    futureY -= 1;
-                    collision = map.isCollision(x, y - 1);
-                    break;
-                case 1:
-                    futureX -= 1;
-                    collision = map.isCollision(x - 1, y);
-                    break;
-                case 2:
-                    futureY += 1;
-                    collision = map.isCollision(x, y + 16);
-                    break;
-                case 3:
-                    futureX += 1;
-                    collision = map.isCollision(x + 16, y);
-                    break;
-            }
-
-            if (collision) {
-                moving = false;
-                return;
-            }
-
-            x = futureX;
-            y = futureY;
-
-            if ((x % 16) == 8 && (y % 16) == 8) {
-                moving = false;
-            }
-        }
     }
 
     /**
@@ -179,4 +125,13 @@ public class Player {
     public void restoreMana(int mana) {
         playerState.restoreMana(mana);
     }
+
+    /**
+     * Refreshes the position of the character if it's moving.
+     * Should also check for collisions, combat and interact
+     * with items and environment
+     *
+     * @param delta the time elapsed since the last tick
+     */
+    public abstract void update(int delta);
 }

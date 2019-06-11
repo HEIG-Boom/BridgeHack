@@ -1,4 +1,4 @@
-package ch.heigvd.mcr.bridgehack.player;
+package ch.heigvd.mcr.bridgehack.character;
 
 /**
  * A State serves to represent a player's state at a given time of the game

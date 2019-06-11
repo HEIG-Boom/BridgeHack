@@ -1,12 +1,10 @@
 package ch.heigvd.mcr.bridgehack.game.state;
 
 import ch.heigvd.mcr.bridgehack.game.Map;
-import ch.heigvd.mcr.bridgehack.player.Player;
-import ch.heigvd.mcr.bridgehack.player.races.Dwarf;
-import ch.heigvd.mcr.bridgehack.player.races.Human;
-import ch.heigvd.mcr.bridgehack.player.roles.Hunter;
-import ch.heigvd.mcr.bridgehack.player.roles.Knight;
-import ch.heigvd.mcr.bridgehack.player.roles.Wizard;
+import ch.heigvd.mcr.bridgehack.character.Enemy;
+import ch.heigvd.mcr.bridgehack.character.Player;
+import ch.heigvd.mcr.bridgehack.character.races.Human;
+import ch.heigvd.mcr.bridgehack.character.roles.Knight;
 import org.newdawn.slick.*;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.BasicGameState;
@@ -25,8 +23,6 @@ public class GameState extends BasicGameState {
     private LinkedList<Map> maps;
     private Map map;
     private Player player;
-    // Temporary
-    private LinkedList<Player> enemies = new LinkedList<>();
 
     private String notification = "";
     private boolean attacking;
@@ -41,10 +37,11 @@ public class GameState extends BasicGameState {
         maps.add(new Map(1, false));
         maps.add(new Map(2, true));
         map = maps.get(0);
+
         player = new Player(new Human(new Knight()), map);
-        // Temporary
-//        enemies.add(new Dwarf(new Wizard(), map));
-//        enemies.add(new Human(new Hunter(), map));
+
+        // Set the player to the map
+        map.setPlayer(player);
 
         Font font = new Font("Ubuntu Mono ", Font.PLAIN, 16);
         ttf = new TrueTypeFont(font, true);
@@ -66,8 +63,8 @@ public class GameState extends BasicGameState {
 
         map.renderObjects(graphics);
         player.render(graphics);
-        // Temporary
-        for (Player enemy : enemies)
+
+        for (Enemy enemy : map.getEnemies())
             enemy.render(graphics);
 
         map.render(3);
@@ -78,7 +75,7 @@ public class GameState extends BasicGameState {
         if (!turnIsOver) {
             player.update(delta);
             // Temporary
-            for (Player enemy : enemies)
+            for (Enemy enemy : map.getEnemies())
                 enemy.update(delta);
 
             if (counter++ > 14) {
@@ -86,8 +83,7 @@ public class GameState extends BasicGameState {
                 counter = 0;
                 turn++;
                 player.stop();
-                // Temporary
-                for (Player enemy : enemies)
+                for (Enemy enemy : map.getEnemies())
                     enemy.stop();
             }
         }
@@ -150,12 +146,19 @@ public class GameState extends BasicGameState {
                     if(map.isExit(player.getX(), player.getY())) {
                         map = maps.get(map.getIndex());
                         player.setMap(map);
+                        map.setPlayer(player);
                     } else {
                         notification = "No stairs here";
                     }
                     break;
                 }
             }
+
+            // Move all enemies
+            for (Enemy enemy : map.getEnemies()) {
+                enemy.move();
+            }
+
             turnIsOver = false;
         }
     }

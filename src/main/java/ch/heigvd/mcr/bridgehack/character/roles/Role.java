@@ -1,4 +1,4 @@
-package ch.heigvd.mcr.bridgehack.player.roles;
+package ch.heigvd.mcr.bridgehack.character.roles;
 
 public abstract class Role {
     final private String BASE_IMG_NAME;
