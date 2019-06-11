@@ -9,4 +9,9 @@ public class Wizard extends Role {
     public Wizard() throws SlickException {
         super("wizzard_m");
     }
+
+    @Override
+    public String toString() {
+        return "Wizard";
+    }
 }

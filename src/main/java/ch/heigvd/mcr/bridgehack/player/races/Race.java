@@ -1,6 +1,8 @@
 package ch.heigvd.mcr.bridgehack.player.races;
 
 import ch.heigvd.mcr.bridgehack.player.roles.Role;
+import lombok.Getter;
+import lombok.Setter;
 import org.newdawn.slick.Graphics;
 
 /**
@@ -9,6 +11,8 @@ import org.newdawn.slick.Graphics;
  * Provides the main interface to our bridge system
  */
 public abstract class Race {
+    @Getter
+    @Setter
     private Role role;
 
     /**

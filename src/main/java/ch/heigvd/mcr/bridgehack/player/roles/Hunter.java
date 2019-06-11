@@ -9,4 +9,9 @@ public class Hunter extends Role {
     public Hunter() throws SlickException {
         super("elf_m");
     }
+
+    @Override
+    public String toString() {
+        return "Hunter";
+    }
 }
