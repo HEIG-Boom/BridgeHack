@@ -48,7 +48,7 @@ public class GameState extends BasicGameState {
         maps.add(new Map(2, false));
         maps.add(new Map(3, true));
         map = maps.get(0);
-        player = new Player(new Knight(), map);
+        player = new Player(map);
         // Temporary
 //        enemies.add(new Dwarf(new Wizard(), map));
 //        enemies.add(new Human(new Hunter(), map));
