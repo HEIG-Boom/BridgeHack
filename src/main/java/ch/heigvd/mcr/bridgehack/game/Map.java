@@ -39,6 +39,7 @@ public class Map {
     @Setter
     @Getter
     private Player player;
+    private Portal portal;
     @Getter
     private LinkedList<Enemy> enemies = new LinkedList<>(); // list of enemies on the map
     private LinkedList<Chest> chests = new LinkedList<>();
@@ -123,9 +124,16 @@ public class Map {
         if (goldenSword != null) {
             goldenSword.render(g);
         }
+        if (portal != null) {
+            portal.render(g);
+        }
         for (Chest chest : chests) {
             chest.render(g);
         }
+    }
+
+    public void createPortal(int x, int y) {
+        portal = new Portal(x,y);
     }
 
     /**
@@ -176,6 +184,20 @@ public class Map {
         System.out.println("player is in " + x + ", " + y);
         System.out.println("exit is in " + exit.x + ", " + exit.y);
         return x == exit.x && y == exit.y;
+    }
+
+    /**
+     * Return whether the coordinates given holds a portal.
+     *
+     * @param x possibly the x coordinate of the portal
+     * @param y possibly the y coordinate of the portal
+     * @return whether the coordinates given holds a portal.
+     */
+    public boolean isPortal(int x, int y) {
+        if (portal == null) {
+            return false;
+        }
+        return x == portal.x && y == portal.y;
     }
 
     /**
@@ -322,7 +344,7 @@ public class Map {
     }
 
 
-    class GoldenSword extends Weapon {
+    public class GoldenSword extends Weapon {
         private int x, y;
         private Image image;
 
@@ -357,6 +379,34 @@ public class Map {
         @Override
         public String toString() {
             return "sword T10";
+        }
+    }
+
+    class Portal {
+        @Setter
+        private int x, y;
+        private Image image;
+
+        /**
+         * Constructor for a portal
+         */
+        public Portal(int x, int y) {
+            this.x = x;
+            this.y = y;
+            try {
+                image = new Image("/src/main/resources/img/portal.png");
+            } catch (SlickException e) {
+                e.printStackTrace();
+            }
+        }
+
+        /**
+         * Draws the portal on a given graphic context
+         *
+         * @param g the graphics in which the portal has to be drawn
+         */
+        public void render(Graphics g) {
+            g.drawImage(image, x, y);
         }
     }
 }

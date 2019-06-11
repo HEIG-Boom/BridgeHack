@@ -120,6 +120,7 @@ public class Enemy extends Character {
     }
 
     public void receiveDamage(int damage) {
-        // TODO
+        playerState.setHealth(playerState.getHealth() - damage);
+        System.out.println("Aïe ! I am an enemy and I have " + playerState.getHealth() + "hp.");
     }
 }
