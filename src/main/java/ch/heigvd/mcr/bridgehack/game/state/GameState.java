@@ -1,5 +1,6 @@
 package ch.heigvd.mcr.bridgehack.game.state;
 
+import ch.heigvd.mcr.bridgehack.game.BridgeHack;
 import ch.heigvd.mcr.bridgehack.game.Map;
 import lombok.Getter;
 import ch.heigvd.mcr.bridgehack.character.Enemy;
@@ -19,6 +20,8 @@ import java.util.LinkedList;
 public class GameState extends BasicGameState {
     public static final int ID = 3;
 
+    private BridgeHack game;
+
     private LinkedList<Map> maps;
     private Map map;
 
@@ -37,6 +40,7 @@ public class GameState extends BasicGameState {
 
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
+        game = (BridgeHack) stateBasedGame;
         maps = new LinkedList<>();
         maps.add(new Map(1, false));
         maps.add(new Map(2, false));
