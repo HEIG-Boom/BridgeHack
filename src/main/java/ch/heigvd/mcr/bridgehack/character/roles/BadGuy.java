@@ -16,6 +16,6 @@ public class BadGuy extends Role {
 
     @Override
     public String toString() {
-        return "Undead";
+        return "BadGuy";
     }
 }
