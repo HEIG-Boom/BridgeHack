@@ -43,7 +43,7 @@ public class GameState extends BasicGameState {
         maps.add(new Map(2, false));
         maps.add(new Map(3, true));
         map = maps.get(0);
-        player = new Player(new Knight(), map);
+        player = new Player(new Human(new Knight()), map);
         // Temporary
 //        enemies.add(new Dwarf(new Wizard(), map));
 //        enemies.add(new Human(new Hunter(), map));
@@ -100,7 +100,11 @@ public class GameState extends BasicGameState {
     public void keyPressed(int key, char c) {
         if (turnIsOver) {
             if (Character.isDigit(c) && drinking) {
-                player.drink(Character.getNumericValue(c));
+                try {
+                    player.drink(Character.getNumericValue(c));
+                } catch (SlickException e) {
+                    e.printStackTrace();
+                }
             }
             switch (key) {
                 case Input.KEY_UP: {
@@ -167,6 +171,13 @@ public class GameState extends BasicGameState {
                     attacking = false;
                     notification = "Drink what ?";
                     break;
+                }
+                case Input.KEY_T: {
+                    Map.Chest chest = map.isChest(player.getX(), player.getY());
+                    if(chest != null) {
+                        player.giveItem(chest.getItem());
+                        map.deleteChest(chest);
+                    }
                 }
             }
             turnIsOver = false;

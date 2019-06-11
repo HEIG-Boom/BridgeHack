@@ -1,9 +1,11 @@
 package ch.heigvd.mcr.bridgehack.player;
 
-import ch.heigvd.mcr.bridgehack.Item.weapon.Weapon;
 import ch.heigvd.mcr.bridgehack.Item.*;
 import ch.heigvd.mcr.bridgehack.Item.potion.*;
+import ch.heigvd.mcr.bridgehack.Item.weapon.BareHanded;
+import ch.heigvd.mcr.bridgehack.Item.weapon.Weapon;
 import ch.heigvd.mcr.bridgehack.game.Map;
+import ch.heigvd.mcr.bridgehack.player.races.Race;
 import ch.heigvd.mcr.bridgehack.player.roles.Role;
 import ch.heigvd.mcr.bridgehack.utils.IntVector;
 
@@ -16,49 +18,38 @@ import lombok.Setter;
  * Class representing a player
  */
 public class Player {
-    // Base path to image resources
-    static final private String IMG_BASE_PATH = "/src/main/resources/img/";
-
     @Setter
     private String name;
-    private State playerState;
     @Getter
     private int x;
     @Getter
     private int y;
+    private State playerState;
     private boolean moving = false;
     private int direction = 0;
     private Map map;
     private LinkedList<Item> inventory;
-    private Animation idleAnimation = new Animation();
-    private Animation runAnimation = new Animation();
+    @Setter
     private Weapon weapon;
 
-    private Role role;
+    private Race race;
 
     /**
      * Constructor for the players character.
      *
-     * @param role the initial role of the character
      * @param map a reference to the map for collision detection
      * @throws SlickException if a problem occurred building the animations
      */
-    public Player(Role role, Map map) throws SlickException {
-        this.role = role;
+    public Player(Race race, Map map) {
+        this.race = race;
         this.map = map;
         setRandomPos();
 
-        String imageBasePath = IMG_BASE_PATH + role.getBaseImageNameImpl();
         playerState = new State();
         inventory = new LinkedList<>();
         inventory.add(new TransformPotion());
         inventory.add(new ManaPotion());
-        playerState = new State();
-
-        for (int i = 0; i < 4; ++i) {
-            idleAnimation.addFrame(new Image(imageBasePath + "_idle_anim_f" + i + ".png"), 100);
-            runAnimation.addFrame(new Image(imageBasePath + "_run_anim_f" + i + ".png"), 100);
-        }
+        weapon = new BareHanded();
     }
 
     /**
@@ -141,11 +132,7 @@ public class Player {
         g.setColor(new Color(0, 0, 0, .5f));
         g.fillOval(x, y + 8, 16, 8);
 
-        if (moving) {
-            g.drawAnimation(runAnimation, x, y - 16);
-        } else {
-            g.drawAnimation(idleAnimation, x, y - 16);
-        }
+        race.render(g, moving, x, y);
     }
 
     /**
@@ -210,7 +197,7 @@ public class Player {
      * @return a resume of the player status
      */
     public String getStatus() {
-        return name + " the " + role + " " + playerState.toString();
+        return name + " the " + race.getRole() + " " + playerState.toString();
     }
 
     /**
@@ -231,7 +218,7 @@ public class Player {
     }
 
     public void changeRole(Role role) {
-        this.role = role;
+        race.setRole(role);
     }
 
     public void renderText(TrueTypeFont ttf) {
@@ -243,7 +230,7 @@ public class Player {
         ttf.drawString(0, 660, getStatus());
     }
 
-    public void drink(int index) {
+    public void drink(int index) throws SlickException {
         //TO DO Check if the item at index i is indeed a potion
         ((Potion) inventory.get(index)).drink(this);
         inventory.remove(index);
@@ -254,5 +241,14 @@ public class Player {
      */
     public void restoreHealth() {
         playerState.restoreHealth();
+    }
+
+    /**
+     * Add an item in the inventory
+     *
+     * @param item the item to add
+     */
+    public void giveItem(Item item) {
+        inventory.add(item);
     }
 }
