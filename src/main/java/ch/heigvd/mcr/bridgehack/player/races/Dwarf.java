@@ -1,6 +1,6 @@
 package ch.heigvd.mcr.bridgehack.player.races;
 
-import ch.heigvd.mcr.bridgehack.Map;
+import ch.heigvd.mcr.bridgehack.game.Map;
 import ch.heigvd.mcr.bridgehack.player.Player;
 import ch.heigvd.mcr.bridgehack.player.roles.Role;
 import org.newdawn.slick.SlickException;

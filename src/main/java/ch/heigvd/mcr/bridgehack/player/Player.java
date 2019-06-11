@@ -1,12 +1,11 @@
 package ch.heigvd.mcr.bridgehack.player;
 
-import ch.heigvd.mcr.bridgehack.Item.Item;
-import ch.heigvd.mcr.bridgehack.Map;
-import ch.heigvd.mcr.bridgehack.player.roles.Role;
+//import ch.heigvd.mcr.bridgehack.Item.Item;
+import ch.heigvd.mcr.bridgehack.game.Map;
+import ch.heigvd.mcr.bridgehack.player.races.Race;
+import lombok.Setter;
 import org.newdawn.slick.*;
 import javafx.util.Pair;
-
-import java.util.LinkedList;
 
 /**
  * Class representing a player
@@ -15,6 +14,7 @@ public abstract class Player {
     // Base path to image resources
     static final private String IMG_BASE_PATH = "/src/main/resources/img/";
 
+    @Setter
     private String name;
     private State playerState;
     private int x;
@@ -22,27 +22,27 @@ public abstract class Player {
     private boolean moving = false;
     private int direction = 0;
     private Map map;
-    private LinkedList<Item> inventory;
+//    private LinkedList<Item> inventory;
     private Animation idleAnimation = new Animation();
     private Animation runAnimation = new Animation();
 
-    private Role role;
+    private Race race;
 
     /**
      * Constructor for the players character.
      *
-     * @param role the initial role of the character
+     * @param race the initial race of the character
      * @param map a reference to the map for collision detection
      * @throws SlickException if a problem occurred building the animations
      */
-    public Player(Role role, Map map) throws SlickException {
-        this.role = role;
+    public Player(Race race, Map map) throws SlickException {
+        this.race = race;
         this.map = map;
         setRandomPos();
 
-        String imageBasePath = IMG_BASE_PATH + getBaseImageName();
+        String imageBasePath = IMG_BASE_PATH + race.getBaseImageName();
         playerState = new State();
-        inventory = new LinkedList<>();
+//        inventory = new LinkedList<>();
         playerState = new State();
 
         for (int i = 0; i < 4; ++i ) {
@@ -123,15 +123,6 @@ public abstract class Player {
         } else {
             g.drawAnimation(idleAnimation, x, y - 16);
         }
-    }
-
-    /**
-     * Get base image name for the instances's role
-     *
-     * @return The base image name for the current role
-     */
-    public String getBaseImageName() {
-        return role.getBaseImageNameImpl();
     }
 
     /**

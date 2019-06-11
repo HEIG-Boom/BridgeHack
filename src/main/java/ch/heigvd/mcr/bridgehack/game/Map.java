@@ -1,15 +1,16 @@
-package ch.heigvd.mcr.bridgehack;
+package ch.heigvd.mcr.bridgehack.game;
 
 import javafx.util.Pair;
-import org.lwjgl.Sys;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.tiled.TiledMap;
 
-import java.util.LinkedList;
 import java.util.Random;
 
+/**
+ * This class represents the map of the game.
+ */
 public class Map {
     private TiledMap map;
     private Exit exit;
