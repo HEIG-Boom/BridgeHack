@@ -1,5 +1,6 @@
 package ch.heigvd.mcr.bridgehack.game.state;
 
+import ch.heigvd.mcr.bridgehack.game.BridgeHack;
 import ch.heigvd.mcr.bridgehack.game.Map;
 import lombok.Getter;
 import ch.heigvd.mcr.bridgehack.character.Enemy;
@@ -19,6 +20,8 @@ import java.util.LinkedList;
 public class GameState extends BasicGameState {
     public static final int ID = 3;
 
+    private BridgeHack game;
+
     private LinkedList<Map> maps;
     private Map map;
 
@@ -32,11 +35,12 @@ public class GameState extends BasicGameState {
     private int turn = 0;
     private int counter = 0;
     private boolean drinking;
-    private boolean equiping;
+    private boolean equipping;
     private boolean deleting;
 
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
+        game = (BridgeHack) stateBasedGame;
         maps = new LinkedList<>();
         maps.add(new Map(1, false));
         maps.add(new Map(2, false));
@@ -80,8 +84,9 @@ public class GameState extends BasicGameState {
         if (!turnIsOver) {
             player.update(delta);
             // Temporary
-            for (Enemy enemy : map.getEnemies())
+            for (Enemy enemy : map.getEnemies()) {
                 enemy.update(delta);
+            }
 
             if (counter++ > 14) {
                 turnIsOver = true;
@@ -106,9 +111,9 @@ public class GameState extends BasicGameState {
                 } catch (SlickException e) {
                     e.printStackTrace();
                 }
-            } else if (Character.isDigit(c) && equiping) {
+            } else if (Character.isDigit(c) && equipping) {
                 player.equip(Character.getNumericValue(c));
-                equiping = false;
+                equipping = false;
                 notification = "";
             } else if (Character.isDigit(c) && deleting) {
                 player.deleteItem(Character.getNumericValue(c));
@@ -163,16 +168,20 @@ public class GameState extends BasicGameState {
                 case Input.KEY_A: {
                     attacking = true;
                     drinking = false;
-                    equiping = false;
+                    equipping = false;
                     deleting = false;
                     notification = "Which direction ?";
                     return;
                 }
                 case Input.KEY_D: {
+                    notification = "";
                     if(map.isExit(player.getX(), player.getY())) {
                         map = maps.get(map.getIndex());
                         player.setMap(map);
                         map.setPlayer(player);
+                    } else if (map.isPortal(player.getX(), player.getY()) ||
+                        map.isPortal(player.getX(), player.getY()-16)) {
+                        game.enterState(WinState.ID);
                     } else {
                         notification = "No stairs here";
                     }
@@ -181,14 +190,14 @@ public class GameState extends BasicGameState {
                 case Input.KEY_Q: {
                     drinking = true;
                     attacking = false;
-                    equiping = false;
+                    equipping = false;
                     deleting = false;
                     notification = "Drink what ?";
                     break;
                 }
                 case Input.KEY_T: {
                     attacking = false;
-                    equiping = false;
+                    equipping = false;
                     drinking = false;
                     deleting = false;
                     Map.Chest chest = map.isChest(player.getX(), player.getY());
@@ -203,7 +212,7 @@ public class GameState extends BasicGameState {
                 }
                 case Input.KEY_E: {
                     notification = "Which weapon? ";
-                    equiping = true;
+                    equipping = true;
                     attacking = false;
                     drinking = false;
                     deleting = false;
@@ -211,7 +220,7 @@ public class GameState extends BasicGameState {
                 }
                 case Input.KEY_X: {
                     notification = "Which item? ";
-                    equiping = false;
+                    equipping = false;
                     attacking = false;
                     drinking = false;
                     deleting = true;

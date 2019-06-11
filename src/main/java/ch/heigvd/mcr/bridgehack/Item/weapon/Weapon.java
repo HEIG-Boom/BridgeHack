@@ -19,7 +19,7 @@ abstract public class Weapon extends Item {
     }
 
     public int attack(State state) {
-        return rand.nextInt(maxRoll) % minRoll;
+        return rand.nextInt(maxRoll - minRoll) + minRoll;
     }
 
     public int getRange() {

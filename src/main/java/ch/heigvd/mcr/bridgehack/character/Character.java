@@ -10,7 +10,9 @@ import ch.heigvd.mcr.bridgehack.character.races.Race;
 import ch.heigvd.mcr.bridgehack.utils.IntVector;
 
 import org.newdawn.slick.*;
+
 import java.util.LinkedList;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,7 +27,7 @@ public abstract class Character {
     protected int x;
     @Getter
     protected int y;
-    private State playerState;
+    protected State playerState;
     protected boolean moving = false;
     @Getter
     protected int direction = 0;
@@ -41,6 +43,7 @@ public abstract class Character {
     /**
      * Constructor for the character.
      *
+     * @param race the initial race of the character
      * @param map a reference to the map for collision detection
      */
     public Character(Race race, Map map) {
@@ -91,36 +94,53 @@ public abstract class Character {
     public void attack(int direction) {
         Enemy enemyToAttack = null;
 
+        boolean createPortal = false;
+
+        if (weapon instanceof Map.GoldenSword) {
+            createPortal = true;
+        }
+
         for (int i = 1; i <= weapon.getRange(); ++i) {
             switch (direction) {
                 case 0: // up
-                    if (map.isCollision(x, y + i)) {
+                    if (createPortal) {
+                        map.createPortal(x, y - 16);
+                    }
+                    if (map.isCollision(x, y - (i * 16))) {
                         return;
                     }
-                    enemyToAttack = checkForEnemy(new IntVector(x, y + i));
+                    enemyToAttack = checkForEnemy(new IntVector(x, y - (i * 16)));
                     break;
                 case 1: // left
-                    if (map.isCollision(x - i, y)) {
+                    if (createPortal) {
+                        map.createPortal(x - 16, y);
+                    }
+                    if (map.isCollision(x - (i * 16), y)) {
                         return;
                     }
-                    enemyToAttack = checkForEnemy(new IntVector(x - i, y));
+                    enemyToAttack = checkForEnemy(new IntVector(x - (i * 16), y));
                     break;
                 case 2: // down
-                    if (map.isCollision(x, y - i)) {
+                    if (createPortal) {
+                        map.createPortal(x, y + 16);
+                    }
+                    if (map.isCollision(x, y + (i * 16))) {
                         return;
                     }
-                    enemyToAttack = checkForEnemy(new IntVector(x, y - i));
+                    enemyToAttack = checkForEnemy(new IntVector(x, y + (i * 16)));
                     break;
                 case 3: // right
-                    if (map.isCollision(x + i, y)) {
+                    if (createPortal) {
+                        map.createPortal(x + 16, y);
+                    }
+                    if (map.isCollision(x + (i * 16), y)) {
                         return;
                     }
-                    enemyToAttack = checkForEnemy(new IntVector(x + i, y));
+                    enemyToAttack = checkForEnemy(new IntVector(x + (i * 16), y));
                     break;
             }
             if (enemyToAttack != null) {
-                // TODO
-                //enemyToAttack.receiveDamage(weapon.attack(playerState));
+                enemyToAttack.receiveDamage(weapon.attack(playerState));
                 break;
             }
         }
@@ -172,7 +192,7 @@ public abstract class Character {
 
     public void renderText(TrueTypeFont ttf) {
         // Display the inventory
-        for(int i = 0; i < inventory.size(); ++i) {
+        for (int i = 0; i < inventory.size(); ++i) {
             ttf.drawString(1000, 50 + 20 * i, i + " - " + inventory.get(i));
         }
 
