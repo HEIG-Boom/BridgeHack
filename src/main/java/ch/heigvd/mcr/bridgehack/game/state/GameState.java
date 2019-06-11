@@ -1,5 +1,6 @@
-package ch.heigvd.mcr.bridgehack;
+package ch.heigvd.mcr.bridgehack.game.state;
 
+import ch.heigvd.mcr.bridgehack.game.Map;
 import ch.heigvd.mcr.bridgehack.player.Player;
 import ch.heigvd.mcr.bridgehack.player.races.Dwarf;
 import ch.heigvd.mcr.bridgehack.player.races.Human;
@@ -7,10 +8,20 @@ import ch.heigvd.mcr.bridgehack.player.roles.Hunter;
 import ch.heigvd.mcr.bridgehack.player.roles.Knight;
 import ch.heigvd.mcr.bridgehack.player.roles.Wizard;
 import org.newdawn.slick.*;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.state.BasicGameState;
+import org.newdawn.slick.state.StateBasedGame;
+
 import java.awt.Font;
 import java.util.LinkedList;
 
-public class BridgeHack extends BasicGame {
+/**
+ * This class represents a state of the game.
+ * In this state, the player can explore the game.
+ */
+public class GameState extends BasicGameState {
+    public static final int ID = 3;
+
     private LinkedList<Map> maps;
     private Map map;
     private Player player;
@@ -24,12 +35,8 @@ public class BridgeHack extends BasicGame {
     private int turn = 0;
     private int counter = 0;
 
-    public BridgeHack() throws SlickException {
-        super("BridgeHack");
-    }
-
     @Override
-    public void init(GameContainer container) throws SlickException {
+    public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
         maps = new LinkedList<>();
         maps.add(new Map(1, false));
         maps.add(new Map(2, true));
@@ -44,8 +51,8 @@ public class BridgeHack extends BasicGame {
     }
 
     @Override
-    public void render(GameContainer container, Graphics g) throws SlickException {
-        g.setColor(Color.white);
+    public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
+        graphics.setColor(Color.white);
         ttf.drawString(400, 660, Integer.toString(turn));
         ttf.drawString(0, 660, player.getStatus());
 
@@ -53,21 +60,21 @@ public class BridgeHack extends BasicGame {
             ttf.drawString(550, 660, notification);
         }
 
-        g.scale(2, 2);
+        graphics.scale(2, 2);
         map.render(1);
         map.render(2);
 
-        map.renderObjects(g);
-        player.render(g);
+        map.renderObjects(graphics);
+        player.render(graphics);
         // Temporary
         for (Player enemy : enemies)
-            enemy.render(g);
+            enemy.render(graphics);
 
         map.render(3);
     }
 
     @Override
-    public void update(GameContainer container, int delta) throws SlickException {
+    public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int delta) throws SlickException {
         if (!turnIsOver) {
             player.update(delta);
             // Temporary
@@ -155,5 +162,10 @@ public class BridgeHack extends BasicGame {
 
     @Override
     public void keyReleased(int key, char c) {
+    }
+
+    @Override
+    public int getID() {
+        return ID;
     }
 }
