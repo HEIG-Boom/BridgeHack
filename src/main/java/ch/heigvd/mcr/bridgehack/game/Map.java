@@ -1,15 +1,16 @@
-package ch.heigvd.mcr.bridgehack;
+package ch.heigvd.mcr.bridgehack.game;
 
-import javafx.util.Pair;
-import org.lwjgl.Sys;
+import ch.heigvd.mcr.bridgehack.utils.IntVector;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.tiled.TiledMap;
 
-import java.util.LinkedList;
 import java.util.Random;
 
+/**
+ * This class represents the map of the game.
+ */
 public class Map {
     private TiledMap map;
     private Exit exit;
@@ -18,7 +19,8 @@ public class Map {
 
     /**
      * General constructor for a basic map
-     * @param index the floor corresponding to this map
+     *
+     * @param index  the floor corresponding to this map
      * @param isLast if this map is the last one
      */
     public Map(int index, boolean isLast) {
@@ -29,7 +31,7 @@ public class Map {
         } catch (SlickException e) {
             e.printStackTrace();
         }
-        if(!isLast) {
+        if (!isLast) {
             exit = new Exit();
         }
     }
@@ -37,6 +39,7 @@ public class Map {
     /**
      * Returns whether the tile of given position has collision.
      * (tldr. if the collision layer has a tile at those coordinates)
+     *
      * @param x the x coordinate to verify
      * @param y the y coordinate to verify
      * @return whether the tile of given position has collision.
@@ -50,13 +53,14 @@ public class Map {
      * Renders the map
      */
     public void renderObjects(Graphics g) {
-        if(exit != null) {
+        if (exit != null) {
             exit.render(g);
         }
     }
 
     /**
      * Renders only a layer of the map
+     *
      * @param layer the layer to be rendered.
      */
     public void render(int layer) {
@@ -65,6 +69,7 @@ public class Map {
 
     /**
      * Returns the index of the map corresponding to the floor
+     *
      * @return the index of the map corresponding to the floor
      */
     public int getIndex() {
@@ -73,9 +78,10 @@ public class Map {
 
     /**
      * Returns a pair of two random coordinates that are on a unoccupied floor tile
+     *
      * @return a pair of two random coordinates that are on a unoccupied floor tile
      */
-    public Pair<Integer, Integer> getRandomPos() {
+    public IntVector getRandomPos() {
         int x, y;
         do {
             x = rand.nextInt(map.getWidth());
@@ -83,11 +89,12 @@ public class Map {
         } while (map.getTileImage(x, y, 1) == null);
         x *= map.getTileWidth();
         y *= map.getTileHeight();
-        return new Pair<>(x, y);
+        return new IntVector(x, y);
     }
 
     /**
      * Return whether the coordinates given holds an exit.
+     *
      * @param x possibly the x coordinate of the exit
      * @param y possibly the y coordinate of the exit
      * @return whether the coordinates given holds an exit.
@@ -127,6 +134,7 @@ public class Map {
 
         /**
          * Draws the ladder on a given graphic context
+         *
          * @param g teh graphics in which the ladder has to be drawn
          */
         public void render(Graphics g) {

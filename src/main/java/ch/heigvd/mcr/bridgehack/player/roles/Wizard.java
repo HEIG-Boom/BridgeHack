@@ -7,4 +7,9 @@ public class Wizard extends Role {
     public Wizard() {
         super("wizzard_m");
     }
+
+    @Override
+    public String toString() {
+        return "Wizard";
+    }
 }
