@@ -18,8 +18,6 @@ import lombok.Setter;
  * Class representing a player
  */
 public class Player {
-    // Base path to image resources
-    static final private String IMG_BASE_PATH = "/src/main/resources/img/";
 
     @Getter
     @Setter
