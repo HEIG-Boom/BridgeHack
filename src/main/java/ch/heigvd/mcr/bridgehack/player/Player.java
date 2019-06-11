@@ -28,6 +28,7 @@ public class Player {
     private boolean moving = false;
     private int direction = 0;
     private Map map;
+    @Getter
     private LinkedList<Item> inventory;
     @Setter
     private Weapon weapon;
@@ -236,6 +237,29 @@ public class Player {
         inventory.remove(index);
     }
 
+    /**
+     * Equip a weapon
+     * @param index the index in the inventory
+     */
+    public void equip(int index) {
+        if (inventory.get(index) instanceof Weapon) {
+            Weapon tempWeapon = weapon;
+            weapon = (Weapon) inventory.get(index);
+            inventory.remove(weapon);
+            if (!(tempWeapon instanceof BareHanded)) {
+                inventory.add(tempWeapon);
+            }
+        }
+    }
+
+    /**
+     * Remove an item from the inventory
+     *
+     * @param index The index in the inventory
+     */
+    public void deleteItem(int index) {
+        inventory.remove(index);
+    }
     /**
      * Restores the player's health back to full
      */
