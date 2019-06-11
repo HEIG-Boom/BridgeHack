@@ -192,4 +192,13 @@ public class Player {
     public void restoreHealth() {
         playerState.restoreHealth();
     }
+
+    /**
+     * Add an item in the inventory
+     *
+     * @param item the item to add
+     */
+    public void giveItem(Item item) {
+        inventory.add(item);
+    }
 }
