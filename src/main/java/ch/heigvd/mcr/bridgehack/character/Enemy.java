@@ -105,7 +105,7 @@ public class Enemy extends Character {
 
             if (collision) {
                 moving = false;
-                //attack(direction);
+                attack(direction);
                 System.out.println("Enemy attacking");
                 return;
             }
