@@ -1,8 +1,6 @@
 package ch.heigvd.mcr.bridgehack.game;
 
-import ch.heigvd.mcr.bridgehack.game.state.LoreState;
-import ch.heigvd.mcr.bridgehack.game.state.GameState;
-import ch.heigvd.mcr.bridgehack.game.state.MenuState;
+import ch.heigvd.mcr.bridgehack.game.state.*;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -22,5 +20,7 @@ public class BridgeHack extends StateBasedGame {
         addState(new MenuState());
         addState(new LoreState());
         addState(new GameState());
+        addState(new WinState());
+        addState(new LoseState());
     }
 }
