@@ -16,7 +16,7 @@ import java.awt.Font;
 import java.util.LinkedList;
 
 /**
- * This class represents is a state of the game.
+ * This class represents a state of the game.
  * In this state, the player can explore the game.
  */
 public class GameState extends BasicGameState {

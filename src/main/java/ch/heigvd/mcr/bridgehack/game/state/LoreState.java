@@ -7,20 +7,20 @@ import org.newdawn.slick.state.StateBasedGame;
 
 /**
  * This class represents the second state of the game.
- * In this state, the history and the aim of the game are explain.
- * Finally, the player have to choose a race and a role.
+ * In this state, the history and the aim of the game are explained.
+ * Finally, the player has to choose a race and a role.
  */
 public class LoreState extends BasicGameState {
     public static final int ID = 2;
     private BridgeHack game;
 
     private final String title = "Welcome in BridgeHack";
-    private final String lore = "Your adventure just start here.\n" +
+    private final String lore = "Your adventure starts here.\n" +
             "Your destiny is to find the lost item somewhere in this dungeon.\n" +
-            "But your trip seems not to be easy... The item is on the third level\n" +
-            "of the dungeon. When you find it, you will be able to get out thanks a portal.\n" +
-            "Unfortunately, you will have to fight against many creatures.";
-    private final String choose = "Its time to make your choice. Please select a race and a roll";
+            "Unfortunately, it seems like your journey will not be easy... The item is on the third level\n" +
+            "of the dungeon. When you find it, you will be able to get out thanks to a portal.\n" +
+            "You will have to fight against many creatures.";
+    private final String choose = "It's time to make your choice. Please select a race and a role.";
 
 
     @Override

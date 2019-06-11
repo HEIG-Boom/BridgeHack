@@ -9,7 +9,7 @@ import org.newdawn.slick.*;
 import org.newdawn.slick.state.StateBasedGame;
 
 /**
- * This class is the starting point of the game. The class must have all his states set.
+ * This class is the starting point of the game. The class must have all its states set.
  */
 public class BridgeHack extends StateBasedGame {
     @Setter
@@ -18,7 +18,7 @@ public class BridgeHack extends StateBasedGame {
     private String username = "";
 
     /**
-     * Constructor that just name the game
+     * Constructor that just names the game
      */
     public BridgeHack() {
         super("BridgeHack");
