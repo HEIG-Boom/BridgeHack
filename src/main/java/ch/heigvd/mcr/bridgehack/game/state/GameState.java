@@ -32,7 +32,7 @@ public class GameState extends BasicGameState {
     private int turn = 0;
     private int counter = 0;
     private boolean drinking;
-    private boolean equiping;
+    private boolean equipping;
     private boolean deleting;
 
     @Override
@@ -106,9 +106,9 @@ public class GameState extends BasicGameState {
                 } catch (SlickException e) {
                     e.printStackTrace();
                 }
-            } else if (Character.isDigit(c) && equiping) {
+            } else if (Character.isDigit(c) && equipping) {
                 player.equip(Character.getNumericValue(c));
-                equiping = false;
+                equipping = false;
                 notification = "";
             } else if (Character.isDigit(c) && deleting) {
                 player.deleteItem(Character.getNumericValue(c));
@@ -163,7 +163,7 @@ public class GameState extends BasicGameState {
                 case Input.KEY_A: {
                     attacking = true;
                     drinking = false;
-                    equiping = false;
+                    equipping = false;
                     deleting = false;
                     notification = "Which direction ?";
                     return;
@@ -181,14 +181,14 @@ public class GameState extends BasicGameState {
                 case Input.KEY_Q: {
                     drinking = true;
                     attacking = false;
-                    equiping = false;
+                    equipping = false;
                     deleting = false;
                     notification = "Drink what ?";
                     break;
                 }
                 case Input.KEY_T: {
                     attacking = false;
-                    equiping = false;
+                    equipping = false;
                     drinking = false;
                     deleting = false;
                     Map.Chest chest = map.isChest(player.getX(), player.getY());
@@ -203,7 +203,7 @@ public class GameState extends BasicGameState {
                 }
                 case Input.KEY_E: {
                     notification = "Which weapon? ";
-                    equiping = true;
+                    equipping = true;
                     attacking = false;
                     drinking = false;
                     deleting = false;
@@ -211,7 +211,7 @@ public class GameState extends BasicGameState {
                 }
                 case Input.KEY_X: {
                     notification = "Which item? ";
-                    equiping = false;
+                    equipping = false;
                     attacking = false;
                     drinking = false;
                     deleting = true;

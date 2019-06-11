@@ -1,16 +1,16 @@
-package ch.heigvd.mcr.bridgehack.player.roles;
+package ch.heigvd.mcr.bridgehack.character.roles;
 
 import org.newdawn.slick.SlickException;
 
 /**
  * A special role designed for basic enemies in the game
  */
-public class Enemy extends Role {
+public class BadGuy extends Role {
     /**
      * Role constructor for the Hunter role
      */
-    public Enemy() throws SlickException {
-        super("big_zombie_m");
+    public BadGuy() throws SlickException {
+        super("knight_f");
     }
 
     @Override
