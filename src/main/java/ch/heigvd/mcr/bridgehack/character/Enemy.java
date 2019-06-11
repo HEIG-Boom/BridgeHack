@@ -3,7 +3,6 @@ package ch.heigvd.mcr.bridgehack.character;
 import ch.heigvd.mcr.bridgehack.character.races.Race;
 import ch.heigvd.mcr.bridgehack.game.Map;
 import ch.heigvd.mcr.bridgehack.utils.IntVector;
-import org.newdawn.slick.SlickException;
 
 import java.util.Random;
 
@@ -18,9 +17,8 @@ public class Enemy extends Character {
      *
      * @param race the initial race of the enemy
      * @param map  a reference to the map for collision detection
-     * @throws SlickException if a problem occurred building the animations
      */
-    public Enemy(Race race, Map map) throws SlickException {
+    public Enemy(Race race, Map map) {
         super(race, map);
         rand = new Random();
     }
@@ -59,6 +57,7 @@ public class Enemy extends Character {
         System.out.println("Distance X: " + distance.getX() / 16);
         System.out.println("Distance Y: " + distance.getY() / 16);
         System.out.println("----------------------");
+
         if (((distance.getX() / 16) + (distance.getY() / 16)) <= 3) {
             // Create a direction to approach the player
             if (distance.getY() >= distance.getX()) {
@@ -72,6 +71,7 @@ public class Enemy extends Character {
             // Create random direction
             direction = rand.nextInt(4);
         }
+
         System.out.println("Enemy direction : " + direction);
     }
 
@@ -84,7 +84,7 @@ public class Enemy extends Character {
             switch (direction) {
                 case 0:
                     futureY -= 1;
-                    collision = map.isCollisionWithPlayer(x, y - 1) || map.isCollision(x ,
+                    collision = map.isCollisionWithPlayer(x, y - 1) || map.isCollision(x,
                             y - 1);
                     break;
                 case 1:

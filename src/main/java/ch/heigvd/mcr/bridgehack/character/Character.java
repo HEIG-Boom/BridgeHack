@@ -42,7 +42,7 @@ public abstract class Character {
      * Constructor for the character.
      *
      * @param race the initial race of the character
-     * @param map a reference to the map for collision detection
+     * @param map  a reference to the map for collision detection
      */
     public Character(Race race, Map map) {
         this.race = race;
@@ -142,6 +142,7 @@ public abstract class Character {
                     enemyToAttack = checkForEnemy(new IntVector(x + (i * 16), y));
                     break;
             }
+
             if (enemyToAttack != null) {
                 enemyToAttack.receiveDamage(weapon.attack(playerState));
                 break;
@@ -185,18 +186,21 @@ public abstract class Character {
 
     /**
      * Setter for the race, takes statModifiers into account
+     *
      * @param race the new race
      */
     public void setRace(Race race) {
         if (this.race != null) {
             playerState.removeModifier(this.race.getStatModifier());
         }
+
         this.race = race;
         playerState.addModifier(this.race.getStatModifier());
     }
 
     /**
      * Changes the role of the character with statModifiers into account
+     *
      * @param role the new role
      */
     public void changeRole(Role role) {
@@ -208,6 +212,7 @@ public abstract class Character {
     /**
      * Renders various text informations about the character, such as
      * inventory and stats
+     *
      * @param ttf the context to draw in
      */
     public void renderText(TrueTypeFont ttf) {
@@ -222,6 +227,7 @@ public abstract class Character {
     /**
      * Tries to drink a potion at a given inventory slot. Return 0 if successful
      * and -1 otherwise
+     *
      * @param index the slot in the inventory to drink to potion
      * @return whether the character could successfully drink the potion
      * @throws SlickException
@@ -233,9 +239,11 @@ public abstract class Character {
                 inventory.remove(index);
                 return -1;
             }
+
             ((Potion) inventory.get(index)).drink(this);
             inventory.remove(index);
         }
+
         return 0;
     }
 
@@ -250,6 +258,7 @@ public abstract class Character {
                 Weapon tempWeapon = weapon;
                 weapon = (Weapon) inventory.get(index);
                 inventory.remove(weapon);
+
                 if (!(tempWeapon instanceof BareHanded)) {
                     inventory.add(tempWeapon);
                 }
