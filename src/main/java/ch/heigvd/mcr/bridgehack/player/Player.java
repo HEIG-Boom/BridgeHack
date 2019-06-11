@@ -2,6 +2,8 @@ package ch.heigvd.mcr.bridgehack.player;
 
 import ch.heigvd.mcr.bridgehack.Item.*;
 import ch.heigvd.mcr.bridgehack.Item.potion.*;
+import ch.heigvd.mcr.bridgehack.Item.weapon.BareHanded;
+import ch.heigvd.mcr.bridgehack.Item.weapon.Weapon;
 import ch.heigvd.mcr.bridgehack.game.Map;
 import ch.heigvd.mcr.bridgehack.player.races.Race;
 import ch.heigvd.mcr.bridgehack.player.roles.Role;
@@ -28,16 +30,18 @@ public class Player {
     private boolean moving = false;
     private int direction = 0;
     private Map map;
+    @Getter
     private LinkedList<Item> inventory;
+    @Setter
+    private Weapon weapon;
 
     private Race race;
 
     /**
      * Constructor for the players character.
      *
-     * @param role the initial role of the character
-     * @param map  a reference to the map for collision detection
-     * @throws SlickException if a problem occurred building the animations
+     * @param race the initial race of the character
+     * @param map a reference to the map for collision detection
      */
     public Player(Race race, Map map) {
         this.race = race;
@@ -48,6 +52,7 @@ public class Player {
         inventory = new LinkedList<>();
         inventory.add(new TransformPotion());
         inventory.add(new ManaPotion());
+        weapon = new BareHanded();
     }
 
     /**
@@ -139,8 +144,54 @@ public class Player {
      * @param direction the direction in which the player attacks
      */
     public void attack(int direction) {
-        //TO DO
-        System.out.println("I'm attacking on direction " + direction);
+        Enemy enemyToAttack = null;
+
+        for (int i = 1; i <= weapon.getRange(); ++i) {
+            switch (direction) {
+                case 0: // up
+                    if (map.isCollision(x, y + i)) {
+                        return;
+                    }
+                    enemyToAttack = checkForEnemy(new IntVector(x, y + i));
+                    break;
+                case 1: // left
+                    if (map.isCollision(x - i, y)) {
+                        return;
+                    }
+                    enemyToAttack = checkForEnemy(new IntVector(x - i, y));
+                    break;
+                case 2: // down
+                    if (map.isCollision(x, y - i)) {
+                        return;
+                    }
+                    enemyToAttack = checkForEnemy(new IntVector(x, y - i));
+                    break;
+                case 3: // right
+                    if (map.isCollision(x + i, y)) {
+                        return;
+                    }
+                    enemyToAttack = checkForEnemy(new IntVector(x + i, y));
+                    break;
+            }
+            if (enemyToAttack != null) {
+                enemyToAttack.receiveDamage(weapon.attack(playerState));
+                break;
+            }
+        }
+    }
+
+    /**
+     * Check if there is an enemy in a given position
+     * @param pos the position to test
+     * @return
+     */
+    private Enemy checkForEnemy(IntVector pos) {
+        for (Enemy enemy : map.getEnemies()) {
+            if (enemy.getPos().getX() == pos.getX() && enemy.getPos().getY() == pos.getY()) {
+                return enemy;
+            }
+        }
+        return null;
     }
 
     /**
@@ -189,9 +240,41 @@ public class Player {
     }
 
     /**
+     * Equip a weapon
+     * @param index the index in the inventory
+     */
+    public void equip(int index) {
+        if (inventory.get(index) instanceof Weapon) {
+            Weapon tempWeapon = weapon;
+            weapon = (Weapon) inventory.get(index);
+            inventory.remove(weapon);
+            if (!(tempWeapon instanceof BareHanded)) {
+                inventory.add(tempWeapon);
+            }
+        }
+    }
+
+    /**
+     * Remove an item from the inventory
+     *
+     * @param index The index in the inventory
+     */
+    public void deleteItem(int index) {
+        inventory.remove(index);
+    }
+    /**
      * Restores the player's health back to full
      */
     public void restoreHealth() {
         playerState.restoreHealth();
+    }
+
+    /**
+     * Add an item in the inventory
+     *
+     * @param item the item to add
+     */
+    public void giveItem(Item item) {
+        inventory.add(item);
     }
 }
