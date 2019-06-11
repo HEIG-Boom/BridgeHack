@@ -1,28 +1,32 @@
 package ch.heigvd.mcr.bridgehack.player;
 
 //import ch.heigvd.mcr.bridgehack.Item.Item;
+
 import ch.heigvd.mcr.bridgehack.game.Map;
 import ch.heigvd.mcr.bridgehack.player.races.Race;
+import ch.heigvd.mcr.bridgehack.utils.IntVector;
+import lombok.Getter;
 import lombok.Setter;
 import org.newdawn.slick.*;
-import javafx.util.Pair;
 
 /**
  * Class representing a player
  */
-public abstract class Player {
+public class Player {
     // Base path to image resources
     static final private String IMG_BASE_PATH = "/src/main/resources/img/";
 
     @Setter
     private String name;
     private State playerState;
+    @Getter
     private int x;
+    @Getter
     private int y;
     private boolean moving = false;
     private int direction = 0;
     private Map map;
-//    private LinkedList<Item> inventory;
+    //    private LinkedList<Item> inventory;
     private Animation idleAnimation = new Animation();
     private Animation runAnimation = new Animation();
 
@@ -32,7 +36,7 @@ public abstract class Player {
      * Constructor for the players character.
      *
      * @param race the initial race of the character
-     * @param map a reference to the map for collision detection
+     * @param map  a reference to the map for collision detection
      * @throws SlickException if a problem occurred building the animations
      */
     public Player(Race race, Map map) throws SlickException {
@@ -45,7 +49,7 @@ public abstract class Player {
 //        inventory = new LinkedList<>();
         playerState = new State();
 
-        for (int i = 0; i < 4; ++i ) {
+        for (int i = 0; i < 4; ++i) {
             idleAnimation.addFrame(new Image(imageBasePath + "_idle_anim_f" + i + ".png"), 100);
             runAnimation.addFrame(new Image(imageBasePath + "_run_anim_f" + i + ".png"), 100);
         }
@@ -55,10 +59,11 @@ public abstract class Player {
      * Helper function to generate random coordinates for the player
      */
     private void setRandomPos() {
-        Pair<Integer, Integer> pos = map.getRandomPos();
-        x = pos.getKey();
-        y = pos.getValue();
+        IntVector pos = map.getRandomPos();
+        x = pos.getX();
+        y = pos.getY();
     }
+
     /**
      * Sets the player in motion to a certain direction
      *
@@ -89,21 +94,33 @@ public abstract class Player {
             boolean collision = false;
 
             switch (direction) {
-                case 0: futureY -= 1; collision = map.isCollision(x, y - 1); break;
-                case 1: futureX -= 1; collision = map.isCollision(x - 1, y); break;
-                case 2: futureY += 1; collision = map.isCollision(x, y + 16); break;
-                case 3: futureX += 1; collision = map.isCollision(x + 16, y); break;
+                case 0:
+                    futureY -= 1;
+                    collision = map.isCollision(x, y - 1);
+                    break;
+                case 1:
+                    futureX -= 1;
+                    collision = map.isCollision(x - 1, y);
+                    break;
+                case 2:
+                    futureY += 1;
+                    collision = map.isCollision(x, y + 16);
+                    break;
+                case 3:
+                    futureX += 1;
+                    collision = map.isCollision(x + 16, y);
+                    break;
             }
 
             if (collision) {
-                moving =false;
+                moving = false;
                 return;
             }
 
             x = futureX;
             y = futureY;
 
-            if((x % 16) == 8 && (y % 16) == 8) {
+            if ((x % 16) == 8 && (y % 16) == 8) {
                 moving = false;
             }
         }
@@ -118,7 +135,7 @@ public abstract class Player {
         g.setColor(new Color(0, 0, 0, .5f));
         g.fillOval(x, y + 8, 16, 8);
 
-        if(moving) {
+        if (moving) {
             g.drawAnimation(runAnimation, x, y - 16);
         } else {
             g.drawAnimation(idleAnimation, x, y - 16);
@@ -127,6 +144,7 @@ public abstract class Player {
 
     /**
      * Attack in a certain direction
+     *
      * @param direction the direction in which the player attacks
      */
     public void attack(int direction) {
@@ -136,6 +154,7 @@ public abstract class Player {
 
     /**
      * Returns a resume of the player status
+     *
      * @return a resume of the player status
      */
     public String getStatus() {
@@ -144,6 +163,7 @@ public abstract class Player {
 
     /**
      * Changes the map of the player, necessary when a ladder is taken
+     *
      * @param map the new map
      */
     public void setMap(Map map) {
@@ -152,23 +172,8 @@ public abstract class Player {
     }
 
     /**
-     * Getter for the x coordinate
-     * @return the x coordinate
-     */
-    public int getX() {
-        return x;
-    }
-
-    /**
-     * Getter for the y coordinate
-     * @return the y coordinate
-     */
-    public int getY() {
-        return y;
-    }
-
-    /**
      * Resotres a certain amount of mana to the player
+     *
      * @param mana amount of mana to restore
      */
     public void restoreMana(int mana) {
