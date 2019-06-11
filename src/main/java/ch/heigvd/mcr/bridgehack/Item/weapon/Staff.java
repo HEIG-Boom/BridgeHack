@@ -1,6 +1,6 @@
 package ch.heigvd.mcr.bridgehack.Item.weapon;
 
-import ch.heigvd.mcr.bridgehack.player.State;
+import ch.heigvd.mcr.bridgehack.character.State;
 
 public class Staff extends Weapon {
     private int quality;

@@ -1,4 +1,4 @@
-package ch.heigvd.mcr.bridgehack.player.roles;
+package ch.heigvd.mcr.bridgehack.character.roles;
 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Graphics;
