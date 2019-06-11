@@ -1,6 +1,7 @@
 package ch.heigvd.mcr.bridgehack.game;
 
 import ch.heigvd.mcr.bridgehack.Item.weapon.Weapon;
+import ch.heigvd.mcr.bridgehack.character.Character;
 import ch.heigvd.mcr.bridgehack.character.Enemy;
 import ch.heigvd.mcr.bridgehack.character.Player;
 import ch.heigvd.mcr.bridgehack.character.races.Human;
@@ -243,6 +244,15 @@ public class Map {
      */
     public void deleteGoldenSword() {
         goldenSword = null;
+    }
+
+    /**
+     * Kill a character on the map
+     *
+     * @param character the character to kill
+     */
+    public void killCharacter(Character character) {
+        enemies.remove(character);
     }
 
     /**
