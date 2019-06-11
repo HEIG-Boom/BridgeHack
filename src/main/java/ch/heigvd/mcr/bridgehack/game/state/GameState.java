@@ -1,10 +1,9 @@
 package ch.heigvd.mcr.bridgehack.game.state;
 
 import ch.heigvd.mcr.bridgehack.game.Map;
+import lombok.Getter;
 import ch.heigvd.mcr.bridgehack.character.Enemy;
 import ch.heigvd.mcr.bridgehack.character.Player;
-import ch.heigvd.mcr.bridgehack.character.races.Human;
-import ch.heigvd.mcr.bridgehack.character.roles.Knight;
 import org.newdawn.slick.*;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.BasicGameState;
@@ -22,6 +21,8 @@ public class GameState extends BasicGameState {
 
     private LinkedList<Map> maps;
     private Map map;
+
+    @Getter
     private Player player;
 
     private String notification = "";
@@ -41,8 +42,7 @@ public class GameState extends BasicGameState {
         maps.add(new Map(2, false));
         maps.add(new Map(3, true));
         map = maps.get(0);
-
-        player = new Player(new Human(new Knight()), map);
+        player = new Player(map);
 
         // Set the player to the map
         map.setPlayer(player);

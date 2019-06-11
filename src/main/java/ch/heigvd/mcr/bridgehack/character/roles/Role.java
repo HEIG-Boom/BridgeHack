@@ -12,23 +12,27 @@ public abstract class Role {
     // Base path to image resources
     static final private String IMG_BASE_PATH = "/src/main/resources/img/";
 
-    private static Animation idleAnimation;
-    private static Animation runAnimation;
+    private Animation idleAnimation;
+    private Animation runAnimation;
 
     /**
      * Role constructor
      *
      * @param baseImgName The base image name for this role
      */
-    public Role(String baseImgName) throws SlickException {
+    public Role(String baseImgName) {
         String imageBasePath = IMG_BASE_PATH + baseImgName;
 
         idleAnimation = new Animation();
         runAnimation = new Animation();
 
-        for (int i = 0; i < 4; ++i) {
-            idleAnimation.addFrame(new Image(imageBasePath + "_idle_anim_f" + i + ".png"), 100);
-            runAnimation.addFrame(new Image(imageBasePath + "_run_anim_f" + i + ".png"), 100);
+        try {
+            for (int i = 0; i < 4; ++i) {
+                idleAnimation.addFrame(new Image(imageBasePath + "_idle_anim_f" + i + ".png"), 100);
+                runAnimation.addFrame(new Image(imageBasePath + "_run_anim_f" + i + ".png"), 100);
+            }
+        } catch (SlickException e) {
+            e.printStackTrace();
         }
     }
 

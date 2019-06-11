@@ -48,7 +48,7 @@ public class MenuState extends BasicGameState {
             case Input.KEY_ENTER:
                 // go to the next state
                 if (!username.equals("")) {
-                    game.setUsername(username);
+                    ((GameState) game.getState(GameState.ID)).getPlayer().setName(username);
                     game.enterState(LoreState.ID);
                 }
                 break;
