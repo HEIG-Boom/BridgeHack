@@ -32,6 +32,7 @@ public class Player {
     private Map map;
     private LinkedList<Item> inventory;
 
+    @Setter
     private Race race;
 
     /**
@@ -40,8 +41,7 @@ public class Player {
      * @param map a reference to the map for collision detection
      * @throws SlickException if a problem occurred building the animations
      */
-    public Player(Race race, Map map) {
-        this.race = race;
+    public Player(Map map) {
         this.map = map;
         setRandomPos();
 
@@ -150,7 +150,7 @@ public class Player {
      * @return a resume of the player status
      */
     public String getStatus() {
-        return name + " the " + race.getRole() + " " + playerState.toString();
+        return name + " the " + race + " " + race.getRole() + " " + playerState.toString();
     }
 
     /**

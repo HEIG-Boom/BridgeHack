@@ -2,13 +2,7 @@ package ch.heigvd.mcr.bridgehack.game.state;
 
 import ch.heigvd.mcr.bridgehack.game.Map;
 import ch.heigvd.mcr.bridgehack.player.Player;
-import ch.heigvd.mcr.bridgehack.player.races.Dwarf;
-import ch.heigvd.mcr.bridgehack.player.races.Human;
-import ch.heigvd.mcr.bridgehack.player.roles.Hunter;
-import ch.heigvd.mcr.bridgehack.player.roles.Knight;
-import ch.heigvd.mcr.bridgehack.player.roles.Wizard;
 import lombok.Getter;
-import lombok.Setter;
 import org.newdawn.slick.*;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.BasicGameState;

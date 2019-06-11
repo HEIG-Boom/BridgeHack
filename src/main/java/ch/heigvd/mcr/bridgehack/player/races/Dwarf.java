@@ -14,4 +14,9 @@ public class Dwarf extends Race {
     public Dwarf(Role role) {
         super(role);
     }
+
+    @Override
+    public String toString() {
+        return "Dwarf";
+    }
 }

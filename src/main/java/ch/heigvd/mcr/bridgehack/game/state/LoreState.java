@@ -24,16 +24,13 @@ public class LoreState extends BasicGameState {
 
     private final String title = "Welcome in BridgeHack";
     private final String lore = "Your adventure starts here.\n" +
-            "Your destiny is to find the lost item somewhere in this dungeon.\n" +
-            "Unfortunately, it seems like your journey will not be easy... The item is on the third level\n" +
-            "of the dungeon. When you find it, you will be able to get out thanks to a portal.\n" +
+            "Your destiny is to find the lost golden sword of Tatallias the Great.\n" +
+            "Unfortunately, it seems like your journey will not be easy... The sword is on the third level\n" +
+            "of the dungeon. When you find it, you will be able to get out thanks to a portal created by the sword.\n" +
             "You will have to fight against many creatures.";
-    private final String choose = "It's time to make your choice. Please select a race and a role.";
+    private final String choose = "It's time to make your choice. Please create your character.";
 
-    // Used to set the size of the checkBox and the position
-    private final int checkBoxSize = 32;
-    private final int initialX = 20;
-    private final int initialY = 300;
+    private final String separator = "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~";
     private LinkedList<CheckBox> races = new LinkedList<>();
     private LinkedList<CheckBox> roles = new LinkedList<>();
     private Image cross;
@@ -44,6 +41,9 @@ public class LoreState extends BasicGameState {
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
         game = (BridgeHack) stateBasedGame;
         int boxCount = 0;
+        int checkBoxSize = 32;
+        final int initialX = 20;
+        final int initialY = 300;
         for (RaceType raceType : RaceType.values()) {
             int y = initialY + 50 * boxCount++;
             races.add(new CheckBox(checkBoxSize, initialX, y, raceType));
@@ -61,18 +61,22 @@ public class LoreState extends BasicGameState {
         String playerName = ((GameState) game.getState(GameState.ID)).getPlayer().getName();
         graphics.drawString( playerName + "!", 200, 50);
         graphics.drawString(lore, 0, 80);
-        graphics.drawString(choose, 0, 250);
+        graphics.drawString(choose, 0, 200);
+
+        graphics.drawString(separator + " Races " + separator, 0, 270);
 
         for (CheckBox checkBox : races) {
             checkBox.draw(graphics);
         }
         graphics.drawImage(cross, races.get(selectedRace).getBox().getX(), races.get(selectedRace).getBox().getY());
 
+        graphics.drawString(separator + " Roles " + separator, 0, 470);
+
         for (CheckBox checkBox : roles) {
             checkBox.draw(graphics);
         }
         graphics.drawImage(cross, roles.get(selectedRole).getBox().getX(), roles.get(selectedRole).getBox().getY());
-
+        graphics.drawString("Press enter to start your adventure", 350, 670);
     }
 
     @Override
@@ -103,7 +107,10 @@ public class LoreState extends BasicGameState {
         if (key == Input.KEY_ENTER) {
             Role role = ((RoleType) roles.get(selectedRole).getType()).getRole();
             Race race = ((RaceType) races.get(selectedRace).getType()).getRace();
-
+            race.setRole(role);
+            System.out.println(race.getClass());
+            System.out.println(role.getClass());
+            ((GameState) game.getState(GameState.ID)).getPlayer().setRace(race);
             System.out.println("salut");
             game.enterState(GameState.ID);
         }
