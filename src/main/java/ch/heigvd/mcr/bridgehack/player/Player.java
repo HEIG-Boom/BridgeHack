@@ -8,7 +8,9 @@ import ch.heigvd.mcr.bridgehack.player.roles.Role;
 import ch.heigvd.mcr.bridgehack.utils.IntVector;
 
 import org.newdawn.slick.*;
+
 import java.util.LinkedList;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -34,7 +36,7 @@ public class Player {
      * Constructor for the players character.
      *
      * @param role the initial role of the character
-     * @param map a reference to the map for collision detection
+     * @param map  a reference to the map for collision detection
      * @throws SlickException if a problem occurred building the animations
      */
     public Player(Race race, Map map) {
@@ -173,7 +175,7 @@ public class Player {
 
     public void renderText(TrueTypeFont ttf) {
         // Display the inventory
-        for(int i = 0; i < inventory.size(); ++i) {
+        for (int i = 0; i < inventory.size(); ++i) {
             ttf.drawString(1000, 50 + 20 * i, i + " - " + inventory.get(i));
         }
 
