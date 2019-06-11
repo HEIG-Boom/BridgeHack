@@ -1,10 +1,10 @@
 package ch.heigvd.mcr.bridgehack.game.state;
 
+import ch.heigvd.mcr.bridgehack.character.races.Race;
+import ch.heigvd.mcr.bridgehack.character.roles.Role;
 import ch.heigvd.mcr.bridgehack.game.BridgeHack;
-import ch.heigvd.mcr.bridgehack.player.races.Race;
-import ch.heigvd.mcr.bridgehack.player.races.RaceType;
-import ch.heigvd.mcr.bridgehack.player.roles.Role;
-import ch.heigvd.mcr.bridgehack.player.roles.RoleType;
+import ch.heigvd.mcr.bridgehack.character.races.RaceType;
+import ch.heigvd.mcr.bridgehack.character.roles.RoleType;
 import ch.heigvd.mcr.bridgehack.utils.CheckBox;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;

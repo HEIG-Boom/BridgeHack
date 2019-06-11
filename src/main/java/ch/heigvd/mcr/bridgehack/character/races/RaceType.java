@@ -1,4 +1,4 @@
-package ch.heigvd.mcr.bridgehack.player.races;
+package ch.heigvd.mcr.bridgehack.character.races;
 
 import lombok.Getter;
 

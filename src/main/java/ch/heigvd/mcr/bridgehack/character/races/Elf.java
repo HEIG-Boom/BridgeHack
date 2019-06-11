@@ -1,6 +1,6 @@
-package ch.heigvd.mcr.bridgehack.player.races;
+package ch.heigvd.mcr.bridgehack.character.races;
 
-import ch.heigvd.mcr.bridgehack.player.roles.Role;
+import ch.heigvd.mcr.bridgehack.character.roles.Role;
 
 /**
  * Race specialization: Elf

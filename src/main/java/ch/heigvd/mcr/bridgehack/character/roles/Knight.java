@@ -1,4 +1,4 @@
-package ch.heigvd.mcr.bridgehack.player.roles;
+package ch.heigvd.mcr.bridgehack.character.roles;
 
 public class Knight extends Role {
 

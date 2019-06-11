@@ -1,13 +1,13 @@
 package ch.heigvd.mcr.bridgehack.Item.potion;
 
-import ch.heigvd.mcr.bridgehack.player.Player;
+import ch.heigvd.mcr.bridgehack.character.Character;
 
 public class HealthPotion extends Potion {
     public HealthPotion() {
     }
 
     @Override
-    public void drink(Player p) {
+    public void drink(Character p) {
         p.restoreHealth();
     }
 
