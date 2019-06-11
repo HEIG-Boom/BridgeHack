@@ -105,7 +105,11 @@ public class GameState extends BasicGameState {
     public void keyPressed(int key, char c) {
         if (turnIsOver) {
             if (Character.isDigit(c) && drinking) {
-                player.drink(Character.getNumericValue(c));
+                try {
+                    player.drink(Character.getNumericValue(c));
+                } catch (SlickException e) {
+                    e.printStackTrace();
+                }
             }
             switch (key) {
                 case Input.KEY_UP: {

@@ -103,7 +103,7 @@ public class LoreState extends BasicGameState {
         if (key == Input.KEY_ENTER) {
             Role role = ((RoleType) roles.get(selectedRole).getType()).getRole();
             Race race = ((RaceType) races.get(selectedRace).getType()).getRace();
-            
+
             System.out.println("salut");
             game.enterState(GameState.ID);
         }
