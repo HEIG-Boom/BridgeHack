@@ -1,6 +1,12 @@
 package ch.heigvd.mcr.bridgehack.game;
 
-import ch.heigvd.mcr.bridgehack.player.Enemy;
+import ch.heigvd.mcr.bridgehack.character.Enemy;
+import ch.heigvd.mcr.bridgehack.character.Player;
+import ch.heigvd.mcr.bridgehack.character.races.Human;
+import ch.heigvd.mcr.bridgehack.character.roles.Wizard;
+import ch.heigvd.mcr.bridgehack.utils.IntVector;
+import lombok.Getter;
+import lombok.Setter;
 import ch.heigvd.mcr.bridgehack.Item.Item;
 import ch.heigvd.mcr.bridgehack.Item.potion.HealthPotion;
 import ch.heigvd.mcr.bridgehack.Item.potion.ManaPotion;
@@ -8,8 +14,6 @@ import ch.heigvd.mcr.bridgehack.Item.potion.TransformPotion;
 import ch.heigvd.mcr.bridgehack.Item.weapon.Bow;
 import ch.heigvd.mcr.bridgehack.Item.weapon.Staff;
 import ch.heigvd.mcr.bridgehack.Item.weapon.Sword;
-import ch.heigvd.mcr.bridgehack.utils.IntVector;
-import lombok.Getter;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -22,13 +26,17 @@ import java.util.Random;
  * This class represents the map of the game.
  */
 public class Map {
+    private static final int NUMBER_OF_ENEMIES = 5;
     private TiledMap map;
     private Exit exit;
     private Random rand;
     private int index;
-    private LinkedList<Enemy> enemies = new LinkedList<>();
+    @Getter
+    @Setter
+    private Player player;
+    @Getter
+    private LinkedList<Enemy> enemies = new LinkedList<>(); // list of enemies on the map
     private LinkedList<Chest> chests = new LinkedList<>();
-
 
     /**
      * General constructor for a basic map
@@ -44,6 +52,10 @@ public class Map {
         } catch (SlickException e) {
             e.printStackTrace();
         }
+
+        // Generate enemies on the map
+        generateEnemies();
+
         if (!isLast) {
             exit = new Exit();
         }
@@ -63,6 +75,35 @@ public class Map {
     public boolean isCollision(int x, int y) {
         Image tile = map.getTileImage(x / map.getTileWidth(), y / map.getTileHeight(), 0);
         return tile != null;
+    }
+
+    /**
+     * Returns whether the tile of given position has collision with enemies.
+     * (tldr. if the collision layer has a tile at those coordinates)
+     *
+     * @param x the x coordinate to verify
+     * @param y the y coordinate to verify
+     * @return whether the tile of given position has collision.
+     */
+    public boolean isCollisionWithEnemies(int x, int y) {
+        for (Enemy enemy : enemies) {
+            if (x == enemy.getX() && y == enemy.getY()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Returns whether the tile of given position has collision with player.
+     * (tldr. if the collision layer has a tile at those coordinates)
+     *
+     * @param x the x coordinate to verify
+     * @param y the y coordinate to verify
+     * @return whether the tile of given position has collision.
+     */
+    public boolean isCollisionWithPlayer(int x, int y) {
+        return x == player.getX() && y == player.getY();
     }
 
     /**
@@ -181,9 +222,18 @@ public class Map {
         }
     }
 
-
-    public LinkedList<Enemy> getEnemies() {
-        return enemies;
+    /**
+     * Generates enemies on the map
+     */
+    void generateEnemies() {
+        try {
+            for (int i = 4; i < NUMBER_OF_ENEMIES; ++i) {
+                // TODO Replace human by undead
+                enemies.add(new Enemy(new Human(new Wizard()), this));
+            }
+        } catch (SlickException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

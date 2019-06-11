@@ -1,4 +1,4 @@
-package ch.heigvd.mcr.bridgehack.player;
+package ch.heigvd.mcr.bridgehack.character;
 
 import lombok.Getter;
 
