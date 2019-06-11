@@ -10,7 +10,9 @@ import ch.heigvd.mcr.bridgehack.character.races.Race;
 import ch.heigvd.mcr.bridgehack.utils.IntVector;
 
 import org.newdawn.slick.*;
+
 import java.util.LinkedList;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -41,6 +43,7 @@ public abstract class Character {
     /**
      * Constructor for the character.
      *
+     * @param race the initial race of the character
      * @param map a reference to the map for collision detection
      */
     public Character(Race race, Map map) {
@@ -172,7 +175,7 @@ public abstract class Character {
 
     public void renderText(TrueTypeFont ttf) {
         // Display the inventory
-        for(int i = 0; i < inventory.size(); ++i) {
+        for (int i = 0; i < inventory.size(); ++i) {
             ttf.drawString(1000, 50 + 20 * i, i + " - " + inventory.get(i));
         }
 

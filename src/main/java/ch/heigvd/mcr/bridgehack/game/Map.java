@@ -4,6 +4,8 @@ import ch.heigvd.mcr.bridgehack.Item.weapon.Weapon;
 import ch.heigvd.mcr.bridgehack.character.Enemy;
 import ch.heigvd.mcr.bridgehack.character.Player;
 import ch.heigvd.mcr.bridgehack.character.races.Human;
+import ch.heigvd.mcr.bridgehack.character.races.Undead;
+import ch.heigvd.mcr.bridgehack.character.roles.BadGuy;
 import ch.heigvd.mcr.bridgehack.character.roles.Wizard;
 import ch.heigvd.mcr.bridgehack.utils.IntVector;
 import lombok.Getter;
@@ -262,7 +264,7 @@ public class Map {
         try {
             for (int i = 4; i < NUMBER_OF_ENEMIES; ++i) {
                 // TODO Replace human by undead
-                enemies.add(new Enemy(new Human(new Wizard()), this));
+                enemies.add(new Enemy(new Undead(new BadGuy()), this));
             }
         } catch (SlickException e) {
             e.printStackTrace();
