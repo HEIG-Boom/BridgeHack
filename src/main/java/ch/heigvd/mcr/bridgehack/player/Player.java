@@ -1,28 +1,29 @@
 package ch.heigvd.mcr.bridgehack.player;
 
 import ch.heigvd.mcr.bridgehack.Item.*;
-import ch.heigvd.mcr.bridgehack.Item.potion.ManaPotion;
-import ch.heigvd.mcr.bridgehack.Item.potion.Potion;
-import ch.heigvd.mcr.bridgehack.Item.potion.TransformPotion;
+import ch.heigvd.mcr.bridgehack.Item.potion.*;
 import ch.heigvd.mcr.bridgehack.game.Map;
 import ch.heigvd.mcr.bridgehack.player.roles.Role;
-import javafx.util.Pair;
-import lombok.Setter;
-import org.newdawn.slick.*;
+import ch.heigvd.mcr.bridgehack.utils.IntVector;
 
+import org.newdawn.slick.*;
 import java.util.LinkedList;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Class representing a player
  */
-public abstract class Player {
+public class Player {
     // Base path to image resources
     static final private String IMG_BASE_PATH = "/src/main/resources/img/";
 
     @Setter
     private String name;
     private State playerState;
+    @Getter
     private int x;
+    @Getter
     private int y;
     private boolean moving = false;
     private int direction = 0;
@@ -52,7 +53,7 @@ public abstract class Player {
         inventory.add(new ManaPotion());
         playerState = new State();
 
-        for (int i = 0; i < 4; ++i ) {
+        for (int i = 0; i < 4; ++i) {
             idleAnimation.addFrame(new Image(imageBasePath + "_idle_anim_f" + i + ".png"), 100);
             runAnimation.addFrame(new Image(imageBasePath + "_run_anim_f" + i + ".png"), 100);
         }
@@ -62,10 +63,11 @@ public abstract class Player {
      * Helper function to generate random coordinates for the player
      */
     private void setRandomPos() {
-        Pair<Integer, Integer> pos = map.getRandomPos();
-        x = pos.getKey();
-        y = pos.getValue();
+        IntVector pos = map.getRandomPos();
+        x = pos.getX();
+        y = pos.getY();
     }
+
     /**
      * Sets the player in motion to a certain direction
      *
@@ -96,21 +98,33 @@ public abstract class Player {
             boolean collision = false;
 
             switch (direction) {
-                case 0: futureY -= 1; collision = map.isCollision(x, y - 1); break;
-                case 1: futureX -= 1; collision = map.isCollision(x - 1, y); break;
-                case 2: futureY += 1; collision = map.isCollision(x, y + 16); break;
-                case 3: futureX += 1; collision = map.isCollision(x + 16, y); break;
+                case 0:
+                    futureY -= 1;
+                    collision = map.isCollision(x, y - 1);
+                    break;
+                case 1:
+                    futureX -= 1;
+                    collision = map.isCollision(x - 1, y);
+                    break;
+                case 2:
+                    futureY += 1;
+                    collision = map.isCollision(x, y + 16);
+                    break;
+                case 3:
+                    futureX += 1;
+                    collision = map.isCollision(x + 16, y);
+                    break;
             }
 
             if (collision) {
-                moving =false;
+                moving = false;
                 return;
             }
 
             x = futureX;
             y = futureY;
 
-            if((x % 16) == 8 && (y % 16) == 8) {
+            if ((x % 16) == 8 && (y % 16) == 8) {
                 moving = false;
             }
         }
@@ -125,7 +139,7 @@ public abstract class Player {
         g.setColor(new Color(0, 0, 0, .5f));
         g.fillOval(x, y + 8, 16, 8);
 
-        if(moving) {
+        if (moving) {
             g.drawAnimation(runAnimation, x, y - 16);
         } else {
             g.drawAnimation(idleAnimation, x, y - 16);
@@ -134,6 +148,7 @@ public abstract class Player {
 
     /**
      * Attack in a certain direction
+     *
      * @param direction the direction in which the player attacks
      */
     public void attack(int direction) {
@@ -143,6 +158,7 @@ public abstract class Player {
 
     /**
      * Returns a resume of the player status
+     *
      * @return a resume of the player status
      */
     public String getStatus() {
@@ -151,27 +167,12 @@ public abstract class Player {
 
     /**
      * Changes the map of the player, necessary when a ladder is taken
+     *
      * @param map the new map
      */
     public void setMap(Map map) {
         this.map = map;
         setRandomPos();
-    }
-
-    /**
-     * Getter for the x coordinate
-     * @return the x coordinate
-     */
-    public int getX() {
-        return x;
-    }
-
-    /**
-     * Getter for the y coordinate
-     * @return the y coordinate
-     */
-    public int getY() {
-        return y;
     }
 
     /**
