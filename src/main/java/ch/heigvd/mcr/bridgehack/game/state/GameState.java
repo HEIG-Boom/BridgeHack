@@ -34,6 +34,7 @@ public class GameState extends BasicGameState {
     private boolean turnIsOver = false;
     private int turn = 0;
     private int counter = 0;
+    private boolean drinking;
 
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
@@ -42,7 +43,7 @@ public class GameState extends BasicGameState {
         maps.add(new Map(2, false));
         maps.add(new Map(3, true));
         map = maps.get(0);
-        player = new Player(new Human(new Knight()), map);
+        player = new Player(new Knight(), map);
         // Temporary
 //        enemies.add(new Dwarf(new Wizard(), map));
 //        enemies.add(new Human(new Hunter(), map));
@@ -54,8 +55,9 @@ public class GameState extends BasicGameState {
     @Override
     public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
         graphics.setColor(Color.white);
-        ttf.drawString(400, 660, Integer.toString(turn));
-        ttf.drawString(0, 660, player.getStatus());
+        ttf.drawString(500, 660, Integer.toString(turn));
+
+        player.renderText(ttf);
 
         if (!notification.equals("")) {
             ttf.drawString(550, 660, notification);
@@ -97,6 +99,9 @@ public class GameState extends BasicGameState {
     @Override
     public void keyPressed(int key, char c) {
         if (turnIsOver) {
+            if (Character.isDigit(c) && drinking) {
+                player.drink(Character.getNumericValue(c));
+            }
             switch (key) {
                 case Input.KEY_UP: {
                     if (attacking) {
@@ -144,6 +149,7 @@ public class GameState extends BasicGameState {
                 }
                 case Input.KEY_A: {
                     attacking = true;
+                    drinking = false;
                     notification = "Which direction ?";
                     return;
                 }
@@ -154,6 +160,12 @@ public class GameState extends BasicGameState {
                     } else {
                         notification = "No stairs here";
                     }
+                    break;
+                }
+                case Input.KEY_Q: {
+                    drinking = true;
+                    attacking = false;
+                    notification = "Drink what ?";
                     break;
                 }
             }
