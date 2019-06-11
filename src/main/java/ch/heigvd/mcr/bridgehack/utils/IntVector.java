@@ -1,14 +1,17 @@
 package ch.heigvd.mcr.bridgehack.utils;
 
 import lombok.Getter;
+import lombok.Setter;
 
 /**
  * A simple vector class for pairs of integers
  */
 public class IntVector {
     @Getter
+    @Setter
     private int x;
     @Getter
+    @Setter
     private int y;
 
     /**

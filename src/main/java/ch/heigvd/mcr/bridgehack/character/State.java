@@ -1,18 +1,23 @@
 package ch.heigvd.mcr.bridgehack.character;
 
+import lombok.Getter;
+
 /**
  * A State serves to represent a player's state at a given time of the game
  */
+@Getter
 public class State {
+    @Getter
     private int strength;
+    @Getter
     private int dexterity;
+    @Getter
     private int intelligence;
     private int constitution;
     private int health;
     private int maxHealth;
     private int mana;
     private int maxMana;
-
 
     public State(int strength, int dexterity, int intelligence, int constitution, int health, int mana) {
         this.strength = strength;
@@ -39,11 +44,15 @@ public class State {
     }
 
     /**
-     * Restores a given amount of mana to the status.
-     * Cannot exceed the maximum amount of mana the state holds
-     * @param mana amount of mana to restore
+     * Restores the mana back to full
      */
-    public void restoreMana(int mana) {
-        this.mana = (this.mana + mana) < maxMana ? this.mana + mana : maxMana;
+    public void restoreMana() {
+        this.mana = maxMana;
+    }
+
+    /**
+     * Restores the health back to full
+     */
+    public void restoreHealth() {
     }
 }

@@ -118,4 +118,8 @@ public class Enemy extends Character {
             }
         }
     }
+
+    public void receiveDamage(int damage) {
+        // TODO
+    }
 }

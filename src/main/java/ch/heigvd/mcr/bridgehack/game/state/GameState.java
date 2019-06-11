@@ -30,12 +30,16 @@ public class GameState extends BasicGameState {
     private boolean turnIsOver = false;
     private int turn = 0;
     private int counter = 0;
+    private boolean drinking;
+    private boolean equiping;
+    private boolean deleting;
 
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
         maps = new LinkedList<>();
         maps.add(new Map(1, false));
-        maps.add(new Map(2, true));
+        maps.add(new Map(2, false));
+        maps.add(new Map(3, true));
         map = maps.get(0);
 
         player = new Player(new Human(new Knight()), map);
@@ -50,8 +54,9 @@ public class GameState extends BasicGameState {
     @Override
     public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
         graphics.setColor(Color.white);
-        ttf.drawString(400, 660, Integer.toString(turn));
-        ttf.drawString(0, 660, player.getStatus());
+        ttf.drawString(500, 660, Integer.toString(turn));
+
+        player.renderText(ttf);
 
         if (!notification.equals("")) {
             ttf.drawString(550, 660, notification);
@@ -92,6 +97,19 @@ public class GameState extends BasicGameState {
     @Override
     public void keyPressed(int key, char c) {
         if (turnIsOver) {
+            if (Character.isDigit(c) && drinking) {
+                try {
+                    player.drink(Character.getNumericValue(c));
+                } catch (SlickException e) {
+                    e.printStackTrace();
+                }
+            } else if (Character.isDigit(c) && equiping) {
+                player.equip(Character.getNumericValue(c));
+                notification = "";
+            } else if (Character.isDigit(c) && deleting) {
+                player.deleteItem(Character.getNumericValue(c));
+                notification = "";
+            }
             switch (key) {
                 case Input.KEY_UP: {
                     if (attacking) {
@@ -139,6 +157,9 @@ public class GameState extends BasicGameState {
                 }
                 case Input.KEY_A: {
                     attacking = true;
+                    drinking = false;
+                    equiping = false;
+                    deleting = false;
                     notification = "Which direction ?";
                     return;
                 }
@@ -150,6 +171,42 @@ public class GameState extends BasicGameState {
                     } else {
                         notification = "No stairs here";
                     }
+                    break;
+                }
+                case Input.KEY_Q: {
+                    drinking = true;
+                    attacking = false;
+                    equiping = false;
+                    deleting = false;
+                    notification = "Drink what ?";
+                    break;
+                }
+                case Input.KEY_T: {
+                    attacking = false;
+                    equiping = false;
+                    drinking = false;
+                    deleting = false;
+                    Map.Chest chest = map.isChest(player.getX(), player.getY());
+                    if(chest != null && player.getInventory().size() < 10) {
+                        player.giveItem(chest.getItem());
+                        map.deleteChest(chest);
+                    }
+                    break;
+                }
+                case Input.KEY_E: {
+                    notification = "Which weapon? ";
+                    equiping = true;
+                    attacking = false;
+                    drinking = false;
+                    deleting = false;
+                    break;
+                }
+                case Input.KEY_X: {
+                    notification = "Which item? ";
+                    equiping = false;
+                    attacking = false;
+                    drinking = false;
+                    deleting = true;
                     break;
                 }
             }

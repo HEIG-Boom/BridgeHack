@@ -1,59 +1,55 @@
 package ch.heigvd.mcr.bridgehack.character;
 
-//import ch.heigvd.mcr.bridgehack.Item.Item;
-
+import ch.heigvd.mcr.bridgehack.Item.*;
+import ch.heigvd.mcr.bridgehack.Item.potion.*;
+import ch.heigvd.mcr.bridgehack.Item.weapon.BareHanded;
+import ch.heigvd.mcr.bridgehack.Item.weapon.Weapon;
+import ch.heigvd.mcr.bridgehack.character.roles.Role;
 import ch.heigvd.mcr.bridgehack.game.Map;
 import ch.heigvd.mcr.bridgehack.character.races.Race;
 import ch.heigvd.mcr.bridgehack.utils.IntVector;
+
+import org.newdawn.slick.*;
+import java.util.LinkedList;
 import lombok.Getter;
 import lombok.Setter;
-import org.newdawn.slick.*;
 
 /**
  * Class representing a character
  */
 public abstract class Character {
-    // Base path to image resources
-    static final private String IMG_BASE_PATH = "/src/main/resources/img/";
-
     @Setter
     private String name;
-    private State playerState;
     @Getter
     protected int x;
     @Getter
     protected int y;
+    private State playerState;
     protected boolean moving = false;
     @Getter
     protected int direction = 0;
     protected Map map;
-    //    private LinkedList<Item> inventory;
-    private Animation idleAnimation = new Animation();
-    private Animation runAnimation = new Animation();
-
+    @Getter
+    private LinkedList<Item> inventory;
+    @Setter
+    private Weapon weapon;
     private Race race;
 
     /**
      * Constructor for the character.
      *
-     * @param race the initial race of the character
-     * @param map  a reference to the map for collision detection
-     * @throws SlickException if a problem occurred building the animations
+     * @param map a reference to the map for collision detection
      */
-    public Character(Race race, Map map) throws SlickException {
+    public Character(Race race, Map map) {
         this.race = race;
         this.map = map;
         setRandomPos();
 
-        String imageBasePath = IMG_BASE_PATH + race.getBaseImageName();
         playerState = new State();
-//        inventory = new LinkedList<>();
-        playerState = new State();
-
-        for (int i = 0; i < 4; ++i) {
-            idleAnimation.addFrame(new Image(imageBasePath + "_idle_anim_f" + i + ".png"), 100);
-            runAnimation.addFrame(new Image(imageBasePath + "_run_anim_f" + i + ".png"), 100);
-        }
+        inventory = new LinkedList<>();
+        inventory.add(new TransformPotion());
+        inventory.add(new ManaPotion());
+        weapon = new BareHanded();
     }
 
     /**
@@ -81,11 +77,7 @@ public abstract class Character {
         g.setColor(new Color(0, 0, 0, .5f));
         g.fillOval(x, y + 8, 16, 8);
 
-        if (moving) {
-            g.drawAnimation(runAnimation, x, y - 16);
-        } else {
-            g.drawAnimation(idleAnimation, x, y - 16);
-        }
+        race.render(g, moving, x, y);
     }
 
     /**
@@ -94,8 +86,55 @@ public abstract class Character {
      * @param direction the direction in which the player attacks
      */
     public void attack(int direction) {
-        //TO DO
-        System.out.println("I'm attacking on direction " + direction);
+        Enemy enemyToAttack = null;
+
+        for (int i = 1; i <= weapon.getRange(); ++i) {
+            switch (direction) {
+                case 0: // up
+                    if (map.isCollision(x, y + i)) {
+                        return;
+                    }
+                    enemyToAttack = checkForEnemy(new IntVector(x, y + i));
+                    break;
+                case 1: // left
+                    if (map.isCollision(x - i, y)) {
+                        return;
+                    }
+                    enemyToAttack = checkForEnemy(new IntVector(x - i, y));
+                    break;
+                case 2: // down
+                    if (map.isCollision(x, y - i)) {
+                        return;
+                    }
+                    enemyToAttack = checkForEnemy(new IntVector(x, y - i));
+                    break;
+                case 3: // right
+                    if (map.isCollision(x + i, y)) {
+                        return;
+                    }
+                    enemyToAttack = checkForEnemy(new IntVector(x + i, y));
+                    break;
+            }
+            if (enemyToAttack != null) {
+                // TODO
+                //enemyToAttack.receiveDamage(weapon.attack(playerState));
+                break;
+            }
+        }
+    }
+
+    /**
+     * Check if there is an enemy in a given position
+     * @param pos the position to test
+     * @return
+     */
+    private Enemy checkForEnemy(IntVector pos) {
+        for (Enemy enemy : map.getEnemies()) {
+            if (enemy.getX() == pos.getX() && enemy.getY() == pos.getY()) {
+                return enemy;
+            }
+        }
+        return null;
     }
 
     /**
@@ -104,7 +143,7 @@ public abstract class Character {
      * @return a resume of the player status
      */
     public String getStatus() {
-        return name + " " + playerState.toString();
+        return name + " the " + race.getRole() + " " + playerState.toString();
     }
 
     /**
@@ -118,12 +157,68 @@ public abstract class Character {
     }
 
     /**
-     * Resotres a certain amount of mana to the player
-     *
-     * @param mana amount of mana to restore
+     * Restores the player's mana back to full
      */
-    public void restoreMana(int mana) {
-        playerState.restoreMana(mana);
+    public void restoreMana() {
+        playerState.restoreMana();
+    }
+
+    public void changeRole(Role role) {
+        race.setRole(role);
+    }
+
+    public void renderText(TrueTypeFont ttf) {
+        // Display the inventory
+        for(int i = 0; i < inventory.size(); ++i) {
+            ttf.drawString(1000, 50 + 20 * i, i + " - " + inventory.get(i));
+        }
+
+        ttf.drawString(0, 660, getStatus());
+    }
+
+    public void drink(int index) throws SlickException {
+        //TO DO Check if the item at index i is indeed a potion
+        ((Potion) inventory.get(index)).drink(this);
+        inventory.remove(index);
+    }
+
+    /**
+     * Equip a weapon
+     * @param index the index in the inventory
+     */
+    public void equip(int index) {
+        if (inventory.get(index) instanceof Weapon) {
+            Weapon tempWeapon = weapon;
+            weapon = (Weapon) inventory.get(index);
+            inventory.remove(weapon);
+            if (!(tempWeapon instanceof BareHanded)) {
+                inventory.add(tempWeapon);
+            }
+        }
+    }
+
+    /**
+     * Remove an item from the inventory
+     *
+     * @param index The index in the inventory
+     */
+    public void deleteItem(int index) {
+        inventory.remove(index);
+    }
+    /**
+     * Restores the player's health back to full
+     */
+    public void restoreHealth() {
+        playerState.restoreHealth();
+    }
+
+    /**
+     * Add an item in the inventory
+     *
+     * @param item the item to add
+     */
+    public void giveItem(Item item) {
+        inventory.add(item);
     }
 
     /**
