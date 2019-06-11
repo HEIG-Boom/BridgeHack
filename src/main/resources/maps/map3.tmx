@@ -9,7 +9,7 @@
  </layer>
  <layer id="2" name="Floor" width="30" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAACuVUQQ6AIAzj7eJLxJfox/SgCVm2rlUTDjbZBba2DEYp/8PkRJTH1GZ5T3S/CJYPoc+rAXd03u2MHXhidNsVim7Wize46xeHm6mz/lRdFdHbHK3b98/mKrPFzqJXWwGv3Yv4sjUvGthD/WZ1Z+AB+YsQ9Ql5Qdzo7hHQf8mujdZdST31D1PfjaKrzluma+9f5VXPMRIHfZ1kA2AJAAA=
+   H4sIAAAAAAAACuVUWw6AMAjb2Z0ncZ5EL6YfmiwECt1M+LBJfzZogT1K+R8WhVZcJNeLG/H9glE9hD6uGtpWv8fNE9QU8W0PGV9vFjN48zdFO5In62N9WVh3M9u3n5+MZd5W9C1quRXoyj1Lz1vT2Jy9Wd8V1IDqs2DNCdWCtNHZI6D/MrqW7bsH/dg/DPXD/FEjZH3l+bO6bB+ZuABXKtwCYAkAAA==
   </data>
  </layer>
  <layer id="3" name="Back" width="30" height="20">
