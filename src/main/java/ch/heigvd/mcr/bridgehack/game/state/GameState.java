@@ -50,6 +50,7 @@ public class GameState extends BasicGameState {
 
         // Set the player to the map
         map.setPlayer(player);
+        map.setPlayerForEnemies();
 
         Font font = new Font("Ubuntu Mono ", Font.PLAIN, 16);
         ttf = new TrueTypeFont(font, true);
@@ -102,6 +103,9 @@ public class GameState extends BasicGameState {
             }
             map.deleteShadows(player.getX(), player.getY());
         }
+        if(player.getPlayerState().getHealth() <= 0) {
+            game.enterState(LoseState.ID);
+        }
     }
 
     @Override
@@ -113,6 +117,7 @@ public class GameState extends BasicGameState {
                         notification = "You drink your weapon, bad idea...";
                     }
                     drinking = false;
+                    enemyTurn();
                 } catch (SlickException e) {
                     e.printStackTrace();
                 }
@@ -120,10 +125,12 @@ public class GameState extends BasicGameState {
                 player.equip(Character.getNumericValue(c));
                 equipping = false;
                 notification = "";
+                enemyTurn();
             } else if (Character.isDigit(c) && deleting) {
                 player.deleteItem(Character.getNumericValue(c));
                 deleting = false;
                 notification = "";
+                enemyTurn();
             }
             switch (key) {
                 case Input.KEY_UP: {
@@ -180,7 +187,6 @@ public class GameState extends BasicGameState {
                     equipping = false;
                     deleting = false;
                     notification = "Which direction ?";
-                    enemyTurn();
                     return;
                 }
                 case Input.KEY_D: {
@@ -189,6 +195,7 @@ public class GameState extends BasicGameState {
                         map = maps.get(map.getIndex());
                         player.setMap(map);
                         map.setPlayer(player);
+                        map.setPlayerForEnemies();
                     } else if (map.isPortal(player.getX(), player.getY()) ||
                         map.isPortal(player.getX(), player.getY()-16)) {
                         game.enterState(WinState.ID);
@@ -204,7 +211,6 @@ public class GameState extends BasicGameState {
                     equipping = false;
                     deleting = false;
                     notification = "Drink what ?";
-                    enemyTurn();
                     break;
                 }
                 case Input.KEY_T: {
@@ -229,7 +235,6 @@ public class GameState extends BasicGameState {
                     attacking = false;
                     drinking = false;
                     deleting = false;
-                    enemyTurn();
                     break;
                 }
                 case Input.KEY_X: {
@@ -238,7 +243,6 @@ public class GameState extends BasicGameState {
                     attacking = false;
                     drinking = false;
                     deleting = true;
-                    enemyTurn();
                     break;
                 }
             }

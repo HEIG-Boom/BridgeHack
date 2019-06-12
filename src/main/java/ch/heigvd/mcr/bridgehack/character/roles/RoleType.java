@@ -7,18 +7,21 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public enum  RoleType {
-    HUNTER("Hunter", "Always at ease in the wilderness, they are not used to the confined spaces of\n         " +
-                                     "a cave. However, their agility allows them to still be powerful foes.",
-                                      new Hunter()),
+public enum RoleType {
+    HUNTER("Hunter",
+            "Always at ease in the wilderness, they are not used to the confined spaces of\n         " +
+                    "a cave. However, their agility allows them to still be powerful foes.",
+            new Hunter()),
 
-    KNIGHT("Knight", "A warrior in the strictest sense, their mastery of the sword is equaled by none.\n         " +
-                                     "No creature wants to find themself confronted to a knight in melee combat.",
-                                      new Knight()),
+    KNIGHT("Knight",
+            "A warrior in the strictest sense, their mastery of the sword is equaled by none.\n         " +
+                    "No creature wants to find themself confronted to a knight in melee combat.",
+            new Knight()),
 
-    WIZARD("Wizard", "Trained in great knowledge and craft, these masters of mystic arts are able\n         " +
-                                     "to use magical items to their fullest potential.",
-                                      new Wizard());
+    WIZARD("Wizard",
+            "Trained in great knowledge and craft, these masters of mystic arts are able\n         " +
+                    "to use magical items to their fullest potential.",
+            new Wizard());
 
     private final String name;
     private final String description;
@@ -30,7 +33,12 @@ public enum  RoleType {
     private static final int SIZE = VALUES.size();
     private static final Random RANDOM = new Random();
 
-    public static RoleType randomRole()  {
+    /**
+     * Get a random role
+     *
+     * @return A random role from this enum
+     */
+    public static RoleType randomRole() {
         return VALUES.get(RANDOM.nextInt(SIZE));
     }
 

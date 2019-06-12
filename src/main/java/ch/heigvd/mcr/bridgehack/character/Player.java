@@ -2,7 +2,6 @@ package ch.heigvd.mcr.bridgehack.character;
 
 import ch.heigvd.mcr.bridgehack.game.Map;
 import ch.heigvd.mcr.bridgehack.utils.IntVector;
-import org.newdawn.slick.SlickException;
 
 /**
  * Class representing a player
@@ -12,10 +11,9 @@ public class Player extends Character {
     /**
      * Constructor for the player.
      *
-     * @param map  a reference to the map for collision detection
-     * @throws SlickException if a problem occurred building the animations
+     * @param map a reference to the map for collision detection
      */
-    public Player(Map map) throws SlickException {
+    public Player(Map map) {
         super(null, map);
     }
 

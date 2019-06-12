@@ -1,6 +1,10 @@
 package ch.heigvd.mcr.bridgehack.character.roles;
 
 import ch.heigvd.mcr.bridgehack.character.StatModifier;
+
+/**
+ * Class representing the hunter role
+ */
 public class Hunter extends Role {
     /**
      * Role constructor for the Hunter role

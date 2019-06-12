@@ -20,5 +20,4 @@ public class Elf extends Race {
     public String toString() {
         return "Elf";
     }
-
 }

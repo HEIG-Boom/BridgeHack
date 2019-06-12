@@ -20,6 +20,14 @@ public class State {
 
     private LinkedList<StatModifier> modifiers;
 
+    /**
+     * Constructor with stats specified
+     *
+     * @param strength     The strength of the character
+     * @param dexterity    The dexterity of the character
+     * @param intelligence The intelligence of the character
+     * @param health       The health of the character
+     */
     public State(int strength, int dexterity, int intelligence, int health) {
         this.strength = strength;
         this.dexterity = dexterity;
@@ -29,6 +37,9 @@ public class State {
         modifiers = new LinkedList<>();
     }
 
+    /**
+     * Base constructor with all stats at 10
+     */
     public State() {
         this(10, 10, 10, 10);
         maxHealth = health;
@@ -36,10 +47,11 @@ public class State {
 
     /**
      * Returns a string representing every stat of the status
+     *
      * @return a string representing every stat of the status
      */
     public String toString() {
-        return  "St:" + getStrength() + " Dx: " + getDexterity() + " In:" + getIntelligence() + "\n" +
+        return "St:" + getStrength() + " Dx: " + getDexterity() + " In:" + getIntelligence() + "\n" +
                 "HP:" + health + "(" + maxHealth + ")";
     }
 
@@ -52,6 +64,7 @@ public class State {
 
     /**
      * Add a modifier to this State
+     *
      * @param modifier the modifier to be added.
      */
     public void addModifier(StatModifier modifier) {
@@ -61,12 +74,13 @@ public class State {
     /**
      * Removes the first occurrence of a similar stateModifier
      * and return true if one was removed, return false otherwise
+     *
      * @param modifier the stateModifier to be deleted
      * @return true if a stateModifier was removed, false otherwise
      */
     public boolean removeModifier(StatModifier modifier) {
         for (int i = 0; i < modifiers.size(); ++i) {
-            if(Objects.equals(modifiers.get(i), modifier)) {
+            if (Objects.equals(modifiers.get(i), modifier)) {
                 modifiers.remove(i);
                 return true;
             }
@@ -76,6 +90,7 @@ public class State {
 
     /**
      * Returns the strength of this state with modifiers into account
+     *
      * @return the strength of this state with modifiers into account
      */
     public int getStrength() {
@@ -89,6 +104,7 @@ public class State {
 
     /**
      * Returns the dexterity of this state with modifiers into account
+     *
      * @return the dexterity of this state with modifiers into account
      */
     public int getDexterity() {
@@ -102,6 +118,7 @@ public class State {
 
     /**
      * Returns the intelligence of this state with modifiers into account
+     *
      * @return the intelligence of this state with modifiers into account
      */
     public int getIntelligence() {

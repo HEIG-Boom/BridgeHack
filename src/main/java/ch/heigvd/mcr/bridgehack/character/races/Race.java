@@ -39,6 +39,11 @@ public abstract class Race {
         role.render(g, moving, x, y);
     }
 
+    /**
+     * Simple getter for the race's stats modifier
+     *
+     * @return The stats modifier of the current race
+     */
     public StatModifier getStatModifier() {
         return statModifier.addModifier(role.getStatModifier());
     }

@@ -266,7 +266,9 @@ public class Map {
      * @param character the character to kill
      */
     public void killCharacter(Character character) {
-        enemies.remove(character);
+        if (character instanceof Enemy) {
+            enemies.remove(character);
+        }
     }
 
     /**
@@ -313,6 +315,12 @@ public class Map {
             }
         } catch (SlickException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void setPlayerForEnemies() {
+        for(Enemy e : enemies) {
+            e.setPlayer(player);
         }
     }
 
