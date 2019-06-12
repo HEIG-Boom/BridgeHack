@@ -1,6 +1,7 @@
 package ch.heigvd.mcr.bridgehack.game;
 
 import ch.heigvd.mcr.bridgehack.Item.weapon.Weapon;
+import ch.heigvd.mcr.bridgehack.character.Character;
 import ch.heigvd.mcr.bridgehack.character.Enemy;
 import ch.heigvd.mcr.bridgehack.character.Player;
 import ch.heigvd.mcr.bridgehack.character.races.Human;
@@ -32,6 +33,7 @@ public class Map {
     private TiledMap map;
     private Exit exit;
     private Random rand;
+    @Getter
     private int index;
     @Getter
     private GoldenSword goldenSword;
@@ -85,35 +87,6 @@ public class Map {
     }
 
     /**
-     * Returns whether the tile of given position has collision with enemies.
-     * (tldr. if the collision layer has a tile at those coordinates)
-     *
-     * @param x the x coordinate to verify
-     * @param y the y coordinate to verify
-     * @return whether the tile of given position has collision.
-     */
-    public boolean isCollisionWithEnemies(int x, int y) {
-        for (Enemy enemy : enemies) {
-            if (x == enemy.getX() && y == enemy.getY()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Returns whether the tile of given position has collision with player.
-     * (tldr. if the collision layer has a tile at those coordinates)
-     *
-     * @param x the x coordinate to verify
-     * @param y the y coordinate to verify
-     * @return whether the tile of given position has collision.
-     */
-    public boolean isCollisionWithPlayer(int x, int y) {
-        return x == player.getX() && y == player.getY();
-    }
-
-    /**
      * Renders the map
      */
     public void renderObjects(Graphics g) {
@@ -142,15 +115,6 @@ public class Map {
      */
     public void render(int layer) {
         map.render(0, 0, layer);
-    }
-
-    /**
-     * Returns the index of the map corresponding to the floor
-     *
-     * @return the index of the map corresponding to the floor
-     */
-    public int getIndex() {
-        return index;
     }
 
     /**
@@ -243,6 +207,15 @@ public class Map {
      */
     public void deleteGoldenSword() {
         goldenSword = null;
+    }
+
+    /**
+     * Kill a character on the map
+     *
+     * @param character the character to kill
+     */
+    public void killCharacter(Character character) {
+        enemies.remove(character);
     }
 
     /**

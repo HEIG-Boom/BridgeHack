@@ -156,7 +156,7 @@ public abstract class Character {
      * @param pos the position to test
      * @return
      */
-    private Enemy checkForEnemy(IntVector pos) {
+    Enemy checkForEnemy(IntVector pos) {
         for (Enemy enemy : map.getEnemies()) {
             if (enemy.getX() == pos.getX() && enemy.getY() == pos.getY()) {
                 return enemy;
@@ -300,5 +300,72 @@ public abstract class Character {
      *
      * @param delta the time elapsed since the last tick
      */
-    public abstract void update(int delta);
+    public void update(int delta) {
+        if (moving) {
+            int futureX = x, futureY = y;
+
+            switch (direction) {
+                case 0:
+                    futureY -= 1;
+                    break;
+                case 1:
+                    futureX -= 1;
+                    break;
+                case 2:
+                    futureY += 1;
+                    break;
+                case 3:
+                    futureX += 1;
+                    break;
+            }
+
+            x = futureX;
+            y = futureY;
+
+            if ((x % 16) == 8 && (y % 16) == 8) {
+                moving = false;
+            }
+        }
+    }
+
+    /**
+     * Get future position of the character depending on the direction
+     *
+     * @return future position
+     */
+    IntVector getFuturePosition() {
+        int futureX = x;
+        int futureY = y;
+        switch (direction) {
+            case 0:
+                futureY -= 16;
+                moving = !(map.isCollision(x, y - 16));
+                break;
+            case 1:
+                futureX -= 16;
+                moving = !(map.isCollision(x - 16, y));
+                break;
+            case 2:
+                futureY += 16;
+                moving = !(map.isCollision(x, y + 16));
+                break;
+            case 3:
+                futureX += 16;
+                moving = !(map.isCollision(x + 16, y));
+                break;
+        }
+        return new IntVector(futureX, futureY);
+    }
+
+    /**
+     * Lowers the health of a character
+     *
+     * @param damage the damage to inflict
+     */
+    public void receiveDamage(int damage) {
+        playerState.setHealth(playerState.getHealth() - damage);
+        if (playerState.getHealth() <= 0) {
+            map.killCharacter(this);
+        }
+    }
 }

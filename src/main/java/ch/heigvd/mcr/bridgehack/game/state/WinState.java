@@ -10,16 +10,15 @@ import org.newdawn.slick.state.StateBasedGame;
 public class WinState extends BasicGameState {
     public static final int ID = 4;
 
-    private final String endMessage = "Congratulation!\n\n\n" +
-            "You find the golden sword of Tatallias the Great.\n\n" +
-            "Legend says that the sword bearer will be rewarded by the professor D.\n\n" +
-            "But who knows if the professor D. will be there...";
+    private final String endMessage = "Congratulations!\n\n\n" +
+            "You found the golden sword of Tatallias the Great.\n\n" +
+            "The legend says the sword bearer will be rewarded by the mighty professor D.\n\n" +
+            "But who knows if he will be there...";
 
-    private final String quitMessage = "Press enter to quit the game. See You soon in BridgeHack.";
+    private final String quitMessage = "Press enter to quit the game. See you soon in BridgeHack.";
 
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) {
-
     }
 
     @Override
@@ -27,12 +26,10 @@ public class WinState extends BasicGameState {
         graphics.setColor(Color.white);
         graphics.drawString(endMessage, 200, 50);
         graphics.drawString(quitMessage, 200, 500);
-
     }
 
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
-
     }
 
     @Override
