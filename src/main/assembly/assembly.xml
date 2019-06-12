@@ -27,7 +27,16 @@
 			<directory>src/main/resources/img</directory>
 			<outputDirectory>src/main/resources/img</outputDirectory>
 			<includes>
-				<include>qr.jpg</include>
+				<include>*.png</include>
+			</includes>
+		</fileSet>
+
+		<fileSet>
+			<directory>src/main/resources/maps</directory>
+			<outputDirectory>src/main/resources/maps</outputDirectory>
+			<includes>
+				<include>*.tmx</include>
+				<include>*.tsx</include>
 			</includes>
 		</fileSet>
 
