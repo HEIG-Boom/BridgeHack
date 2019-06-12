@@ -267,6 +267,12 @@ public class Map {
         }
     }
 
+    public void setPlayerForEnemies() {
+        for(Enemy e : enemies) {
+            e.setPlayer(player);
+        }
+    }
+
     /**
      * A chest contain random item that the player can take
      */
