@@ -73,9 +73,12 @@ public class Map {
         for (int i = 0; i < 5; ++i) {
             chests.add(new Chest());
         }
-        for (int i = 0; i < map.getWidth(); ++i) {
-            for (int j = 0; j < map.getHeight(); ++j) {
-                shadows.add(new Shadow(i,j));
+        // Create shadow on the whole map
+        for (int i = 0; i < map.getHeight(); ++i) {
+            for (int j = 0; j < map.getWidth(); ++j) {
+                int id = i * 30 + j;
+                System.out.println(id);
+                shadows.add(id, new Shadow(j, i));
             }
         }
     }
@@ -111,38 +114,49 @@ public class Map {
         }
     }
 
+    /**
+     * Draw a shadow square on the graphics
+     *
+     * @param g graphics where to draw
+     */
     public void renderShadow(Graphics g) {
         for (Shadow shadow : shadows) {
             shadow.render(g);
         }
     }
 
+    /**
+     * Create a portal on the x,y coordinates
+     *
+     * @param x x coordinates
+     * @param y y coordinates
+     */
     public void createPortal(int x, int y) {
-        portal = new Portal(x,y);
+        portal = new Portal(x, y);
     }
 
+    /**
+     * Delete the shadow around the x,y coordinates
+     *
+     * @param x x coordinates
+     * @param y y coordinates
+     */
     public void deleteShadows(int x, int y) {
-        for (int i = 0; i < shadows.size(); ++i) {
-            if (shadows.get(i).getX() == x-16 && shadows.get(i).getY() == y-16) {
-                shadows.remove(i);
-            } else if (shadows.get(i).getX() == x-16 && shadows.get(i).getY() == y) {
-                shadows.remove(i);
-            } else if (shadows.get(i).getX() == x-16 && shadows.get(i).getY() == y+16) {
-                shadows.remove(i);
-            } else if (shadows.get(i).getX() == x && shadows.get(i).getY() == y+16) {
-                shadows.remove(i);
-            } else if (shadows.get(i).getX() == x+16 && shadows.get(i).getY() == y+16) {
-                shadows.remove(i);
-            } else if (shadows.get(i).getX() == x+16 && shadows.get(i).getY() == y) {
-                shadows.remove(i);
-            } else if (shadows.get(i).getX() == x+16 && shadows.get(i).getY() == y-16) {
-                shadows.remove(i);
-            } else if (shadows.get(i).getX() == x && shadows.get(i).getY() == y-16) {
-                shadows.remove(i);
-            } else if (shadows.get(i).getX() == x && shadows.get(i).getY() == y) {
-                shadows.remove(i);
-            }
-        }
+        int column = x / 16;
+        int line = y / 16;
+        int index = line * 30 + column;
+
+        // These lines delete shadow around the player.
+        // The new visible zone is the 3x3 square around the player.
+        shadows.get(index - 31).getImage().setAlpha(0);
+        shadows.get(index - 30).getImage().setAlpha(0);
+        shadows.get(index - 29).getImage().setAlpha(0);
+        shadows.get(index - 1).getImage().setAlpha(0);
+        shadows.get(index).getImage().setAlpha(0);
+        shadows.get(index + 1).getImage().setAlpha(0);
+        shadows.get(index + 29).getImage().setAlpha(0);
+        shadows.get(index + 30).getImage().setAlpha(0);
+        shadows.get(index + 31).getImage().setAlpha(0);
     }
 
     /**
@@ -421,14 +435,15 @@ public class Map {
     class Shadow {
         @Getter
         private int x, y;
+        @Getter
         private Image image;
 
         /**
          * Constructor for a Light zone
          */
         public Shadow(int x, int y) {
-            this.x = x*16;
-            this.y = y*16;
+            this.x = x * 16;
+            this.y = y * 16;
             try {
                 image = new Image("/src/main/resources/img/shadowSquare.png");
             } catch (SlickException e) {
@@ -437,7 +452,6 @@ public class Map {
         }
 
         /**
-         *
          * @param g
          */
         public void render(Graphics g) {

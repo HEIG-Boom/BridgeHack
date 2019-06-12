@@ -53,6 +53,8 @@ public class GameState extends BasicGameState {
 
         Font font = new Font("Ubuntu Mono ", Font.PLAIN, 16);
         ttf = new TrueTypeFont(font, true);
+
+        // Delete the shadow around the player
         map.deleteShadows(player.getX(), player.getY());
     }
 
@@ -98,6 +100,7 @@ public class GameState extends BasicGameState {
                 for (Enemy enemy : map.getEnemies())
                     enemy.stop();
             }
+            map.deleteShadows(player.getX(), player.getY());
         }
     }
 
@@ -130,7 +133,6 @@ public class GameState extends BasicGameState {
                         notification = "";
                     } else {
                         player.move(0);
-                        map.deleteShadows(player.getX(), player.getY());
                     }
 
                     enemyTurn();
@@ -143,7 +145,6 @@ public class GameState extends BasicGameState {
                         notification = "";
                     } else {
                         player.move(1);
-                        map.deleteShadows(player.getX(), player.getY());
                     }
 
                     enemyTurn();
@@ -156,7 +157,6 @@ public class GameState extends BasicGameState {
                         notification = "";
                     } else {
                         player.move(2);
-                        map.deleteShadows(player.getX(), player.getY());
                     }
 
                     enemyTurn();
@@ -169,7 +169,6 @@ public class GameState extends BasicGameState {
                         notification = "";
                     } else {
                         player.move(3);
-                        map.deleteShadows(player.getX(), player.getY());
                     }
 
                     enemyTurn();

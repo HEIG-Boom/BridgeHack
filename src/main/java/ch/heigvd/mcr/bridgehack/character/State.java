@@ -10,11 +10,8 @@ import java.util.Objects;
  * A State serves to represent a player's state at a given time of the game
  */
 public class State {
-    @Getter
     private int strength;
-    @Getter
     private int dexterity;
-    @Getter
     private int intelligence;
     @Setter
     @Getter
