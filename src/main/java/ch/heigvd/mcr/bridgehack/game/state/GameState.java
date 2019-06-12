@@ -97,6 +97,9 @@ public class GameState extends BasicGameState {
                     enemy.stop();
             }
         }
+        if(player.getPlayerState().getHealth() <= 0) {
+            game.enterState(LoseState.ID);
+        }
     }
 
     @Override
