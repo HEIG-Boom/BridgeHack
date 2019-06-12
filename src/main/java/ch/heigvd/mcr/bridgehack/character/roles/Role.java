@@ -24,7 +24,7 @@ public abstract class Role {
      *
      * @param baseImgName The base image name for this role
      */
-    public Role(String baseImgName, StatModifier statModifier){
+    public Role(String baseImgName, StatModifier statModifier) {
         String imageBasePath = IMG_BASE_PATH + baseImgName;
 
         this.statModifier = statModifier;

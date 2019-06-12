@@ -13,9 +13,13 @@ public class StatModifier {
     private int dexterity;
     private int intelligence;
 
-    public StatModifier() {
-        this(0, 0, 0);
-    }
+    /**
+     * Constructor with stats specified
+     *
+     * @param strength     The strength modifier of the character
+     * @param dexterity    The dexterity modifier of the character
+     * @param intelligence The intelligence modifier of the character
+     */
     public StatModifier(int strength, int dexterity, int intelligence) {
         this.strength = strength;
         this.dexterity = dexterity;
@@ -23,11 +27,19 @@ public class StatModifier {
     }
 
     /**
+     * Base constructor with no stats modifier
+     */
+    public StatModifier() {
+        this(0, 0, 0);
+    }
+
+    /**
      * Returns a new statModifier composed by the addition of this modifier
      * with another
+     *
      * @param statModifier the statModifier to be added
      * @return a new statModifier composed by the addition of this modifier
-     *         with another
+     * with another
      */
     public StatModifier addModifier(StatModifier statModifier) {
         return new StatModifier(strength + statModifier.strength,
@@ -37,10 +49,10 @@ public class StatModifier {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o){
+        if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()){
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
         StatModifier that = (StatModifier) o;

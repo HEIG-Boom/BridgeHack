@@ -4,7 +4,7 @@ import ch.heigvd.mcr.bridgehack.character.races.Race;
 import ch.heigvd.mcr.bridgehack.game.Map;
 import ch.heigvd.mcr.bridgehack.utils.IntVector;
 import lombok.Setter;
-import org.newdawn.slick.SlickException;
+
 
 import java.util.Random;
 
@@ -21,9 +21,8 @@ public class Enemy extends Character {
      *
      * @param race the initial race of the enemy
      * @param map  a reference to the map for collision detection
-     * @throws SlickException if a problem occurred building the animations
      */
-    public Enemy(Race race, Map map) throws SlickException {
+    public Enemy(Race race, Map map) {
         super(race, map);
         rand = new Random();
     }
@@ -82,7 +81,6 @@ public class Enemy extends Character {
         }
         // TODO if collision with player, we should attack him ?
     }
-
     public void attack(int direction) {
         player.receiveDamage(rand.nextInt(map.getIndex()+1));
     }
