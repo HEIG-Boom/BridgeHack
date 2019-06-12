@@ -13,7 +13,7 @@ public class LoseState extends BasicGameState {
     private final String endMessage = "Oh no .... You seem to be dead!\n\n\n" +
             "A fairy tale will want each fallen hero to be remembered but this is\n" +
             "not a fairy tale. This is BridgeHack!\n\n" +
-            "No one will sing your adventure but if you want you can try again.";
+            "No one will sing your adventure, but if you want you can try again.";
 
     private final String quitMessage = "Press enter to quit the game. See You soon in BridgeHack.";
     @Override

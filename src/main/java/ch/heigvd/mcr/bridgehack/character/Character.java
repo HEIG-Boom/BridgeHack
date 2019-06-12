@@ -143,6 +143,7 @@ public abstract class Character {
                     enemyToAttack = checkForEnemy(new IntVector(x + (i * 16), y));
                     break;
             }
+
             if (enemyToAttack != null) {
                 enemyToAttack.receiveDamage(weapon.attack(playerState));
                 break;
@@ -193,6 +194,7 @@ public abstract class Character {
         if (this.race != null) {
             playerState.removeModifier(this.race.getStatModifier());
         }
+
         this.race = race;
         playerState.addModifier(this.race.getStatModifier());
     }
@@ -238,9 +240,11 @@ public abstract class Character {
                 inventory.remove(index);
                 return -1;
             }
+
             ((Potion) inventory.get(index)).drink(this);
             inventory.remove(index);
         }
+
         return 0;
     }
 
@@ -255,6 +259,7 @@ public abstract class Character {
                 Weapon tempWeapon = weapon;
                 weapon = (Weapon) inventory.get(index);
                 inventory.remove(weapon);
+
                 if (!(tempWeapon instanceof BareHanded)) {
                     inventory.add(tempWeapon);
                 }

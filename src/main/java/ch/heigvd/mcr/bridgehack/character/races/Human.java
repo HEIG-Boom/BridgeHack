@@ -20,5 +20,4 @@ public class Human extends Race {
     public String toString() {
         return "Human";
     }
-
 }
