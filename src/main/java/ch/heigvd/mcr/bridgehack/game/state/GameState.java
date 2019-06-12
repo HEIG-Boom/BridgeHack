@@ -54,6 +54,9 @@ public class GameState extends BasicGameState {
 
         Font font = new Font("Ubuntu Mono ", Font.PLAIN, 16);
         ttf = new TrueTypeFont(font, true);
+
+        // Delete the shadow around the player
+        map.deleteShadows(player.getX(), player.getY());
     }
 
     @Override
@@ -78,6 +81,7 @@ public class GameState extends BasicGameState {
             enemy.render(graphics);
 
         map.render(3);
+        map.renderShadow(graphics);
     }
 
     @Override
@@ -97,6 +101,7 @@ public class GameState extends BasicGameState {
                 for (Enemy enemy : map.getEnemies())
                     enemy.stop();
             }
+            map.deleteShadows(player.getX(), player.getY());
         }
         if(player.getPlayerState().getHealth() <= 0) {
             game.enterState(LoseState.ID);

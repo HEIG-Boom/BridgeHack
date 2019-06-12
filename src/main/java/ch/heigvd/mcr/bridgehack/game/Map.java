@@ -45,6 +45,8 @@ public class Map {
     private LinkedList<Enemy> enemies = new LinkedList<>(); // list of enemies on the map
     private LinkedList<Chest> chests = new LinkedList<>();
 
+    private LinkedList<Shadow> shadows = new LinkedList<>();
+
     /**
      * General constructor for a basic map
      *
@@ -70,6 +72,14 @@ public class Map {
         }
         for (int i = 0; i < 5; ++i) {
             chests.add(new Chest());
+        }
+        // Create shadow on the whole map
+        for (int i = 0; i < map.getHeight(); ++i) {
+            for (int j = 0; j < map.getWidth(); ++j) {
+                int id = i * 30 + j;
+                System.out.println(id);
+                shadows.add(id, new Shadow(j, i));
+            }
         }
     }
 
@@ -104,8 +114,49 @@ public class Map {
         }
     }
 
+    /**
+     * Draw a shadow square on the graphics
+     *
+     * @param g graphics where to draw
+     */
+    public void renderShadow(Graphics g) {
+        for (Shadow shadow : shadows) {
+            shadow.render(g);
+        }
+    }
+
+    /**
+     * Create a portal on the x,y coordinates
+     *
+     * @param x x coordinates
+     * @param y y coordinates
+     */
     public void createPortal(int x, int y) {
-        portal = new Portal(x,y);
+        portal = new Portal(x, y);
+    }
+
+    /**
+     * Delete the shadow around the x,y coordinates
+     *
+     * @param x x coordinates
+     * @param y y coordinates
+     */
+    public void deleteShadows(int x, int y) {
+        int column = x / 16;
+        int line = y / 16;
+        int index = line * 30 + column;
+
+        // These lines delete shadow around the player.
+        // The new visible zone is the 3x3 square around the player.
+        shadows.get(index - 31).getImage().setAlpha(0);
+        shadows.get(index - 30).getImage().setAlpha(0);
+        shadows.get(index - 29).getImage().setAlpha(0);
+        shadows.get(index - 1).getImage().setAlpha(0);
+        shadows.get(index).getImage().setAlpha(0);
+        shadows.get(index + 1).getImage().setAlpha(0);
+        shadows.get(index + 29).getImage().setAlpha(0);
+        shadows.get(index + 30).getImage().setAlpha(0);
+        shadows.get(index + 31).getImage().setAlpha(0);
     }
 
     /**
@@ -388,4 +439,33 @@ public class Map {
             g.drawImage(image, x, y);
         }
     }
+
+    class Shadow {
+        @Getter
+        private int x, y;
+        @Getter
+        private Image image;
+
+        /**
+         * Constructor for a Light zone
+         */
+        public Shadow(int x, int y) {
+            this.x = x * 16;
+            this.y = y * 16;
+            try {
+                image = new Image("/src/main/resources/img/shadowSquare.png");
+            } catch (SlickException e) {
+                e.printStackTrace();
+            }
+        }
+
+        /**
+         * @param g
+         */
+        public void render(Graphics g) {
+            g.drawImage(image, x, y);
+        }
+    }
+
+
 }
