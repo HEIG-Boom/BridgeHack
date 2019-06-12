@@ -1,7 +1,7 @@
 # BridgeHack
 MCR project. A Dungeon Crawler Rogue like.
 
-[Game Image](https://drive.google.com/file/d/1Ro-qpegBSct6QicpyozrFaFQnj0-C71I/view?usp=sharing)
+![Game Image](https://drive.google.com/file/d/1Ro-qpegBSct6QicpyozrFaFQnj0-C71I/view?usp=sharing)
 
 ## For Players
 
