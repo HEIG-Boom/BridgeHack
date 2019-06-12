@@ -3,6 +3,8 @@ package ch.heigvd.mcr.bridgehack.character;
 import ch.heigvd.mcr.bridgehack.character.races.Race;
 import ch.heigvd.mcr.bridgehack.game.Map;
 import ch.heigvd.mcr.bridgehack.utils.IntVector;
+import lombok.Setter;
+
 
 import java.util.Random;
 
@@ -11,6 +13,8 @@ import java.util.Random;
  */
 public class Enemy extends Character {
     private Random rand;
+    @Setter
+    private Player player;
 
     /**
      * Constructor for the enemy.
@@ -73,7 +77,12 @@ public class Enemy extends Character {
         // Check collision with player
         if ((futurePosition.getX() == playerPos.getX()) && (futurePosition.getY() == playerPos.getY())) {
             moving = false;
+            attack(direction);
         }
         // TODO if collision with player, we should attack him ?
     }
+    public void attack(int direction) {
+        player.receiveDamage(rand.nextInt(map.getIndex()+1));
+    }
+
 }
