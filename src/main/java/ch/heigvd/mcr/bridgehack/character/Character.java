@@ -27,6 +27,7 @@ public abstract class Character {
     protected int x;
     @Getter
     protected int y;
+    @Getter
     protected State playerState;
     protected boolean moving = false;
     @Getter
