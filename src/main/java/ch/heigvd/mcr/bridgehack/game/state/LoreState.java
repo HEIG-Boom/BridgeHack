@@ -108,8 +108,6 @@ public class LoreState extends BasicGameState {
             Role role = ((RoleType) roles.get(selectedRole).getType()).getRole();
             Race race = ((RaceType) races.get(selectedRace).getType()).getRace();
             race.setRole(role);
-            System.out.println(race.getClass());
-            System.out.println(role.getClass());
             ((GameState) game.getState(GameState.ID)).getPlayer().setRace(race);
             game.enterState(GameState.ID);
         }

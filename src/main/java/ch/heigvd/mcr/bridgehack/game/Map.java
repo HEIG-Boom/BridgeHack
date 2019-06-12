@@ -77,7 +77,6 @@ public class Map {
         for (int i = 0; i < map.getHeight(); ++i) {
             for (int j = 0; j < map.getWidth(); ++j) {
                 int id = i * 30 + j;
-                System.out.println(id);
                 shadows.add(id, new Shadow(j, i));
             }
         }
@@ -195,8 +194,6 @@ public class Map {
         if (exit == null) {
             return false;
         }
-        System.out.println("player is in " + x + ", " + y);
-        System.out.println("exit is in " + exit.x + ", " + exit.y);
         return x == exit.x && y == exit.y;
     }
 
